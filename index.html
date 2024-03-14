@@ -216,6 +216,99 @@
             
 
   
+    <article id="post-markdownlearning" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2024/03/14/markdownlearning/">markdownlearning</a>
+	
+    </h1>
+  
+
+
+  
+  
+<a href="/2024/03/14/markdownlearning/" class="archive-article-date">
+        <time datetime="2024-03-14T06:52:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-14</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h1 id="Markdown语法学习"><a href="#Markdown语法学习" class="headerlink" title="Markdown语法学习"></a>Markdown语法学习</h1><h6 id="2024-1-21"><a href="#2024-1-21" class="headerlink" title="2024.1.21"></a>2024.1.21</h6><p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br><strong>学习参考</strong>：<a target="_blank" rel="noopener" href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
+<h3 id="Part-1-Markdown概述"><a href="#Part-1-Markdown概述" class="headerlink" title="Part.1 Markdown概述"></a>Part.1 Markdown概述</h3><h6 id="markdown是什么，为什么要学？"><a href="#markdown是什么，为什么要学？" class="headerlink" title="markdown是什么，为什么要学？"></a>markdown是什么，为什么要学？</h6><ol>
+<li>首先，如果UHO没学markdown *(如学)*，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><del>伟大，无需多言:yum:</del></li>
+<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># heading                &lt;h1&gt;heading&lt;/h1&gt;</span><br><span class="line">## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;</span><br><span class="line">- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;</span><br><span class="line">- **strong importance**</span><br><span class="line">- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;</span><br><span class="line">- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span><br><span class="line">```    </span><br><span class="line">3. 可以看出markdown实际上就是对与HTML的简化，~~能够帮助笨人偷懒~~有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？~~那当然是万能的记事本喽~~&lt;br&gt;个人觉得VScode里的[MPE插件](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)就挺好~~才不是因为本蒟蒻只用过这个捏~~</span><br><span class="line"></span><br><span class="line">******</span><br><span class="line">### Part.2 Markdown语法简介</span><br><span class="line">~~看这个干嘛，自己看官网自己试呗~~</span><br><span class="line">###### 基本语法掌握之后可以多多尝试写文档深刻体会，最后写出^美观^且~实用~的markdown文档</span><br><span class="line">1. `# 一级标题` `## 二级标题` `### 三级标题`&lt;br/&gt; `#### 四级标题` `##### 五级标题` `###### 六级标题` 不同数量的`#`开头外加一个或多个空格就可以表示标题了~&lt;br/&gt;然后`=====` `-----`任意多的`=` `-`也可以分别表示一级和二级标题.</span><br><span class="line">2. 至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</span><br><span class="line">3. `&gt; 引言`一个`&gt;`后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</span><br><span class="line">4. 无序列表是`-` `+` `*`后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</span><br><span class="line">- 第一级</span><br><span class="line">    + 第二级</span><br><span class="line">        * 第三级</span><br><span class="line"></span><br><span class="line">5. 有序列表是任意数字加`.`表示，软件会自动处理序号。</span><br><span class="line">6.  分割线`***` `----` `___`至少重复三次，要和刚刚说的标题区分。</span><br><span class="line">7. 代码块可以是空行加缩进，也可以是` ```或者~~~ `加语言名称(加的话才能显示高亮)，行内代码则是` `` `，在内部写就行。</span><br><span class="line">下面是个例子</span><br><span class="line">```c</span><br><span class="line">    #include&lt;stdio.h&gt;</span><br><span class="line">    #include&lt;string.h&gt;</span><br><span class="line">    #include&lt;stdlib.h&gt;</span><br><span class="line">    #include &lt;ctype.h&gt;</span><br><span class="line">    #include&lt;math.h&gt;</span><br><span class="line">    int main()</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;hello world&quot;);</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*``**粗体**</code> <code>__也是粗体__</code><br><code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</li>
+<li>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。<br><del>先去吃个饭</del></li>
+</ol>
+<hr>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2024/03/14/markdownlearning/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -493,6 +586,10 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -704,7 +801,7 @@
     },
     mobile: {
       
-       scale: 0.5 
+       scale: 0.7 
     },
     react: {
        opacity: 0.8 
