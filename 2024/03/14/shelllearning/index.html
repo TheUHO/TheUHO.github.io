@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Markdown语法学习 | theUHO&#39; blog</title>
+  <title>shelllearning | theUHO&#39; blog</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="2024.1.21写在前面：不会就去查Markdown CommonMark标准文档学习参考：鹤翔万里的笔记本 &amp; 通往pro的第一步丨实用技能拾遗">
+  <meta name="description" content="#shell  课程来源：b站浙大竺院辅学  工具：WSL,Ubuntu,zsh  插件及主题：zsh-syntax-highlighting,powerlevel10k,zsh-autosuggestions参看鹤翔万里的shell备忘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown语法学习">
-<meta property="og:url" content="http://example.com/2024/03/14/markdownnote/index.html">
+<meta property="og:title" content="shelllearning">
+<meta property="og:url" content="http://example.com/2024/03/14/shelllearning/index.html">
 <meta property="og:site_name" content="theUHO&#39; blog">
-<meta property="og:description" content="2024.1.21写在前面：不会就去查Markdown CommonMark标准文档学习参考：鹤翔万里的笔记本 &amp; 通往pro的第一步丨实用技能拾遗">
+<meta property="og:description" content="#shell  课程来源：b站浙大竺院辅学  工具：WSL,Ubuntu,zsh  插件及主题：zsh-syntax-highlighting,powerlevel10k,zsh-autosuggestions参看鹤翔万里的shell备忘">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-14T06:52:52.000Z">
-<meta property="article:modified_time" content="2024-03-14T12:22:36.596Z">
+<meta property="article:published_time" content="2024-03-14T12:42:19.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:45:42.298Z">
 <meta property="article:author" content="theUHO">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary">
@@ -214,22 +214,22 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-markdownnote" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-shelllearning" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
     <h1 class="article-title" itemprop="name">
-      Markdown语法学习
+      shelllearning
     </h1>
   
 
 
   
   
-<a href="/2024/03/14/markdownnote/" class="archive-article-date">
-        <time datetime="2024-03-14T06:52:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-14</time>
+<a href="/2024/03/14/shelllearning/" class="archive-article-date">
+        <time datetime="2024-03-14T12:42:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-14</time>
 </a>
 
   
@@ -242,7 +242,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">793字</span>
+      <span class="post-count">556字</span>
     </span>
   </span>
 
@@ -262,52 +262,94 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h6 id="2024-1-21"><a href="#2024-1-21" class="headerlink" title="2024.1.21"></a>2024.1.21</h6><p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br><strong>学习参考</strong>：<a target="_blank" rel="noopener" href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
-<span id="more"></span>
-<h3 id="Part-1-Markdown概述"><a href="#Part-1-Markdown概述" class="headerlink" title="Part.1 Markdown概述"></a>Part.1 Markdown概述</h3><h6 id="markdown是什么，为什么要学？"><a href="#markdown是什么，为什么要学？" class="headerlink" title="markdown是什么，为什么要学？"></a>markdown是什么，为什么要学？</h6><ol>
-<li>首先，如果UHO没学markdown *(如学)*，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><del>伟大，无需多言</del></li>
-<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：</li>
-</ol>
-<pre><code># heading                &lt;h1&gt;heading&lt;/h1&gt;
-## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;
-- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;
-- **strong importance**
-- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;
-- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-</code></pre>
-<ol start="3">
-<li>可以看出markdown实际上就是对与HTML的简化，<del>能够帮助笨人偷懒</del>有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？<del>那当然是万能的记事本喽</del><br>个人觉得VScode里的<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">MPE插件</a>就挺好<del>才不是因为本蒟蒻只用过这个捏</del><br/></li>
-</ol>
-<hr>
-<h3 id="Part-2-Markdown语法简介"><a href="#Part-2-Markdown语法简介" class="headerlink" title="Part.2 Markdown语法简介"></a>Part.2 Markdown语法简介</h3><p><del>看这个干嘛，自己看官网自己试呗</del></p>
-<h6 id="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档"><a href="#基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档" class="headerlink" title="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档"></a>基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档</h6><ol>
-<li><code># 一级标题</code> <code>## 二级标题</code> <code>### 三级标题</code><br/> <code>#### 四级标题</code> <code>##### 五级标题</code> <code>###### 六级标题</code> 不同数量的<code>#</code>开头外加一个或多个空格就可以表示标题了~<br/>然后<code>=====</code> <code>-----</code>任意多的<code>=</code> <code>-</code>也可以分别表示一级和二级标题.</li>
-<li>至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</li>
-<li><code>&gt; 引言</code>一个<code>&gt;</code>后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</li>
-<li>无序列表是<code>-</code> <code>+</code> <code>*</code>后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</li>
-</ol>
+    <p>#shell</p>
 <ul>
-<li>第一级<ul>
-<li>第二级<ul>
-<li>第三级</li>
+<li><p>课程来源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ry4y1A7qo/?p=2&spm_id_from=pageDriver&vd_source=ad387bf24e3219fa7c16fce8832f4c21">b站浙大竺院辅学</a></p>
+</li>
+<li><p>工具：WSL,Ubuntu,zsh</p>
+</li>
+<li><p>插件及主题：<a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md">zsh-syntax-highlighting</a>,<a target="_blank" rel="noopener" href="https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#installation">powerlevel10k</a>,<a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-autosuggestions/tree/master">zsh-autosuggestions</a><br><em>参看<a target="_blank" rel="noopener" href="https://note.tonycrane.cc/cs/tools/shell/">鹤翔万里的shell备忘</a></em> <br/></p>
+<span id="more"></span>
+</li>
+<li><p>基础shell指令记录</p>
+<ol>
+<li><p><code>pwd</code>获取当前路径(print working directory)</p>
+</li>
+<li><p><code>cd</code>切换路径(change directory)</p>
+<ul>
+<li><code>~</code>代表home，<code>.</code>代表当前路径，<code>..</code>代表上一级路径</li>
 </ul>
 </li>
+<li><p><code>ls</code>列出当前路径下的文件和目录  <code>ls -a</code> 列出所有文件和目录，包括隐藏文件,<br>  <code>ls -l</code>列出详细信息(文件权限，大小，修改时间，…)<br>  <code>ls -al</code>上述功能</p>
+</li>
+<li><p><code>touch</code>创建一个文件</p>
+<ul>
+<li>如<code>touch 0.c</code></li>
 </ul>
 </li>
+<li><p><code>mkdir</code>创建一个目录</p>
+<ul>
+<li>如<code>mkdir learning</code></li>
 </ul>
-<ol start="5">
-<li><p>有序列表是任意数字加<code>.</code>表示，软件会自动处理序号。</p>
 </li>
-<li><p>分割线<code>***</code> <code>----</code> <code>___</code>至少重复三次，要和刚刚说的标题区分。</p>
+<li><p><code>cp</code> <em>src</em> <em>dst</em>复制文件或目录(<code>cp -r</code>)</p>
+<ul>
+<li>如<code>cp 0.c 00.c</code>,<code>cp -r learning learning.0</code></li>
+</ul>
 </li>
-<li><p>代码块可以是空行加缩进，也可以是<code>```或者~~~</code>加语言名称(加的话才能显示高亮)，行内代码则是<code>``</code>，在内部写就行。</p>
+<li><p><code>mv</code> <em>src</em> <em>dst</em>移动文件或目录(重命名)</p>
 </li>
-<li><p><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*``**粗体**</code> <code>__也是粗体__</code><br><code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</p>
+<li><p><code>rm</code>删除文件(<code>-r</code>递归删除目录；<code>-f</code>强制删除)</p>
+<ul>
+<li>如<code>rm 0.c</code></li>
+</ul>
 </li>
-<li><p>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。<br><del>先去吃个饭</del></p>
+<li><p><code>find</code> <em>path</em> <code>-name</code> <em>pattern</em>在 path 下查找文件名匹配 pattern 的文件</p>
+<ul>
+<li>如<code>find . 0.c</code>, <code>find . &#39;*.c&#39;</code></li>
+</ul>
+</li>
+<li><p><code>cat</code>输出与拼接文件(<code>-n</code>：带行号输出)</p>
+<pre><code>❯ cat a.c
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;math.h&gt;
+int main()
+&#123;
+
+    system(&quot;pause&quot;);
+    return 0;
+&#125;%
+
+❯ cat -n a.c
+1  #include&lt;stdio.h&gt;
+2  #include&lt;string.h&gt;
+3  #include&lt;stdlib.h&gt;
+4  #include&lt;math.h&gt;
+5  int main()
+6  &#123;
+7
+8      system(&quot;pause&quot;);
+9      return 0;
+10  &#125;%
+</code></pre>
+<ul>
+<li>如<code>cat a.c b.c</code>将两个文件拼接起来</li>
+</ul>
+</li>
+<li><p><code>head</code> <em>file</em> 输出 <em>file</em> 前 10 行<code>head file -n</code> <em>lines</em>  输出 <em>lines</em> 行<br><code>tail</code> <em>file</em> 输出 <em>file</em> 后10行 <code>tail file -n</code> <em>lines</em>   输出后 <em>lines</em> 行</p>
+</li>
+<li><p><code>more</code>&#x2F;<code>less</code> <em>file</em> 分页输出 <em>file</em> 内容，空格翻页，回车下一行，q退出</p>
+</li>
+<li><p><code>hexdump</code> <em>file</em> 以十六进制输出文件内容(<code>-C</code>并排输出十六进制与 ASCII, <code>-n</code> N输出前 N 个字节)</p>
+</li>
+<li><p><code>man</code>：查看命令文档（manual）</p>
 </li>
 </ol>
-<hr>
+</li>
+</ul>
+<p><code>echo</code>：输出字符串（常配合重定向 &#x2F; 管道使用）<br><code>whoami</code>：获取当前用户<br><code>whereis/which/whence</code>：查找命令所在位置<br><code>clear</code>：清屏<br><code>chmod</code>：更改文件权限<br><code>ps</code>：显示进程信息<br><code>date</code>：获取当前日期时间<br><code>kill</code>：杀死进程（向进程发送信号）<br><code>grep</code>：搜索文件内容（常配合重定向 &#x2F; 管道使用）<br><code>diff</code>：比较文件 &#x2F; 目录内容<br><code>curl</code>：发送 HTTP 请求；<code>wget</code>：下载文件<br>未完待续…</p>
 
     
 
@@ -380,7 +422,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2024/03/14/markdownnote/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2024/03/14/shelllearning/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -395,18 +437,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2024/03/14/shelllearning/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          shelllearning
-        
-      </div>
-    </a>
   
-  
-    <a href="/2024/03/13/theFirstBlog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">第一篇博客！</div>
+    <a href="/2024/03/14/markdownnote/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Markdown语法学习</div>
       <i class="icon-circle-right"></i>
     </a>
   
