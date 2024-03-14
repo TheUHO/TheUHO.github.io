@@ -59,7 +59,7 @@
       
 
 
-<div class="overlay" style="background: #e9b97c;"></div>
+<div class="overlay" style="background: #e9b97c;background: url('/img/bochii.gif') no-repeat ;"></div>
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
@@ -75,7 +75,7 @@
 			
 				<li><a href="/" >主页</a></li>
 			
-				<li><a href="/tags/%E7%AC%94%E8%AE%B0/" >技术笔记</a></li>
+				<li><a href="/tags/%E5%AD%A6%E4%B9%A0/" >学习笔记</a></li>
 			
 				<li><a href="/tags/%E9%9A%8F%E7%AC%94/" >随笔</a></li>
 			
@@ -195,7 +195,7 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/%E7%AC%94%E8%AE%B0/">技术笔记</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/%E5%AD%A6%E4%B9%A0/">学习笔记</a></li>
 		        
 					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 		        
@@ -224,7 +224,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/2024/03/14/markdownnote/">markdownlearning</a>
+	  <a class="article-title" href="/2024/03/14/markdownnote/">Markdown语法学习</a>
 	
     </h1>
   
@@ -245,52 +245,10 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="Markdown语法学习"><a href="#Markdown语法学习" class="headerlink" title="Markdown语法学习"></a>Markdown语法学习</h1><h6 id="2024-1-21"><a href="#2024-1-21" class="headerlink" title="2024.1.21"></a>2024.1.21</h6><p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br><strong>学习参考</strong>：<a target="_blank" rel="noopener" href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
-<h3 id="Part-1-Markdown概述"><a href="#Part-1-Markdown概述" class="headerlink" title="Part.1 Markdown概述"></a>Part.1 Markdown概述</h3><h6 id="markdown是什么，为什么要学？"><a href="#markdown是什么，为什么要学？" class="headerlink" title="markdown是什么，为什么要学？"></a>markdown是什么，为什么要学？</h6><ol>
-<li>首先，如果UHO没学markdown *(如学)*，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><del>伟大，无需多言</del></li>
-<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：</li>
-</ol>
-<pre><code># heading                &lt;h1&gt;heading&lt;/h1&gt;
-## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;
-- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;
-- **strong importance**
-- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;
-- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-</code></pre>
-<ol start="3">
-<li>可以看出markdown实际上就是对与HTML的简化，<del>能够帮助笨人偷懒</del>有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？<del>那当然是万能的记事本喽</del><br>个人觉得VScode里的<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">MPE插件</a>就挺好<del>才不是因为本蒟蒻只用过这个捏</del></li>
-</ol>
-<hr>
-<h3 id="Part-2-Markdown语法简介"><a href="#Part-2-Markdown语法简介" class="headerlink" title="Part.2 Markdown语法简介"></a>Part.2 Markdown语法简介</h3><p><del>看这个干嘛，自己看官网自己试呗</del></p>
-<h6 id="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档"><a href="#基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档" class="headerlink" title="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档"></a>基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档</h6><ol>
-<li><code># 一级标题</code> <code>## 二级标题</code> <code>### 三级标题</code><br/> <code>#### 四级标题</code> <code>##### 五级标题</code> <code>###### 六级标题</code> 不同数量的<code>#</code>开头外加一个或多个空格就可以表示标题了~<br/>然后<code>=====</code> <code>-----</code>任意多的<code>=</code> <code>-</code>也可以分别表示一级和二级标题.</li>
-<li>至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</li>
-<li><code>&gt; 引言</code>一个<code>&gt;</code>后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</li>
-<li>无序列表是<code>-</code> <code>+</code> <code>*</code>后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</li>
-</ol>
-<ul>
-<li>第一级<ul>
-<li>第二级<ul>
-<li>第三级</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ol start="5">
-<li><p>有序列表是任意数字加<code>.</code>表示，软件会自动处理序号。</p>
-</li>
-<li><p>分割线<code>***</code> <code>----</code> <code>___</code>至少重复三次，要和刚刚说的标题区分。</p>
-</li>
-<li><p>代码块可以是空行加缩进，也可以是<code>```或者~~~</code>加语言名称(加的话才能显示高亮)，行内代码则是<code>``</code>，在内部写就行。</p>
-</li>
-<li><p><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*``**粗体**</code> <code>__也是粗体__</code><br><code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</p>
-</li>
-<li><p>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。<br><del>先去吃个饭</del></p>
-</li>
-</ol>
-<hr>
-
+    <h6 id="2024-1-21"><a href="#2024-1-21" class="headerlink" title="2024.1.21"></a>2024.1.21</h6><p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br><strong>学习参考</strong>：<a target="_blank" rel="noopener" href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
+    
+    <a class="article-more-a" href="/2024/03/14/markdownnote/#more">more >></a>
+    
     
 
     
@@ -387,6 +345,17 @@
   <div class="article-info article-info-index">
     
     
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
     
 
     
@@ -539,6 +508,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
@@ -745,8 +718,8 @@
     display: {
        position: "right", 
        width: 160, 
-       height: 300, 
-       hOffset: 40, 
+       height: 260, 
+      
       
     },
     mobile: {
