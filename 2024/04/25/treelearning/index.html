@@ -23,8 +23,10 @@
 <meta property="og:image" content="http://theuho.site/treelearning/picture4.png">
 <meta property="og:image" content="http://theuho.site/treelearning/picture5.png">
 <meta property="og:image" content="http://theuho.site/treelearning/picture6.png">
+<meta property="og:image" content="http://theuho.site/treelearning/picture7.png">
+<meta property="og:image" content="http://theuho.site/treelearning/picture8.png">
 <meta property="article:published_time" content="2024-04-25T07:28:13.000Z">
-<meta property="article:modified_time" content="2024-04-25T14:04:21.900Z">
+<meta property="article:modified_time" content="2024-04-28T06:27:03.435Z">
 <meta property="article:author" content="theUHO">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary">
@@ -249,7 +251,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">1.5k字</span>
+      <span class="post-count">1.6k字</span>
     </span>
   </span>
 
@@ -321,15 +323,15 @@
 </ul>
 </li>
 <li>二叉树的基本操作<ul>
-<li><font color =#FF4500>INITIAL(T)</font> 初始(创建)一棵二叉树；</li>
-<li><font color =#FF4500>ROOT(T)</font> 求二叉树T的根结点, 或求结点x 所在二叉树的根结点；</li>
-<li><font color =#FF4500>PARENT(T,x)</font>  求二叉树T中结点x的双亲结点；</li>
-<li><font color =#FF4500>LCHILD(T,x)</font>或<font color =#FF4500>RCHILD(T,x)</font>  分别求二叉树T中结点x的左孩子结点或右孩子结点；</li>
-<li><font color =#FF4500> LDELETE(T,x)</font>或<font color =#FF4500> RDELETE(T,x)</font>   分别删除二叉树T中以结点x为根的左子树或右子树；</li>
-<li><font color =#FF4500>TRAVERSE(T)</font>  按照某种次序(或原则)依次访问二叉树T中各个结点，得到由该二叉树的所有结点组成的序列；</li>
-<li><font color =#FF4500>LAYER(T,x)</font> 求二叉树中结点x所处的层次；</li>
-<li><font color =#FF4500>DEPTH(T)</font> 求二叉树T的深度；</li>
-<li><font color =#FF4500>DESTROY(T)</font> 销毁一棵二叉树；</li>
+<li><font color="#FF4500">INITIAL(T)</font> 初始(创建)一棵二叉树；</li>
+<li><font color="#FF4500">ROOT(T)</font> 求二叉树T的根结点, 或求结点x 所在二叉树的根结点；</li>
+<li><font color="#FF4500">PARENT(T,x)</font>  求二叉树T中结点x的双亲结点；</li>
+<li><font color="#FF4500">LCHILD(T,x)</font>或<font color="#FF4500">RCHILD(T,x)</font>  分别求二叉树T中结点x的左孩子结点或右孩子结点；</li>
+<li><font color="#FF4500"> LDELETE(T,x)</font>或<font color="#FF4500"> RDELETE(T,x)</font>   分别删除二叉树T中以结点x为根的左子树或右子树；</li>
+<li><font color="#FF4500">TRAVERSE(T)</font>  按照某种次序(或原则)依次访问二叉树T中各个结点，得到由该二叉树的所有结点组成的序列；</li>
+<li><font color="#FF4500">LAYER(T,x)</font> 求二叉树中结点x所处的层次；</li>
+<li><font color="#FF4500">DEPTH(T)</font> 求二叉树T的深度；</li>
+<li><font color="#FF4500">DESTROY(T)</font> 销毁一棵二叉树；</li>
 </ul>
 </li>
 <li>二叉树与树、树林之间的转换*<ul>
@@ -359,7 +361,14 @@
 </ol>
 </li>
 <li>二叉树的链式存储结构<ol>
-<li>二叉链表</li>
+<li><p>二叉链表 <code>lchild</code> <code>data</code> <code>rchild</code> 分别表示左子树的指针域、数据域、右子树的指针域；</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
+<p> <img src="/treelearning/picture7.png" alt="图示"></p>
+</li>
+<li><p>二叉链表 <code>data</code> <code>parent</code> <code>lchild</code> <code>rchild</code> 分别表示数据域、双亲结点的指针域、左子树的指针域、右子树的指针域；</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">parent</span>, *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
+<p> <img src="/treelearning/picture8.png" alt="图示"></p>
+</li>
 </ol>
 </li>
 </ul>
