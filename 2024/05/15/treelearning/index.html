@@ -6,24 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://theuho.site">
-  <title>test | theUHO&#39; blog</title>
+  <title>二叉树学习笔记 | theUHO&#39; blog</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="这里是一个测试图片能否正常显示的博客">
+  <meta name="description" content="树和二叉树2024.4.25 DS笔记    目录跳转    1. 树的结构   2. 树的储存结构   3. 二叉树   4. 二叉树的存储结构   5. 二叉树的遍历     树的结构 结点： 叶结点：度为0的结点 *(终端结点)*； 分支结点：度非0的结点 *(非终端结点)*； 结点的度：结点子树的数目；">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="http://theuho.site/2024/05/15/test/index.html">
+<meta property="og:title" content="二叉树学习笔记">
+<meta property="og:url" content="http://theuho.site/2024/05/15/treelearning/index.html">
 <meta property="og:site_name" content="theUHO&#39; blog">
-<meta property="og:description" content="这里是一个测试图片能否正常显示的博客">
+<meta property="og:description" content="树和二叉树2024.4.25 DS笔记    目录跳转    1. 树的结构   2. 树的储存结构   3. 二叉树   4. 二叉树的存储结构   5. 二叉树的遍历     树的结构 结点： 叶结点：度为0的结点 *(终端结点)*； 分支结点：度非0的结点 *(非终端结点)*； 结点的度：结点子树的数目；">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://theuho.site/img/myhead.jpg">
-<meta property="article:published_time" content="2024-05-15T06:58:14.000Z">
-<meta property="article:modified_time" content="2024-05-15T07:09:35.991Z">
+<meta property="og:image" content="http://theuho.site/img/picture1.jpg">
+<meta property="og:image" content="http://theuho.site/img/picture2.png">
+<meta property="og:image" content="http://theuho.site/img/picture3.png">
+<meta property="og:image" content="http://theuho.site/img/picture4.png">
+<meta property="og:image" content="http://theuho.site/img/picture5.png">
+<meta property="og:image" content="http://theuho.site/img/picture6.png">
+<meta property="og:image" content="http://theuho.site/img/picture7.png">
+<meta property="og:image" content="http://theuho.site/img/picture8.png">
+<meta property="og:image" content="http://theuho.site/img/picture9.png">
+<meta property="og:image" content="http://theuho.site/img/picture9.png">
+<meta property="article:published_time" content="2024-05-15T07:18:08.000Z">
+<meta property="article:modified_time" content="2024-05-15T07:20:14.160Z">
 <meta property="article:author" content="theUHO">
-<meta property="article:tag" content="测试">
+<meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://theuho.site/img/myhead.jpg">
+<meta name="twitter:image" content="http://theuho.site/img/picture1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="theUHO&#39; blog" type="application/atom+xml">
   
@@ -213,22 +222,22 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-test" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-treelearning" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
     <h1 class="article-title" itemprop="name">
-      test
+      二叉树学习笔记
     </h1>
   
 
 
   
   
-<a href="/2024/05/15/test/" class="archive-article-date">
-        <time datetime="2024-05-15T06:58:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-05-15</time>
+<a href="/2024/05/15/treelearning/" class="archive-article-date">
+        <time datetime="2024-05-15T07:18:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-05-15</time>
 </a>
 
   
@@ -241,7 +250,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">18字</span>
+      <span class="post-count">2k字</span>
     </span>
   </span>
 
@@ -250,7 +259,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">1分</span>
+      <span class="post-count">7分</span>
     </span>
   </span>
 </div>
@@ -261,8 +270,186 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p><img src="/./img/myhead.jpg" alt="test"><br>这里是一个测试图片能否正常显示的博客</p>
+    <h4 id="树和二叉树"><a href="#树和二叉树" class="headerlink" title="树和二叉树"></a>树和二叉树</h4><p><strong>2024.4.25 DS笔记</strong></p>
+<table>
+<thead>
+<tr>
+<th>目录跳转</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="#section1">1. 树的结构</a></td>
+</tr>
+<tr>
+<td><a href="#section2">2. 树的储存结构</a></td>
+</tr>
+<tr>
+<td><a href="#section3">3. 二叉树</a></td>
+</tr>
+<tr>
+<td><a href="#section4">4. 二叉树的存储结构</a></td>
+</tr>
+<tr>
+<td><a href="#section5">5. 二叉树的遍历</a></td>
+</tr>
+</tbody></table>
+<p><a id="section1"></a></p>
+<ol>
+<li><h5 id="树的结构"><a href="#树的结构" class="headerlink" title="树的结构"></a>树的结构</h5><ul>
+<li><strong>结点</strong>：<ul>
+<li><strong>叶结点</strong>：度为0的结点 *(终端结点)*；</li>
+<li><strong>分支结点</strong>：度非0的结点 *(非终端结点)*；</li>
+<li><strong>结点的度</strong>：结点子树的数目；  <span id="more"></span></li>
+</ul>
+</li>
+<li><strong>结点间关系</strong>：结点的子树的根称为该结点的孩子(child)，相应地，该结点称为孩子结点的父结点(或双亲，parent)同一个双亲的孩子之间互称兄弟;</li>
+<li><strong>树的度</strong>：结点度的最大值</li>
+<li><strong>树的层次</strong>：根结点为第一层，孩子结点依次加一；</li>
+<li><strong>树的深度</strong>：树中结点所处的最大层数；</li>
+<li><strong>路径</strong>：对于树中任意结点dj，若在树中存在一个结点序列d1，d2，…di，…，dj，使得di是di+1的双亲(1&le;i&lt;j)，则称该结点序列是从d1到dj的一条路径，路径的长度为j-1；</li>
+<li><strong>树林</strong>：m&ge;0 棵不相交的树组成的树的集合；</li>
+<li><strong>树的有序性</strong>：若树中结点的子树的相对位置不能随意改变, 则称该树为有序树，否则称该树为无序树；</li>
+</ul>
+</li>
+</ol>
+<p><a id="sectio2"></a></p>
+<ol start="2">
+<li><h5 id="树的储存结构"><a href="#树的储存结构" class="headerlink" title="树的储存结构"></a>树的储存结构</h5><ol>
+<li><strong>多重链表结构</strong> <ul>
+<li>定长结点的多重链表结构<br> <img src="/./img/picture1.jpg" alt="定长结点链表结构"></li>
+<li>不定长结点的多重链表结构<br> <img src="/./img/picture2.png" alt="不定长结点链表结构"></li>
+</ul>
+</li>
+<li><strong>三重链表结构</strong><br> <img src="/./img/picture3.png" alt="三重链表结构"><br><a id="section3"></a></li>
+</ol>
+</li>
+<li><h5 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h5><ol>
+<li><font color="#BB1C1C">二叉树</font>是 n &ge; 0个结点的有穷集合D与D上关系的集合R构成的结构，记为T，二叉树是有序树，区分左右子树；</li>
+<li>两种特殊形态的二叉树<ul>
+<li>满二叉树：二叉树中的结点,或者为叶结点， 或者具有两棵非空子树,并且叶结点都集中在二叉树的最下面一层；</li>
+<li>完全二叉树：二叉树中只有最下面两层的结点的度可以小于2，并且最下面一层的结点(叶结点)都依次排列在该层从左至右的位置上；</li>
+</ul>
+</li>
+<li>二叉树的性质<ul>
+<li>具有n个结点的非空二叉树共有<strong>n-1</strong>个分支；</li>
+<li>非空二叉树的第 <strong>i</strong> 层最多有2<sup>i–1</sup>个结点( i &ge;1)；</li>
+<li>深度为 h 的非空二叉树最多有2<sup>h</sup> –1个结点；</li>
+<li>若非空二叉树有n<SUB>0</SUB>个叶结点,有n<SUB>2</SUB>个度为2的结点,则 n<SUB>0</SUB>&#x3D;n<SUB>2</SUB>+1;</li>
+<li>具有n个结点的非空完全二叉树的深度为 h&#x3D;&lfloor;log<SUB>2</SUB>n&rfloor;+1；</li>
+<li>若对具有n个结点的完全二叉树按照层次从上到下,每层从左到右的顺序进行编号, 则编号为i的结点具有以下性质:<ul>
+<li>(1) 当i&#x3D;1,则编号为i的结点为二叉树的根结点；若i &gt;1,则编号为i 的结点的双亲的编号为&lfloor;i&#x2F;2&rfloor;；</li>
+<li>(2) 若2i&gt;n,则编号为i的结点无左子树; 若2i&le;n,则编号为i 的结点的左孩子的编号为2i；</li>
+<li>(3) 若2i+1&gt;n,则编号为i 的结点无右子树; 若2i+1&le;n,则编号为i 的结点的右孩子的编号为 2i+1。<br>  <img src="/./img/picture4.png" alt="图示"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>二叉树的基本操作<ul>
+<li><font color="#FF4500">INITIAL(T)</font> 初始(创建)一棵二叉树；</li>
+<li><font color="#FF4500">ROOT(T)</font> 求二叉树T的根结点, 或求结点x 所在二叉树的根结点；</li>
+<li><font color="#FF4500">PARENT(T,x)</font>  求二叉树T中结点x的双亲结点；</li>
+<li><font color="#FF4500">LCHILD(T,x)</font>或<font color="#FF4500">RCHILD(T,x)</font>  分别求二叉树T中结点x的左孩子结点或右孩子结点；</li>
+<li><font color="#FF4500"> LDELETE(T,x)</font>或<font color="#FF4500"> RDELETE(T,x)</font>   分别删除二叉树T中以结点x为根的左子树或右子树；</li>
+<li><font color="#FF4500">TRAVERSE(T)</font>  按照某种次序(或原则)依次访问二叉树T中各个结点，得到由该二叉树的所有结点组成的序列；</li>
+<li><font color="#FF4500">LAYER(T,x)</font> 求二叉树中结点x所处的层次；</li>
+<li><font color="#FF4500">DEPTH(T)</font> 求二叉树T的深度；</li>
+<li><font color="#FF4500">DESTROY(T)</font> 销毁一棵二叉树；</li>
+</ul>
+</li>
+<li>二叉树与树、树林之间的转换*<ul>
+<li>树与二叉树的转换<ol>
+<li>在所有相邻的兄弟结点之间分别加一条连线；</li>
+<li>对于每一个分支结点，除了其最左孩子外，删除该结点与其他孩子结点之间的连线；</li>
+<li>以根结点为轴心，顺时针旋转45&deg;；<br><img src="/./img/picture5.png" alt="图示"></li>
+</ol>
+</li>
+<li>树林与二叉树的转换<ol>
+<li>分别将树林中每一棵树转换为一棵二叉树；</li>
+<li>从最后那一棵二叉树开始，依次将后一棵二叉树的根结点作为前一棵二叉树的根结点的右孩子，直到所有二叉树都这样处理。这样得到的二叉树的根结点是树林中第一棵二叉树的根结点；<br>  <img src="/./img/picture6.png" alt="图示"></li>
+</ol>
+</li>
+<li>二叉树还原成树<ol>
+<li>若某结点是其双亲结点的左孩子，则将该结点的右孩子以及当且仅当连续地沿此右孩子的右子树方向的所有结点都分别与该结点的双亲结点用一根虚线连接；</li>
+<li>去掉二叉树中所有双亲结点与其右孩子的连线；</li>
+<li>规整图形(即使各结点按照层次排列),并将虚线改成实线；</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p><a id="section4"></a></p>
+<ol start="4">
+<li><h5 id="二叉树的存储结构"><a href="#二叉树的存储结构" class="headerlink" title="二叉树的存储结构"></a>二叉树的存储结构</h5><ol>
+<li>二叉树的顺序存储结构<ol>
+<li>完全二叉树的顺序存储结构：对于深度为h的完全二叉树, 将树中所有结点的数据信息按照编号的顺序依次存储到一维数组BT[0..2<sup>h</sup>-2]中,由于编号与数组下标一一对应，该数组就是该完全二叉树的顺序存储结构</li>
+<li>一般二叉树的顺序存储结构：对于一般二叉树, 只须在二叉树中“添加”一些实际上二叉树中并不存在的“虚结点” (可以认为这些结点的数据信息为空)， 使其在形式上成为一棵“完全二叉树”，然后按照完全二叉树的顺序存储结构的构造方法将所有结点的数据信息依次存放于数组BT[0..2<sup>h</sup>-2]中；</li>
+</ol>
+</li>
+<li>二叉树的链式存储结构<ol>
+<li><p>二叉链表 <code>lchild</code> <code>data</code> <code>rchild</code> 分别表示左子树的指针域、数据域、右子树的指针域；</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
+<p> <img src="/./img/picture7.png" alt="图示"></p>
+</li>
+<li><p>二叉链表 <code>data</code> <code>parent</code> <code>lchild</code> <code>rchild</code> 分别表示数据域、双亲结点的指针域、左子树的指针域、右子树的指针域；</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">parent</span>, *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
+<p> <img src="/./img/picture8.png" alt="图示"></p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><a id="section5"></a></p>
+<ol start="5">
+<li><h5 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h5><ol>
+<li><p>常用的遍历方法：</p>
+<ol>
+<li><a href="#qianxubianli"><font color="#FF4500">前序遍历DLR</font></a></li>
+<li><a href="#zhongxubianli"><font color="#FF4500">中序遍历LDR</font></a></li>
+<li><a href="#houxubianli"><font color="#FF4500">后序遍历LRD</font></a></li>
+<li><a href="#cengcibianli"><font color="#FF4500">按层次遍历</font></a></li>
+</ol>
+</li>
+<li><p>前序遍历<br> <a id="qianxubianli"></a></p>
+<ul>
+<li>原则：若被遍历的二叉树非空, 则<ol>
+<li>访问根结点；</li>
+<li>以前序遍历原则遍历根结点的左子树；</li>
+<li>以前序遍历原则遍历根结点的右子树；<br>  <img src="/./img/picture9.png" alt="图示"><br>  <font color="#3198FD">前序序列：</font><font color="#FF4500">A B D E C G H I F</font></li>
+</ol>
+</li>
+<li>递归算法 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        preorder(t-&gt;lchild);</span><br><span class="line">        preorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>中序遍历<br> <a id="qianxubianli"></a></p>
+<ul>
+<li>原则：若被遍历的二叉树非空,则   <ol>
+<li>以中序遍历原则遍历根结点的左子树；</li>
+<li>访问根结点；</li>
+<li>以中序遍历原则遍历根结点的右子树；<br>  <img src="/./img/picture9.png" alt="图示"><br>  <font color="#3198FD">中序序列：</font><font color="#FF4500">D E B A H G I C F</font></li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
 
+        * 递归算法
+        <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        inorder(t-&gt;lchild);</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        inorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    2. 后序遍历
+    <a id="qianxubianli"></a>
+        * 原则：若被遍历的二叉树非空,则   
+            1. 以中序遍历原则遍历根结点的左子树；
+            2. 访问根结点；
+            3. 以中序遍历原则遍历根结点的右子树；
+            ![图示](./img/picture9.png)
+            <font color="#3198FD">中序序列：</font><font color="#FF4500">D E B A H G I C F
+</font>
+        * 递归算法
+        <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        inorder(t-&gt;lchild);</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        inorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     
 
     
@@ -278,7 +465,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">测试</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
         		</li>
       		
 		</ul>
@@ -334,7 +521,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://theuho.site/2024/05/15/test/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://theuho.site/2024/05/15/treelearning/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -349,18 +536,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2024/05/15/treelearning/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          二叉树学习笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2024/04/28/treelearning1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">二叉树学习笔记</div>
+    <a href="/2024/05/15/test/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">test</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -387,7 +565,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E5%92%8C%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">树和二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%91%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">树的结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%91%E7%9A%84%E5%82%A8%E5%AD%98%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">树的储存结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.</span> <span class="toc-text">二叉树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.</span> <span class="toc-text">二叉树的存储结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-number">1.5.</span> <span class="toc-text">二叉树的遍历</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
