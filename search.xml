@@ -83,16 +83,6 @@
       </tags>
   </entry>
   <entry>
-    <title>test</title>
-    <url>/2024/05/15/test/</url>
-    <content><![CDATA[<p><img src="/2024/05/15/test/myhead.jpg" alt="test"><br>
-这里是一个测试图片能否正常显示的博客</p>
-]]></content>
-      <tags>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell learning</title>
     <url>/2024/03/14/shelllearning/</url>
     <content><![CDATA[<h2 id="shell">shell</h2>
@@ -197,6 +187,16 @@
 ]]></content>
       <tags>
         <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2024/05/15/test/</url>
+    <content><![CDATA[<p><img src="/2024/05/15/test/myhead.jpg" alt="test"><br>
+这里是一个测试图片能否正常显示的博客</p>
+]]></content>
+      <tags>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
