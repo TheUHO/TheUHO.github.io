@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>test</title>
+    <url>/2024/05/15/test/</url>
+    <content><![CDATA[<p><img src="/2024/05/15/test/myhead.jpg" alt="test"><br>
+这里是一个测试图片能否正常显示的博客</p>
+]]></content>
+      <tags>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Markdown语法学习</title>
     <url>/2024/03/14/markdownnote/</url>
     <content><![CDATA[<h6 id="2024-1-21">2024.1.21</h6>
@@ -187,16 +197,6 @@
 ]]></content>
       <tags>
         <tag>学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2024/05/15/test/</url>
-    <content><![CDATA[<p><img src="/2024/05/15/test/myhead.jpg" alt="test"><br>
-这里是一个测试图片能否正常显示的博客</p>
-]]></content>
-      <tags>
-        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -452,6 +452,10 @@
     <title>vim</title>
     <url>/2024/07/20/vim/</url>
     <content><![CDATA[<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
-<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">]]></content>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
+<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">]]></content>
   </entry>
 </search>
