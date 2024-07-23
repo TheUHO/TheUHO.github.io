@@ -90,6 +90,22 @@
       </tags>
   </entry>
   <entry>
+    <title>第一篇博客！</title>
+    <url>/2024/03/13/theFirstBlog/</url>
+    <content><![CDATA[<h1>For the first time</h1>
+<p>鼓掌鼓掌<br>
+今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
+特此纪念</p>
+]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell learning</title>
     <url>/2024/03/14/shelllearning/</url>
     <content><![CDATA[<h2 id="shell">shell</h2>
@@ -200,22 +216,6 @@
         <tag>学习</tag>
         <tag>教程</tag>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第一篇博客！</title>
-    <url>/2024/03/13/theFirstBlog/</url>
-    <content><![CDATA[<h1>For the first time</h1>
-<p>鼓掌鼓掌<br>
-今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
-特此纪念</p>
-]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -538,6 +538,8 @@
 <ul>
 <li>vim安装后自带的教程vimtutor，在终端执行<code>vimtutot</code>即可进入。</li>
 <li>b站视频<a href="https://www.bilibili.com/video/BV1z541177Jy?p=4&amp;spm_id_from=pageDriver&amp;vd_source=ad387bf24e3219fa7c16fce8832f4c21">指尖飞舞：vscode + vim 高效开发</a></li>
+<li><a href="https://csdiy.wiki/%E5%BF%85%E5%AD%A6%E5%B7%A5%E5%85%B7/Vim/">CS自学指南</a></li>
+<li>博客<a href="https://imageslr.com/2021/vim">vim入门笔记</a></li>
 </ul>
 <h3 id="vim基本操作">vim基本操作</h3>
 <ul>
