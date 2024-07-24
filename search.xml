@@ -186,9 +186,10 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
 </li>
 <li>等待部署完成，打开浏览器，访问<code>https://yourusername.github.io</code>即可查看你的博客。</li>
 </ol>
-<h2 id="结语">结语</h2>
+<h3 id="结语">结语</h3>
 <p>以上还是草稿</p>
-]]></content>
+<script src="https://giscus.app/client.js" data-repo="TheUHO/TheUHO.github.io" data-repo-id="R_kgDOLfzltQ" data-category="[在此输入分类名]" data-category-id="[在此输入分类 ID]" data-mapping="url" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>]]></content>
       <categories>
         <category>博客</category>
       </categories>
@@ -199,29 +200,6 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
         <tag>hexo</tag>
         <tag>博客</tag>
         <tag>网站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2024/05/15/test/</url>
-    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
-<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
-<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
-</h3>]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -349,8 +327,31 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
         <category>测试</category>
       </categories>
       <tags>
-        <tag>测试</tag>
         <tag>随笔</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2024/05/15/test/</url>
+    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
+<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
+<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
+</h3>]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
