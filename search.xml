@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>基于github与hexo的个人博客搭建教程</title>
+    <url>/2024/07/24/BlogBuildingGuide/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+        <tag>学习</tag>
+        <tag>教程</tag>
+        <tag>网站</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell学习笔记</title>
     <url>/2024/03/14/shelllearning/</url>
     <content><![CDATA[<h2 id="shell">shell</h2>
@@ -108,9 +124,9 @@
         <category>工具</category>
       </categories>
       <tags>
-        <tag>工具</tag>
         <tag>学习</tag>
         <tag>教程</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -541,16 +557,26 @@
 </ul>
 <h4 id="vim插件下载及配置">vim插件下载及配置</h4>
 <ul>
-<li>官网：<a href="https://github.com/VSCodeVim/Vim">https://github.com/VSCodeVim/Vim</a><br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221042770.png" alt="拓展"></li>
+<li>官网：<a href="https://github.com/VSCodeVim/Vim">https://github.com/VSCodeVim/Vim</a></li>
+</ul>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221042770.png"></div>
+<p>
+<ul>
 <li>直接打开Vscode拓展搜索vim点击安装，Windows用户可以<strong>直接使用</strong>，Mac用户需要根据拓展说明在命令行执行对应语句。  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false              # For VS Code</span><br><span class="line">$ defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false      # For VS Code Insider</span><br><span class="line">$ defaults write com.vscodium ApplePressAndHoldEnabled -bool false                      # For VS Codium</span><br><span class="line">$ defaults write com.microsoft.VSCodeExploration ApplePressAndHoldEnabled -bool false   # For VS Codium Exploration users</span><br><span class="line">$ defaults delete -g ApplePressAndHoldEnabled                                           # If necessary, reset global default</span><br></pre></td></tr></table></figure>
 </li>
-<li>拷贝拓展说明中的配置文件到Vscode的配置文件中<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231736736.png" width="80%" height="auto"><br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231734848.png" width="80%" height="auto"></li>
+<li>拷贝拓展说明中的配置文件到Vscode的配置文件中</li>
+</ul>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231736736.png"></div> 
+</p><p>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231734848.png">
+</div> 
+</p>
+<ul>
 <li>或者拷贝下面的配置文件到settings.json
 <blockquote>
-<p>这是我的个人配置，包含一些更改，比如保留了Vscode的<code>Ctrl</code>热键，<code>j</code> <code>k</code>替换<code>Esc</code>用仅供参考</p>
+<p>这是我的个人配置，包含一些更改，比如保留了Vscode的<code>Ctrl</code>热键，<code>j</code> <code>k</code>替换<code>Esc</code>使用，仅供参考</p>
 </blockquote>
 </li>
 </ul>
@@ -797,9 +823,9 @@
         <category>工具</category>
       </categories>
       <tags>
-        <tag>工具</tag>
         <tag>学习</tag>
         <tag>教程</tag>
+        <tag>工具</tag>
         <tag>笔记</tag>
         <tag>vscode</tag>
         <tag>vim</tag>
