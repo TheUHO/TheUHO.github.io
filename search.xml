@@ -3,7 +3,101 @@
   <entry>
     <title>基于github与hexo的个人博客搭建教程</title>
     <url>/2024/07/24/BlogBuildingGuide/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
+<ul>
+<li>当我们从头开始迈入CS学习的大门时，都必然会参考学习网络上丰富的各类资源。无论你是习惯于查阅CSDN、知乎，还是在浏览器中直接搜索，都一定会找到许多前人之鉴。很多个人博客文章，都能给予小白莫大的帮助。</li>
+<li>然而，随着CS学习的深入，我们可能会发现，许多博客文章也许并不正确，亦或我们自己也找到一些很好的解决方法。这时，我们可能会萌生自己搭建一个博客的想法，以便于记录自己的学习过程，分享自己的心得体会，甚至与志同道合的人交流。</li>
+<li>因此，本教程将简要介绍如何使用GitHub Pages和Hexo搭建一个Window系统下的简易个人博客，并使用Butterfly主题进行美化，同时配置Picgo作为图床以提高访问速度。通过本教程，你可以快速搭建一个属于自己的博客，并享受写作和分享的乐趣。</li>
+</ul>
+<blockquote>
+<p>本教程面向的是和我一样的CS小白，也会提供一些我遇上的bug我解决思路。并且我需要强调的是，如果你有更多的精力和资源，完全可以选择购买云服务器，甚至可以自己从头开始写一个博客网站。但如果你像我一样，既想有一个自己的博客，又不想投入太多学习成本，那么本教程将是一个很好的选择。</p>
+</blockquote>
+<h3 id="准备工作">准备工作</h3>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407241217735.jpg"></div>
+<p>
+<ol>
+<li>
+<p><strong>GitHub账号</strong>：首先，你需要有一个GitHub账号，用于在<a href="https://pages.github.com/">Github pages</a>在线部署博客，在Github仓库托管和发布自己的静态网站页面。如果没有，请先注册一个<a href="https://github.com/">Github账号</a>。</p>
+</li>
+<li>
+<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/">Node.js官网</a>下载并安装。</p>
+</li>
+<li>
+<p><strong>Git</strong>：<br>
+Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
+</li>
+<li>
+<p><strong>PicGo</strong>：PicGo是一个用于快速上传图片并生成图片链接的工具，我们将使用它来配置图床。我们可以从<a href="https://picgo.github.io/PicGo-Doc/">PicGo官网</a>下载并安装。</p>
+</li>
+</ol>
+</p><h3 id="搭建步骤">搭建步骤</h3>
+<h4 id="环境搭建">环境搭建</h4>
+<h4 id="1-创建GitHub-Pages仓库">1. 创建GitHub Pages仓库</h4>
+<ol>
+<li>登录GitHub，点击右上角的“+”号，选择“New repository”。</li>
+<li>在“Repository name”中输入你的用户名，例如<code>yourusername.github.io</code>。</li>
+<li>选择“Public”作为仓库的可见性。</li>
+<li>勾选“Initialize this repository with a README”。</li>
+<li>点击“Create repository”按钮。</li>
+</ol>
+<h4 id="2-安装Hexo">2. 安装Hexo</h4>
+<ol>
+<li>打开终端，输入以下命令安装Hexo： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li>创建一个新的Hexo博客文件夹，并进入该文件夹： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br></pre></td></tr></table></figure>
+</li>
+<li>初始化Hexo博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+</li>
+<li>安装Hexo的依赖： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="3-配置Hexo">3. 配置Hexo</h4>
+<ol>
+<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
+<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Title</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Subtitle</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Description</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Your</span> <span class="string">Name</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">en</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://yourusername.github.io</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/yourusername/yourusername.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭<code>_config.yml</code>文件。</li>
+</ol>
+<h4 id="4-安装Butterfly主题">4. 安装Butterfly主题</h4>
+<ol>
+<li>在终端中输入以下命令安装Butterfly主题： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+</li>
+<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
+<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">butterfly</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭<code>_config.yml</code>文件。</li>
+</ol>
+<h4 id="5-配置PicGo">5. 配置PicGo</h4>
+<ol>
+<li>打开PicGo，点击“图床设置”。</li>
+<li>选择“GitHub图床”，点击“确定”。</li>
+<li>输入GitHub的Access Token，可以在GitHub的Settings -&gt; Developer settings -&gt; Personal access tokens中生成。</li>
+<li>输入GitHub的仓库名称，格式为<code>yourusername/yourrepository</code>。</li>
+<li>输入分支名称，一般为<code>master</code>。</li>
+<li>输入存储路径，一般为<code>img</code>。</li>
+<li>输入自定义域名，一般为<code>https://cdn.jsdelivr.net/gh/yourusername/yourrepository</code>。</li>
+<li>点击“确定”保存配置。</li>
+</ol>
+<h3 id="6-创建博客文章">6. 创建博客文章</h3>
+<ol>
+<li>在终端中输入以下命令创建新的博客文章： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;Your Blog Post Title&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>进入生成的文章文件夹，使用文本编辑器打开<code>source/_posts/Your Blog Post Title.md</code>文件。</li>
+<li>编辑文章内容，可以使用Markdown语法。</li>
+<li>保存并关闭文章文件。</li>
+</ol>
+<h3 id="7-部署博客">7. 部署博客</h3>
+<ol>
+<li>在终端中输入以下命令生成静态文件： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li>在终端中输入以下命令部署博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li>等待部署完成，打开浏览器，访问<code>https://yourusername.github.io</code>即可查看你的博客。</li>
+</ol>
+<h2 id="结语">结语</h2>
+<p>以上还是草稿</p>
+]]></content>
       <categories>
         <category>博客</category>
       </categories>
@@ -14,119 +108,6 @@
         <tag>学习</tag>
         <tag>教程</tag>
         <tag>网站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell学习笔记</title>
-    <url>/2024/03/14/shelllearning/</url>
-    <content><![CDATA[<h2 id="shell">shell</h2>
-<ul>
-<li>
-<p>课程来源：<a href="https://www.bilibili.com/video/BV1ry4y1A7qo/?p=2&amp;spm_id_from=pageDriver&amp;vd_source=ad387bf24e3219fa7c16fce8832f4c21">b站浙大竺院辅学</a></p>
-</li>
-<li>
-<p>工具：WSL,Ubuntu,zsh</p>
-</li>
-<li>
-<p>插件及主题：<a href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md">zsh-syntax-highlighting</a>,<a href="https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#installation">powerlevel10k</a>,<a href="https://github.com/zsh-users/zsh-autosuggestions/tree/master">zsh-autosuggestions</a><br>
-<em>参看<a href="https://note.tonycrane.cc/cs/tools/shell/">鹤翔万里的shell备忘</a></em> <br></p>
-</li>
-</ul>
-<span id="more"></span>
-<ul>
-<li>基础shell指令记录
-<ol>
-<li>
-<p><code>pwd</code>获取当前路径(print working directory)</p>
-</li>
-<li>
-<p><code>cd</code>切换路径(change directory)</p>
-<ul>
-<li><code>~</code>代表home，<code>.</code>代表当前路径，<code>..</code>代表上一级路径</li>
-</ul>
-</li>
-<li>
-<p><code>ls</code>列出当前路径下的文件和目录  <code>ls -a</code> 列出所有文件和目录，包括隐藏文件,<br>
-<code>ls -l</code>列出详细信息(文件权限，大小，修改时间，…)<br>
-<code>ls -al</code>上述功能</p>
-</li>
-<li>
-<p><code>touch</code>创建一个文件</p>
-<ul>
-<li>如<code>touch 0.c</code></li>
-</ul>
-</li>
-<li>
-<p><code>mkdir</code>创建一个目录</p>
-<ul>
-<li>如<code>mkdir learning</code></li>
-</ul>
-</li>
-<li>
-<p><code>cp</code> <em>src</em> <em>dst</em>复制文件或目录(<code>cp -r</code>)</p>
-<ul>
-<li>如<code>cp 0.c 00.c</code>,<code>cp -r learning learning.0</code></li>
-</ul>
-</li>
-<li>
-<p><code>mv</code> <em>src</em> <em>dst</em>移动文件或目录(重命名)</p>
-</li>
-<li>
-<p><code>rm</code>删除文件(<code>-r</code>递归删除目录；<code>-f</code>强制删除)</p>
-<ul>
-<li>如<code>rm 0.c</code></li>
-</ul>
-</li>
-<li>
-<p><code>find</code> <em>path</em> <code>-name</code> <em>pattern</em>在 path 下查找文件名匹配 pattern 的文件</p>
-<ul>
-<li>如<code>find . 0.c</code>, <code>find . '*.c'</code></li>
-</ul>
-</li>
-<li>
-<p><code>cat</code>输出与拼接文件(<code>-n</code>：带行号输出)</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">❯ cat a.c</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;%</span><br><span class="line"></span><br><span class="line">❯ cat -n a.c</span><br><span class="line"><span class="number">1</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="number">2</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="number">3</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="number">4</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="number">5</span>  <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">6  &#123;</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span>      system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"><span class="number">9</span>      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">10</span>  &#125;%</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如<code>cat a.c b.c</code>将两个文件拼接起来</li>
-</ul>
-</li>
-<li>
-<p><code>head</code> <em>file</em> 输出 <em>file</em> 前 10 行<code>head file -n</code> <em>lines</em>  输出 <em>lines</em> 行<br>
-<code>tail</code> <em>file</em> 输出 <em>file</em> 后10行 <code>tail file -n</code> <em>lines</em>   输出后 <em>lines</em> 行</p>
-</li>
-<li>
-<p><code>more</code>/<code>less</code> <em>file</em> 分页输出 <em>file</em> 内容，空格翻页，回车下一行，q退出</p>
-</li>
-<li>
-<p><code>hexdump</code> <em>file</em> 以十六进制输出文件内容(<code>-C</code>并排输出十六进制与 ASCII, <code>-n</code> N输出前 N 个字节)</p>
-</li>
-<li>
-<p><code>man</code>：查看命令文档（manual）<br>
-<code>echo</code>：输出字符串（常配合重定向 / 管道使用）<br>
-<code>whoami</code>：获取当前用户<br>
-<code>whereis/which/whence</code>：查找命令所在位置<br>
-<code>clear</code>：清屏<br>
-<code>chmod</code>：更改文件权限<br>
-<code>ps</code>：显示进程信息<br>
-<code>date</code>：获取当前日期时间<br>
-<code>kill</code>：杀死进程（向进程发送信号）<br>
-<code>grep</code>：搜索文件内容（常配合重定向 / 管道使用）<br>
-<code>diff</code>：比较文件 / 目录内容<br>
-<code>curl</code>：发送 HTTP 请求；<code>wget</code>：下载文件<br>
-未完待续…</p>
-</li>
-</ol>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>教程</tag>
-        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -240,6 +221,119 @@
       </categories>
       <tags>
         <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell学习笔记</title>
+    <url>/2024/03/14/shelllearning/</url>
+    <content><![CDATA[<h2 id="shell">shell</h2>
+<ul>
+<li>
+<p>课程来源：<a href="https://www.bilibili.com/video/BV1ry4y1A7qo/?p=2&amp;spm_id_from=pageDriver&amp;vd_source=ad387bf24e3219fa7c16fce8832f4c21">b站浙大竺院辅学</a></p>
+</li>
+<li>
+<p>工具：WSL,Ubuntu,zsh</p>
+</li>
+<li>
+<p>插件及主题：<a href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md">zsh-syntax-highlighting</a>,<a href="https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#installation">powerlevel10k</a>,<a href="https://github.com/zsh-users/zsh-autosuggestions/tree/master">zsh-autosuggestions</a><br>
+<em>参看<a href="https://note.tonycrane.cc/cs/tools/shell/">鹤翔万里的shell备忘</a></em> <br></p>
+</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>基础shell指令记录
+<ol>
+<li>
+<p><code>pwd</code>获取当前路径(print working directory)</p>
+</li>
+<li>
+<p><code>cd</code>切换路径(change directory)</p>
+<ul>
+<li><code>~</code>代表home，<code>.</code>代表当前路径，<code>..</code>代表上一级路径</li>
+</ul>
+</li>
+<li>
+<p><code>ls</code>列出当前路径下的文件和目录  <code>ls -a</code> 列出所有文件和目录，包括隐藏文件,<br>
+<code>ls -l</code>列出详细信息(文件权限，大小，修改时间，…)<br>
+<code>ls -al</code>上述功能</p>
+</li>
+<li>
+<p><code>touch</code>创建一个文件</p>
+<ul>
+<li>如<code>touch 0.c</code></li>
+</ul>
+</li>
+<li>
+<p><code>mkdir</code>创建一个目录</p>
+<ul>
+<li>如<code>mkdir learning</code></li>
+</ul>
+</li>
+<li>
+<p><code>cp</code> <em>src</em> <em>dst</em>复制文件或目录(<code>cp -r</code>)</p>
+<ul>
+<li>如<code>cp 0.c 00.c</code>,<code>cp -r learning learning.0</code></li>
+</ul>
+</li>
+<li>
+<p><code>mv</code> <em>src</em> <em>dst</em>移动文件或目录(重命名)</p>
+</li>
+<li>
+<p><code>rm</code>删除文件(<code>-r</code>递归删除目录；<code>-f</code>强制删除)</p>
+<ul>
+<li>如<code>rm 0.c</code></li>
+</ul>
+</li>
+<li>
+<p><code>find</code> <em>path</em> <code>-name</code> <em>pattern</em>在 path 下查找文件名匹配 pattern 的文件</p>
+<ul>
+<li>如<code>find . 0.c</code>, <code>find . '*.c'</code></li>
+</ul>
+</li>
+<li>
+<p><code>cat</code>输出与拼接文件(<code>-n</code>：带行号输出)</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">❯ cat a.c</span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;%</span><br><span class="line"></span><br><span class="line">❯ cat -n a.c</span><br><span class="line"><span class="number">1</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="number">2</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="number">3</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="number">4</span>  <span class="meta">#<span class="keyword">include</span><span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="number">5</span>  <span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">6  &#123;</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span>      system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"><span class="number">9</span>      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">10</span>  &#125;%</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如<code>cat a.c b.c</code>将两个文件拼接起来</li>
+</ul>
+</li>
+<li>
+<p><code>head</code> <em>file</em> 输出 <em>file</em> 前 10 行<code>head file -n</code> <em>lines</em>  输出 <em>lines</em> 行<br>
+<code>tail</code> <em>file</em> 输出 <em>file</em> 后10行 <code>tail file -n</code> <em>lines</em>   输出后 <em>lines</em> 行</p>
+</li>
+<li>
+<p><code>more</code>/<code>less</code> <em>file</em> 分页输出 <em>file</em> 内容，空格翻页，回车下一行，q退出</p>
+</li>
+<li>
+<p><code>hexdump</code> <em>file</em> 以十六进制输出文件内容(<code>-C</code>并排输出十六进制与 ASCII, <code>-n</code> N输出前 N 个字节)</p>
+</li>
+<li>
+<p><code>man</code>：查看命令文档（manual）<br>
+<code>echo</code>：输出字符串（常配合重定向 / 管道使用）<br>
+<code>whoami</code>：获取当前用户<br>
+<code>whereis/which/whence</code>：查找命令所在位置<br>
+<code>clear</code>：清屏<br>
+<code>chmod</code>：更改文件权限<br>
+<code>ps</code>：显示进程信息<br>
+<code>date</code>：获取当前日期时间<br>
+<code>kill</code>：杀死进程（向进程发送信号）<br>
+<code>grep</code>：搜索文件内容（常配合重定向 / 管道使用）<br>
+<code>diff</code>：比较文件 / 目录内容<br>
+<code>curl</code>：发送 HTTP 请求；<code>wget</code>：下载文件<br>
+未完待续…</p>
+</li>
+</ol>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>教程</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -501,7 +595,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Vscode x vim，掌握高效开发</title>
+    <title>Vscode x vim，实现高效开发</title>
     <url>/2024/07/20/vim/</url>
     <content><![CDATA[<table>
 <thead>
@@ -559,20 +653,19 @@
 <ul>
 <li>官网：<a href="https://github.com/VSCodeVim/Vim">https://github.com/VSCodeVim/Vim</a></li>
 </ul>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);">
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
 <img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221042770.png"></div>
 <p>
 <ul>
-<li>直接打开Vscode拓展搜索vim点击安装，Windows用户可以<strong>直接使用</strong>，Mac用户需要根据拓展说明在命令行执行对应语句。  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false              # For VS Code</span><br><span class="line">$ defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false      # For VS Code Insider</span><br><span class="line">$ defaults write com.vscodium ApplePressAndHoldEnabled -bool false                      # For VS Codium</span><br><span class="line">$ defaults write com.microsoft.VSCodeExploration ApplePressAndHoldEnabled -bool false   # For VS Codium Exploration users</span><br><span class="line">$ defaults delete -g ApplePressAndHoldEnabled                                           # If necessary, reset global default</span><br></pre></td></tr></table></figure>
-</li>
+<li>直接打开Vscode拓展搜索vim点击安装，Windows用户可以<strong>直接使用</strong>，Mac用户需要根据拓展说明在命令行执行对应语句。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false              # For VS Code</span><br><span class="line">$ defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false      # For VS Code Insider</span><br><span class="line">$ defaults write com.vscodium ApplePressAndHoldEnabled -bool false                      # For VS Codium</span><br><span class="line">$ defaults write com.microsoft.VSCodeExploration ApplePressAndHoldEnabled -bool false   # For VS Codium Exploration users</span><br><span class="line">$ defaults delete -g ApplePressAndHoldEnabled                                           # If necessary, reset global default</span><br></pre></td></tr></table></figure>
+<ul>
 <li>拷贝拓展说明中的配置文件到Vscode的配置文件中</li>
 </ul>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231736736.png"></div> 
-</p><p>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231734848.png">
-</div> 
-</p>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231736736.png"></div> </p><p>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407231734848.png"></div> </p>
 <ul>
 <li>或者拷贝下面的配置文件到settings.json
 <blockquote>
@@ -663,10 +756,12 @@
 <li><code>i</code> 表示inner，内部，表示操作对象是字符的内部</li>
 <li><code>a</code> 表示around，周围，表示操作对象是字符的周围</li>
 </ul>
+</li>
+</ul>
 <blockquote>
 <p>如<code>diw</code>删除当前单词，<code>ciw</code> 修改当前单词，<code>yiw</code> 复制当前单词，<code>viw</code> 选择当前单词，也可用<code>i(</code>或<code>ib</code>、<code>i&quot;</code>、<code>i&#123;</code>或<code>iB</code>、<code>it</code>等表示特殊符号包含的内容；而<code>daw</code>删除当前单词及之前的空格，<code>a(</code>或<code>ab</code>、<code>a&quot;</code>、<code>a&#123;</code>或<code>aB</code>、<code>at</code>等表示特殊符号本身及包含的内容</p>
 </blockquote>
-</li>
+<ul>
 <li>
 <p><strong>操作符operator</strong></p>
 <ul>
@@ -803,11 +898,13 @@
 <li>在Vscode配置文件<code>settings.json</code>中将<code>&lt;leader&gt;</code>设置为<code>&lt;space&gt;</code>，两次空格进入easymotion模式</li>
 </ul>
 <figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;vim.leader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&lt;space&gt;&quot;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407232204348.png" alt="例图"></p>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407232204348.png"></div> <p></p>
 <p><a id="section1"></a></p>
 <h3 id="vim-surround插件">vim-surround插件</h3>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407232208576.png" alt="vim-surround"><br>
-例如，对于下面的代码</p>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407232208576.png"></div> <p></p>
+<p>例如，对于下面的代码</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(hello world);</span><br></pre></td></tr></table></figure>
 <p>在normal模式下，输入<code>ysi(&quot;</code>，就可以将<code>hello world</code>用括号括起来，变成</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
@@ -825,9 +922,9 @@
       <tags>
         <tag>学习</tag>
         <tag>教程</tag>
-        <tag>工具</tag>
         <tag>笔记</tag>
         <tag>vscode</tag>
+        <tag>工具</tag>
         <tag>vim</tag>
         <tag>编辑器</tag>
       </tags>
