@@ -1,229 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>基于github与hexo的个人博客搭建教程</title>
-    <url>/2024/07/24/BlogBuildingGuide/</url>
-    <content><![CDATA[<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
-<ul>
-<li>当我们从头开始迈入CS学习的大门时，都必然会参考学习网络上丰富的各类资源。无论你是习惯于查阅CSDN、知乎，还是在浏览器中直接搜索，都一定会找到许多前人之鉴。很多个人博客文章，都能给予小白莫大的帮助。</li>
-<li>然而，随着CS学习的深入，我们可能会发现，许多博客文章也许并不正确，亦或我们自己也找到一些很好的解决方法。这时，我们可能会萌生自己搭建一个博客的想法，以便于记录自己的学习过程，分享自己的心得体会，甚至与志同道合的人交流。</li>
-<li>因此，本教程将简要介绍如何使用GitHub Pages和Hexo搭建一个Window系统下的简易个人博客，并使用Butterfly主题进行美化，同时配置Picgo作为图床以提高访问速度。通过本教程，你可以快速搭建一个属于自己的博客，并享受写作和分享的乐趣。</li>
-</ul>
-<blockquote>
-<p>本教程面向的是和我一样的CS小白，也会提供一些我遇上的bug我解决思路。并且我需要强调的是，如果你有更多的精力和资源，完全可以选择购买云服务器，甚至可以自己从头开始写一个博客网站。但如果你像我一样，既想有一个自己的博客，又不想投入太多学习成本，那么本教程将是一个很好的选择。</p>
-</blockquote>
-<h3 id="准备工作">准备工作</h3>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407241217735.jpg"></div>
-<p>
-<ol>
-<li>
-<p><strong>GitHub账号</strong>：首先，你需要有一个GitHub账号，用于在<a href="https://pages.github.com/">Github pages</a>在线部署博客，在Github仓库托管和发布自己的静态网站页面。如果没有，请先注册一个<a href="https://github.com/">Github账号</a>。</p>
-</li>
-<li>
-<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/">Node.js官网</a>下载并安装。</p>
-</li>
-<li>
-<p><strong>Git</strong>：<br>
-Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
-</li>
-<li>
-<p><strong>PicGo</strong>：PicGo是一个用于快速上传图片并生成图片链接的工具，我们将使用它来配置图床。我们可以从<a href="https://picgo.github.io/PicGo-Doc/">PicGo官网</a>下载并安装。</p>
-</li>
-</ol>
-</p><h3 id="搭建步骤">搭建步骤</h3>
-<h4 id="环境搭建">环境搭建</h4>
-<h4 id="1-创建GitHub-Pages仓库">1. 创建GitHub Pages仓库</h4>
-<ol>
-<li>登录GitHub，点击右上角的“+”号，选择“New repository”。</li>
-<li>在“Repository name”中输入你的用户名，例如<code>yourusername.github.io</code>。</li>
-<li>选择“Public”作为仓库的可见性。</li>
-<li>勾选“Initialize this repository with a README”。</li>
-<li>点击“Create repository”按钮。</li>
-</ol>
-<h4 id="2-安装Hexo">2. 安装Hexo</h4>
-<ol>
-<li>打开终端，输入以下命令安装Hexo： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-</li>
-<li>创建一个新的Hexo博客文件夹，并进入该文件夹： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br></pre></td></tr></table></figure>
-</li>
-<li>初始化Hexo博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-</li>
-<li>安装Hexo的依赖： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="3-配置Hexo">3. 配置Hexo</h4>
-<ol>
-<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
-<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Title</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Subtitle</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Description</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Your</span> <span class="string">Name</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">en</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://yourusername.github.io</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/yourusername/yourusername.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>保存并关闭<code>_config.yml</code>文件。</li>
-</ol>
-<h4 id="4-安装Butterfly主题">4. 安装Butterfly主题</h4>
-<ol>
-<li>在终端中输入以下命令安装Butterfly主题： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-</li>
-<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
-<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">butterfly</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>保存并关闭<code>_config.yml</code>文件。</li>
-</ol>
-<h4 id="5-配置PicGo">5. 配置PicGo</h4>
-<ol>
-<li>打开PicGo，点击“图床设置”。</li>
-<li>选择“GitHub图床”，点击“确定”。</li>
-<li>输入GitHub的Access Token，可以在GitHub的Settings -&gt; Developer settings -&gt; Personal access tokens中生成。</li>
-<li>输入GitHub的仓库名称，格式为<code>yourusername/yourrepository</code>。</li>
-<li>输入分支名称，一般为<code>master</code>。</li>
-<li>输入存储路径，一般为<code>img</code>。</li>
-<li>输入自定义域名，一般为<code>https://cdn.jsdelivr.net/gh/yourusername/yourrepository</code>。</li>
-<li>点击“确定”保存配置。</li>
-</ol>
-<h3 id="6-创建博客文章">6. 创建博客文章</h3>
-<ol>
-<li>在终端中输入以下命令创建新的博客文章： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;Your Blog Post Title&quot;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>进入生成的文章文件夹，使用文本编辑器打开<code>source/_posts/Your Blog Post Title.md</code>文件。</li>
-<li>编辑文章内容，可以使用Markdown语法。</li>
-<li>保存并关闭文章文件。</li>
-</ol>
-<h3 id="7-部署博客">7. 部署博客</h3>
-<ol>
-<li>在终端中输入以下命令生成静态文件： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-</li>
-<li>在终端中输入以下命令部署博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-</li>
-<li>等待部署完成，打开浏览器，访问<code>https://yourusername.github.io</code>即可查看你的博客。</li>
-</ol>
-<h2 id="结语">结语</h2>
-<p>以上还是草稿</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
-        <tag>hexo</tag>
-        <tag>博客</tag>
-        <tag>学习</tag>
-        <tag>教程</tag>
-        <tag>网站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Markdown语法学习</title>
-    <url>/2024/03/14/markdownnote/</url>
-    <content><![CDATA[<h6 id="2024-1-21">2024.1.21</h6>
-<p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br>
-<strong>学习参考</strong>：<a href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
-<span id="more"></span>
-<h3 id="Part-1-Markdown概述">Part.1 Markdown概述</h3>
-<h6 id="markdown是什么，为什么要学？">markdown是什么，为什么要学？</h6>
-<ol>
-<li>首先，如果UHO没学markdown <i>(如学)</i>，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><s>伟大，无需多言</s></li>
-<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：</li>
-</ol>
-<pre><code># heading                &lt;h1&gt;heading&lt;/h1&gt;
-## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;
-- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;
-- **strong importance**
-- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;
-- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-</code></pre>
-<ol start="3">
-<li>可以看出markdown实际上就是对与HTML的简化，<s>能够帮助笨人偷懒</s>有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？<s>那当然是万能的记事本喽</s><br>个人觉得VScode里的<a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">MPE插件</a>就挺好<s>才不是因为本蒟蒻只用过这个捏</s><br></li>
-</ol>
-<hr>
-<h3 id="Part-2-Markdown语法简介">Part.2 Markdown语法简介</h3>
-<p><s>看这个干嘛，自己看官网自己试呗</s></p>
-<h6 id="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档">基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档</h6>
-<ol>
-<li><code># 一级标题</code> <code>## 二级标题</code> <code>### 三级标题</code><br> <code>#### 四级标题</code> <code>##### 五级标题</code> <code>###### 六级标题</code> 不同数量的<code>#</code>开头外加一个或多个空格就可以表示标题了~<br>然后<code>=====</code> <code>-----</code>任意多的<code>=</code> <code>-</code>也可以分别表示一级和二级标题.</li>
-<li>至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</li>
-<li><code>&gt; 引言</code>一个<code>&gt;</code>后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</li>
-<li>无序列表是<code>-</code> <code>+</code> <code>*</code>后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</li>
-</ol>
-<ul>
-<li>第一级
-<ul>
-<li>第二级
-<ul>
-<li>第三级</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ol start="5">
-<li>
-<p>有序列表是任意数字加<code>.</code>表示，软件会自动处理序号。</p>
-</li>
-<li>
-<p>分割线<code>***</code> <code>----</code> <code>___</code>至少重复三次，要和刚刚说的标题区分。</p>
-</li>
-<li>
-<p>代码块可以是空行加缩进，也可以是<code>```或者~~~</code>加语言名称(加的话才能显示高亮)，行内代码则是<code>``</code>，在内部写就行。</p>
-</li>
-<li>
-<p><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*</code> <code>**粗体**</code> <code>__也是粗体__</code><br>
-<code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</p>
-</li>
-<li>
-<p>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。</p>
-</li>
-</ol>
-<p><s>先去吃个饭</s></p>
-<hr>
-<ol start="10">
-<li>
-<p>表格的写法<br>
-<code>    |表头|表头|表头|</code> <br><code> |:--|:--:|--:|</code> <br><code>    |居左|居中|居右|</code><br><code>    |abcde|fghij|klmno|</code><br><code>    |.......|.......|.......|</code></p>
-</li>
-<li>
-<p>插入脚注<code>[^脚注名]</code> ,<br>
-添加脚注<code>[^脚注名]:脚注内容</code></p>
-</li>
-<li>
-<p>任务列表，使用<code>- [ ]</code>插入未完成任务，使用<code>- [x]</code>插入已完成任务</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>教程</tag>
-        <tag>笔记</tag>
-        <tag>Markdown</tag>
-        <tag>vscode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2024/05/15/test/</url>
-    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
-<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
-<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
-</h3>]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell学习笔记</title>
     <url>/2024/03/14/shelllearning/</url>
     <content><![CDATA[<h2 id="shell">shell</h2>
@@ -331,9 +108,232 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
         <category>工具</category>
       </categories>
       <tags>
+        <tag>工具</tag>
         <tag>学习</tag>
         <tag>教程</tag>
-        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于github与hexo的个人博客搭建教程</title>
+    <url>/2024/07/24/BlogBuildingGuide/</url>
+    <content><![CDATA[<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
+<ul>
+<li>当我们从头开始迈入CS学习的大门时，都必然会参考学习网络上丰富的各类资源。无论你是习惯于查阅CSDN、知乎，还是在浏览器中直接搜索，都一定会找到许多前人之鉴。很多个人博客文章，都能给予小白莫大的帮助。</li>
+<li>然而，随着CS学习的深入，我们可能会发现，许多博客文章也许并不正确，亦或我们自己也找到一些很好的解决方法。这时，我们可能会萌生自己搭建一个博客的想法，以便于记录自己的学习过程，分享自己的心得体会，甚至与志同道合的人交流。</li>
+<li>因此，本教程将简要介绍如何使用GitHub Pages和Hexo搭建一个Window系统下的简易个人博客，并使用Butterfly主题进行美化，同时配置Picgo作为图床以提高访问速度。通过本教程，你可以快速搭建一个属于自己的博客，并享受写作和分享的乐趣。</li>
+</ul>
+<blockquote>
+<p>本教程面向的是和我一样的CS小白，也会提供一些我遇上的bug我解决思路。并且我需要强调的是，如果你有更多的精力和资源，完全可以选择购买云服务器，甚至可以自己从头开始写一个博客网站。但如果你像我一样，既想有一个自己的博客，又不想投入太多学习成本，那么本教程将是一个很好的选择。</p>
+</blockquote>
+<h3 id="准备工作">准备工作</h3>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407241217735.jpg"></div>
+<p>
+<ol>
+<li>
+<p><strong>GitHub账号</strong>：首先，你需要有一个GitHub账号，用于在<a href="https://pages.github.com/">Github pages</a>在线部署博客，在Github仓库托管和发布自己的静态网站页面。如果没有，请先注册一个<a href="https://github.com/">Github账号</a>。</p>
+</li>
+<li>
+<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/">Node.js官网</a>下载并安装。</p>
+</li>
+<li>
+<p><strong>Git</strong>：<br>
+Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
+</li>
+<li>
+<p><strong>PicGo</strong>：PicGo是一个用于快速上传图片并生成图片链接的工具，我们将使用它来配置图床。我们可以从<a href="https://picgo.github.io/PicGo-Doc/">PicGo官网</a>下载并安装。</p>
+</li>
+</ol>
+</p><h3 id="搭建步骤">搭建步骤</h3>
+<h4 id="环境搭建">环境搭建</h4>
+<h4 id="1-创建GitHub-Pages仓库">1. 创建GitHub Pages仓库</h4>
+<ol>
+<li>登录GitHub，点击右上角的“+”号，选择“New repository”。</li>
+<li>在“Repository name”中输入你的用户名，例如<code>yourusername.github.io</code>。</li>
+<li>选择“Public”作为仓库的可见性。</li>
+<li>勾选“Initialize this repository with a README”。</li>
+<li>点击“Create repository”按钮。</li>
+</ol>
+<h4 id="2-安装Hexo">2. 安装Hexo</h4>
+<ol>
+<li>打开终端，输入以下命令安装Hexo： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li>创建一个新的Hexo博客文件夹，并进入该文件夹： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br></pre></td></tr></table></figure>
+</li>
+<li>初始化Hexo博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+</li>
+<li>安装Hexo的依赖： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="3-配置Hexo">3. 配置Hexo</h4>
+<ol>
+<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
+<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Title</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Subtitle</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Description</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Your</span> <span class="string">Name</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">en</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://yourusername.github.io</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/yourusername/yourusername.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭<code>_config.yml</code>文件。</li>
+</ol>
+<h4 id="4-安装Butterfly主题">4. 安装Butterfly主题</h4>
+<ol>
+<li>在终端中输入以下命令安装Butterfly主题： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+</li>
+<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
+<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">butterfly</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭<code>_config.yml</code>文件。</li>
+</ol>
+<h4 id="5-配置PicGo">5. 配置PicGo</h4>
+<ol>
+<li>打开PicGo，点击“图床设置”。</li>
+<li>选择“GitHub图床”，点击“确定”。</li>
+<li>输入GitHub的Access Token，可以在GitHub的Settings -&gt; Developer settings -&gt; Personal access tokens中生成。</li>
+<li>输入GitHub的仓库名称，格式为<code>yourusername/yourrepository</code>。</li>
+<li>输入分支名称，一般为<code>master</code>。</li>
+<li>输入存储路径，一般为<code>img</code>。</li>
+<li>输入自定义域名，一般为<code>https://cdn.jsdelivr.net/gh/yourusername/yourrepository</code>。</li>
+<li>点击“确定”保存配置。</li>
+</ol>
+<h3 id="6-创建博客文章">6. 创建博客文章</h3>
+<ol>
+<li>在终端中输入以下命令创建新的博客文章： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;Your Blog Post Title&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>进入生成的文章文件夹，使用文本编辑器打开<code>source/_posts/Your Blog Post Title.md</code>文件。</li>
+<li>编辑文章内容，可以使用Markdown语法。</li>
+<li>保存并关闭文章文件。</li>
+</ol>
+<h3 id="7-部署博客">7. 部署博客</h3>
+<ol>
+<li>在终端中输入以下命令生成静态文件： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li>在终端中输入以下命令部署博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li>等待部署完成，打开浏览器，访问<code>https://yourusername.github.io</code>即可查看你的博客。</li>
+</ol>
+<h2 id="结语">结语</h2>
+<p>以上还是草稿</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>教程</tag>
+        <tag>github</tag>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+        <tag>网站</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2024/05/15/test/</url>
+    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
+<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
+<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
+</h3>]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown语法学习</title>
+    <url>/2024/03/14/markdownnote/</url>
+    <content><![CDATA[<h6 id="2024-1-21">2024.1.21</h6>
+<p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br>
+<strong>学习参考</strong>：<a href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
+<span id="more"></span>
+<h3 id="Part-1-Markdown概述">Part.1 Markdown概述</h3>
+<h6 id="markdown是什么，为什么要学？">markdown是什么，为什么要学？</h6>
+<ol>
+<li>首先，如果UHO没学markdown <i>(如学)</i>，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><s>伟大，无需多言</s></li>
+<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：</li>
+</ol>
+<pre><code># heading                &lt;h1&gt;heading&lt;/h1&gt;
+## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;
+- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;
+- **strong importance**
+- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;
+- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+</code></pre>
+<ol start="3">
+<li>可以看出markdown实际上就是对与HTML的简化，<s>能够帮助笨人偷懒</s>有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？<s>那当然是万能的记事本喽</s><br>个人觉得VScode里的<a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">MPE插件</a>就挺好<s>才不是因为本蒟蒻只用过这个捏</s><br></li>
+</ol>
+<hr>
+<h3 id="Part-2-Markdown语法简介">Part.2 Markdown语法简介</h3>
+<p><s>看这个干嘛，自己看官网自己试呗</s></p>
+<h6 id="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档">基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档</h6>
+<ol>
+<li><code># 一级标题</code> <code>## 二级标题</code> <code>### 三级标题</code><br> <code>#### 四级标题</code> <code>##### 五级标题</code> <code>###### 六级标题</code> 不同数量的<code>#</code>开头外加一个或多个空格就可以表示标题了~<br>然后<code>=====</code> <code>-----</code>任意多的<code>=</code> <code>-</code>也可以分别表示一级和二级标题.</li>
+<li>至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</li>
+<li><code>&gt; 引言</code>一个<code>&gt;</code>后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</li>
+<li>无序列表是<code>-</code> <code>+</code> <code>*</code>后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</li>
+</ol>
+<ul>
+<li>第一级
+<ul>
+<li>第二级
+<ul>
+<li>第三级</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>
+<p>有序列表是任意数字加<code>.</code>表示，软件会自动处理序号。</p>
+</li>
+<li>
+<p>分割线<code>***</code> <code>----</code> <code>___</code>至少重复三次，要和刚刚说的标题区分。</p>
+</li>
+<li>
+<p>代码块可以是空行加缩进，也可以是<code>```或者~~~</code>加语言名称(加的话才能显示高亮)，行内代码则是<code>``</code>，在内部写就行。</p>
+</li>
+<li>
+<p><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*</code> <code>**粗体**</code> <code>__也是粗体__</code><br>
+<code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</p>
+</li>
+<li>
+<p>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。</p>
+</li>
+</ol>
+<p><s>先去吃个饭</s></p>
+<hr>
+<ol start="10">
+<li>
+<p>表格的写法<br>
+<code>    |表头|表头|表头|</code> <br><code> |:--|:--:|--:|</code> <br><code>    |居左|居中|居右|</code><br><code>    |abcde|fghij|klmno|</code><br><code>    |.......|.......|.......|</code></p>
+</li>
+<li>
+<p>插入脚注<code>[^脚注名]</code> ,<br>
+添加脚注<code>[^脚注名]:脚注内容</code></p>
+</li>
+<li>
+<p>任务列表，使用<code>- [ ]</code>插入未完成任务，使用<code>- [x]</code>插入已完成任务</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>教程</tag>
+        <tag>笔记</tag>
+        <tag>Markdown</tag>
+        <tag>vscode</tag>
       </tags>
   </entry>
   <entry>
@@ -920,11 +920,11 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
         <category>工具</category>
       </categories>
       <tags>
+        <tag>工具</tag>
         <tag>学习</tag>
         <tag>教程</tag>
         <tag>笔记</tag>
         <tag>vscode</tag>
-        <tag>工具</tag>
         <tag>vim</tag>
         <tag>编辑器</tag>
       </tags>
