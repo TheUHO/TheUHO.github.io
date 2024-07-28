@@ -13,7 +13,7 @@
 <blockquote>
 <p>本教程面向的是和我一样的CS小白，也会提供一些我遇上的bug我解决思路。并且我需要强调的是，如果你有更多的精力和资源，完全可以选择购买云服务器，甚至可以自己从头开始写一个博客网站。但如果你像我一样，既想有一个自己的博客，又不想投入太多学习成本，那么本教程将是一个很好的选择。</p>
 </blockquote>
-<h3 id="准备工作">准备工作</h3>
+<h3 id="所需工具网站">所需工具网站</h3>
 <div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
 <img src="https://gitee.com/TheUHO/blog/raw/master/images/202407241217735.jpg"></div>
 <p>
@@ -22,18 +22,58 @@
 <p><strong>GitHub账号</strong>：首先，你需要有一个GitHub账号，用于在<a href="https://pages.github.com/">Github pages</a>在线部署博客，在Github仓库托管和发布自己的静态网站页面。如果没有，请先注册一个<a href="https://github.com/">Github账号</a>。</p>
 </li>
 <li>
-<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/">Node.js官网</a>下载并安装。</p>
+<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/zh-cn">Node.js官网</a>下载并安装。</p>
 </li>
 <li>
-<p><strong>Git</strong>：<br>
-Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
+<p><strong>Git</strong>：Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
 </li>
 <li>
 <p><strong>PicGo</strong>：PicGo是一个用于快速上传图片并生成图片链接的工具，我们将使用它来配置图床。我们可以从<a href="https://picgo.github.io/PicGo-Doc/">PicGo官网</a>下载并安装。</p>
 </li>
 </ol>
 </p><h3 id="搭建步骤">搭建步骤</h3>
+<ul>
+<li>参考<a href="https://zhuanlan.zhihu.com/p/60578464">一篇知乎专栏</a>、<a href="https://hexo.io/zh-cn/docs/">Hexo官方文档</a>、<a href="https://pages.github.com/">Github pages官方文档</a>和<a href="https://onlyar.site/2024/01/11/hexo-guide-1/https://butterfly.js.org/">一位学长的博客</a>，我们将根据以下流程搭建个人博客。</li>
+</ul>
+<figure>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281121165.png" alt="流程图"></div>
+<p><figcaption style="text-align: center;" class="center">免费个人博客搭建流程图</figcaption>
+</p></figure>
 <h4 id="环境搭建">环境搭建</h4>
+<ol>
+<li>进入Git官网<a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a> 下载对应版本(此处以Windows为例)</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281150467.png
+" class="center"></div>
+<p>
+<ol start="2">
+<li>进入<a href="https://nodejs.org/zh-cn/download/prebuilt-installer">Node.js下载界面</a>下载安装对应版本(仍以Windows为例)</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281159724.png" class="center"></div>
+</p><p>
+<ol start="3">
+<li>在桌面右键点击&quot;在终端打开&quot;，输入以下命令检查是否安装成功：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+</p><p>当三个命令都返回版本号时，说明环境搭建成功。</p>
+<h4 id="安装Hexo">安装Hexo</h4>
+<ol>
+<li>打开终端，输入以下命令安装Hexo：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>打开资源管理器，选择一个合适的目录，创建一个新的Hexo博客文件夹，例如<code>myblog</code>，并进入该文件夹：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>初始化Hexo博客：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
 <h4 id="创建GitHub-Pages仓库">创建GitHub Pages仓库</h4>
 <ol>
 <li>登录GitHub，点击右上角的“+”号，选择“New repository”。</li>
@@ -42,7 +82,7 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
 <li>勾选“Initialize this repository with a README”。</li>
 <li>点击“Create repository”按钮。</li>
 </ol>
-<h4 id="安装Hexo">安装Hexo</h4>
+<h4 id="安装Hexo-2">安装Hexo</h4>
 <ol>
 <li>打开终端，输入以下命令安装Hexo： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 </li>
@@ -315,6 +355,22 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
       </tags>
   </entry>
   <entry>
+    <title>第一篇博客！</title>
+    <url>/2024/03/13/theFirstBlog/</url>
+    <content><![CDATA[<h1>For the first time</h1>
+<p>鼓掌鼓掌<br>
+今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
+特此纪念</p>
+]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>test</title>
     <url>/2024/05/15/test/</url>
     <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
@@ -335,22 +391,6 @@ Git是一个版本控制工具，用于管理代码的版本。我们可以从<a
       </categories>
       <tags>
         <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第一篇博客！</title>
-    <url>/2024/03/13/theFirstBlog/</url>
-    <content><![CDATA[<h1>For the first time</h1>
-<p>鼓掌鼓掌<br>
-今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
-特此纪念</p>
-]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
-        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
