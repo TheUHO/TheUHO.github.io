@@ -833,8 +833,7 @@
 <li><code>%</code> 跳转到匹配的括号</li>
 <li><code>n</code> 跳转到下一个匹配的字符</li>
 <li><code>N</code> 跳转到上一个匹配的字符</li>
-<li><code>Ctrl + d</code> <code>Ctrl + u</code> 向下向上翻页</li>
-<li><code>Ctrl + f</code> <code>Ctrl + b</code> 向下向上翻页</li>
+<li><code>Ctrl + d</code>、<code>Ctrl + u</code>或<code>Ctrl + b</code> 向下向上翻页</li>
 <li><code>Ctrl + e</code> <code>Ctrl + y</code> 向下向上滚动一行</li>
 <li><code>Ctrl + g</code> 显示当前行号和文件信息</li>
 </ul>
