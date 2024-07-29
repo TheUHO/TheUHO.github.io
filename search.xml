@@ -3,8 +3,7 @@
   <entry>
     <title>基于github与hexo的个人博客搭建教程</title>
     <url>/2024/07/24/BlogBuildingGuide/</url>
-    <content><![CDATA[<p><strong>尚在施工</strong></p>
-<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
+    <content><![CDATA[<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
 <ul>
 <li>当我们从头开始迈入CS学习的大门时，都必然会参考学习网络上丰富的各类资源。无论你是习惯于查阅CSDN、知乎，还是在浏览器中直接搜索，都一定会找到许多前人之鉴。很多个人博客文章，都能给予小白莫大的帮助。</li>
 <li>然而，随着CS学习的深入，我们可能会发现，许多博客文章也许并不正确，亦或我们自己也找到一些很好的解决方法。这时，我们可能会萌生自己搭建一个博客的想法，以便于记录自己的学习过程，分享自己的心得体会，甚至与志同道合的人交流。</li>
@@ -427,6 +426,22 @@
       </tags>
   </entry>
   <entry>
+    <title>第一篇博客！</title>
+    <url>/2024/03/13/theFirstBlog/</url>
+    <content><![CDATA[<h1>For the first time</h1>
+<p>鼓掌鼓掌<br>
+今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
+特此纪念</p>
+]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>二叉树学习笔记</title>
     <url>/2024/04/28/treelearning1/</url>
     <content><![CDATA[<h4 id="树和二叉树">树和二叉树</h4>
@@ -666,22 +681,6 @@
       <tags>
         <tag>学习</tag>
         <tag>数据结构</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第一篇博客！</title>
-    <url>/2024/03/13/theFirstBlog/</url>
-    <content><![CDATA[<h1>For the first time</h1>
-<p>鼓掌鼓掌<br>
-今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
-特此纪念</p>
-]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
-        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
