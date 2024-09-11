@@ -1,6 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>基于github与hexo的个人博客搭建教程</title>
+    <url>/2024/07/24/BlogBuildingGuide/</url>
+    <content><![CDATA[<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
+<ul>
+<li>当我们从头开始迈入CS学习的大门时，都必然会参考学习网络上丰富的各类资源。无论你是习惯于查阅CSDN、知乎，还是在浏览器中直接搜索，都一定会找到许多前人之鉴。很多个人博客文章，都能给予小白莫大的帮助。</li>
+<li>然而，随着CS学习的深入，我们可能会发现，许多博客文章也许并不正确，亦或我们自己也找到一些很好的解决方法。这时，我们可能会萌生自己搭建一个博客的想法，以便于记录自己的学习过程，分享自己的心得体会，甚至与志同道合的人交流。</li>
+<li>因此，本教程将简要介绍如何使用GitHub Pages和Hexo搭建一个Window系统下的简易个人博客，并使用Butterfly主题进行美化，同时配置Picgo作为图床以提高访问速度。通过本教程，你可以快速搭建一个属于自己的博客，并享受写作和分享的乐趣。</li>
+</ul>
+<blockquote>
+<p>本教程面向的是和我一样的CS小白，也会提供一些我遇上的bug我解决思路。并且我需要强调的是，如果你有更多的精力和资源，完全可以选择购买云服务器，甚至可以自己从头开始写一个博客网站。但如果你像我一样，既想有一个自己的博客，又不想投入太多学习成本，那么本教程将是一个很好的选择。</p>
+</blockquote>
+<h3 id="所需工具网站">所需工具网站</h3>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407241217735.jpg"></div>
+<p>
+<ol>
+<li>
+<p><strong>GitHub账号</strong>：首先，你需要有一个GitHub账号，用于在<a href="https://pages.github.com/">Github pages</a>在线部署博客，在Github仓库托管和发布自己的静态网站页面。如果没有，请先注册一个<a href="https://github.com/">Github账号</a>。</p>
+</li>
+<li>
+<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/zh-cn">Node.js官网</a>下载并安装。</p>
+</li>
+<li>
+<p><strong>Git</strong>：Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
+</li>
+<li>
+<p><strong>PicGo</strong>：PicGo是一个用于快速上传图片并生成图片链接的工具，我们将使用它来配置图床。我们可以从<a href="https://picgo.github.io/PicGo-Doc/">PicGo官网</a>下载并安装。</p>
+</li>
+</ol>
+</p><h3 id="搭建步骤">搭建步骤</h3>
+<ul>
+<li>参考<a href="https://zhuanlan.zhihu.com/p/60578464">一篇知乎专栏</a>、<a href="https://hexo.io/zh-cn/docs/">Hexo官方文档</a>、<a href="https://pages.github.com/">Github pages官方文档</a>和<a href="https://onlyar.site/2024/01/11/hexo-guide-1/https://butterfly.js.org/">一位学长的博客</a>，我们将根据以下流程搭建个人博客。</li>
+</ul>
+<figure>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407291104549.png" alt="流程图"></div>
+<p><figcaption style="text-align: center;" class="center">免费个人博客搭建流程图</figcaption>
+</p></figure>
+<h4 id="环境搭建">环境搭建</h4>
+<ol>
+<li>进入Git官网<a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a> 下载对应版本(此处以Windows为例)</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281150467.png
+" class="center"></div>
+<p>
+<ol start="2">
+<li>进入<a href="https://nodejs.org/zh-cn/download/prebuilt-installer">Node.js下载界面</a>下载安装对应版本(仍以Windows为例)</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281159724.png" class="center"></div>
+</p><p>
+<ol start="3">
+<li>在桌面右键点击&quot;在终端打开&quot;，输入以下命令检查是否安装成功：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+</p><p>当三个命令都返回版本号时，说明环境搭建成功。</p>
+<h4 id="创建GitHub-Pages仓库">创建GitHub Pages仓库</h4>
+<ol>
+<li>登录或注册GitHub后，桌面右键打开Git Bash，输入以下命令设置用户名和邮箱：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Github 用户名&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.email <span class="string">&quot;Github 用户邮箱</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>输入以下命令创建SSH Key：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;Github 用户邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>按照提示完成创建，默认保存路径为C:\Users\用户名.ssh，用记事本打开该路径，复制id_rsa.pub文件中的内容。</li>
+<li>登录GitHub，点击右上角头像，选择<code>Settings</code>，在左侧选择<code>SSH and GPG keys</code>，点击<code>New SSH key</code>，将刚刚复制的公钥粘贴到Key中，Title可以随意填写，最后选择<code>Add SSH key</code>。</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407290942095.png" class="center"></div>
+<p>
+<ol start="5">
+<li>打开Git Bash，输入以下命令检查是否连接成功：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+</p><p>输入<code>yes</code>确认后，如果返回<code>Hi 用户名! You've successfully authenticated, but GitHub does not provide shell access.</code>说明连接成功。</p>
+<ol>
+<li>Github首页点击右上角的“+”号，选择“New repository”创建Github Pages仓库。</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407290908296.png" class="center"></div>
+<p>
+<ol start="2">
+<li>在“Repository name”中输入你的用户名，例如<code>用户名.github.io</code>。</li>
+<li>选择“Public”作为仓库的可见性。</li>
+<li>勾选“Add a README file”。</li>
+<li>点击“Create repository”按钮。</li>
+</ol>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407290915320.png" class="center"></div>
+</p><p>
+</p><h4 id="安装部署Hexo程序">安装部署Hexo程序</h4>
+<ol>
+<li>打开终端，输入以下命令安装Hexo：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>打开资源管理器，选择一个合适的目录，创建一个新的Hexo博客文件夹，例如<code>myblog</code>，并进入该文件夹：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>初始化Hexo博客并安装组件：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init      <span class="comment"># 初始化</span></span><br><span class="line">npm install    <span class="comment"># 安装组件</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要耐心等待一段时间，可以挂个梯子加速</p>
+</blockquote>
+<ol start="4">
+<li>成功后可输入以下命令查看博客：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p><code>Ctrl</code>+左键点击终端上的<code>http://localhost:4000</code>或打开浏览器，输入<code>http://localhost:4000</code>，即可看到Hexo博客的初始页面。</p>
+<ol start="5">
+<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
+<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Title</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Subtitle</span> <span class="comment">#选填</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Description</span> <span class="comment">#选填</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Your</span> <span class="string">Name</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span> <span class="comment">#一般填这个</span></span><br><span class="line"></span><br><span class="line"><span class="string">···</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://用户名.github.io</span> <span class="comment">#或是绑定的域名</span></span><br><span class="line"></span><br><span class="line"><span class="string">···</span></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/用户名/用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭<code>_config.yml</code>文件，输入<code>hexo d</code>部署网站。这时候访问<code>https://用户名.github.io</code>就可以看到你的博客了。</li>
+</ol>
+<h4 id="安装配置Butterfly主题">安装配置Butterfly主题</h4>
+<ol>
+<li>在终端中输入以下命令安装Butterfly主题： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-theme-butterfly</span><br></pre></td></tr></table></figure>
+</li>
+<li>打开Hexo博客文件夹，打开<code>_config.yml</code>文件，修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">···</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">butterfly</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭<code>_config.yml</code>文件。</li>
+<li>按照themes\butterfly_config.yml的路径打开配置文件，根据<a href="https://butterfly.js.org/posts/21cfbf15/">Butterfly主题的官方文档</a>进行配置。</li>
+</ol>
+<blockquote>
+<p>文档比较长，一些不想要的功能跳过就好</p>
+</blockquote>
+<ol start="6">
+<li>重新部署网站，即可看到Butterfly主题的效果。</li>
+</ol>
+<h4 id="绑定配置域名-可选">绑定配置域名(可选)</h4>
+<ol>
+<li>
+<p>去<a href="https://cloud.tencent.com/">腾讯云</a>、<a href="https://cn.aliyun.com/">阿里云</a>或者其他域名注册商走一遍注册流程，购买一个域名，如<code>yourdomain.com</code>。</p>
+</li>
+<li>
+<p>在Github仓库下创建一个CNAME(别名记录)文件，命名为<code>CNAME</code>文件内容为你的域名，如<code>yourdomain.com</code>。</p>
+</li>
+<li>
+<p>在域名管理后台添加CNAME解析，将<code>yourdomain.com</code>解析到<code>用户名.github.io</code>。参考网站上的教程或者搜索相关教程。</p>
+</li>
+<li>
+<p>等待解析生效，即可通过域名访问博客。</p>
+</li>
+</ol>
+<h4 id="配置PicGo图床">配置PicGo图床</h4>
+<blockquote>
+<p>由于Github国内访问速度感人，现在配置出来的博客访问也是极其缓慢的，这时我们可以考虑使用国内的图床网站，如腾讯云COS，阿里云COS，Gitee等，利用PicGo软件进行图床管理，将图片上传到图床，然后在博客中引用图床中的图片。此处建议搜索相关教程，我使用的是Gitee <s>(因为免费)</s></p>
+</blockquote>
+<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407291151044.png" class="center"></div>
+<p>
+</p><h4 id="创建博客文章">创建博客文章</h4>
+<ol>
+<li>在终端中输入以下命令创建新的博客文章： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;Your Blog Post Title&quot;</span> <span class="comment">#hexo n</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>根据<code>source/_posts/Your Blog Post Title.md</code>路径打开文件编辑即可。</li>
+<li>写完后保存文章文件。</li>
+</ol>
+<h4 id="部署博客">部署博客</h4>
+<ol>
+<li>在终端中输入以下命令生成静态文件： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li>在终端中输入以下命令部署博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>或者直接输入以下命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>等待部署完成，打开浏览器，访问<code>https://用户名.github.io</code>或者绑定的域名即可查看你的博客。</li>
+</ol>
+<h3 id="结语">结语</h3>
+<blockquote>
+<p>至此，我们已经成功创建了一个基于Hexo和Github Pages的博客，并且可以通过域名访问你的博客。我自己在搭建的过程中还碰见了很多问题，但都可以通过搜索相关回复解决。这篇文章只是给出博客搭建的实现思路和简要教程，你仍然可以通过Hexo的其他插件来美化你的博客。希望这篇博客对你有所帮助，祝你使用愉快！</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+        <tag>学习</tag>
+        <tag>教程</tag>
+        <tag>网站</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机组成原理笔记</title>
     <url>/2024/09/11/ComputerConstructionNote/</url>
     <content><![CDATA[<h3 id="计算机组成概述">计算机组成概述</h3>
@@ -482,232 +681,10 @@ Sun SPARCstation20(RISC):多总线结构</p>
       </categories>
       <tags>
         <tag>学习</tag>
+        <tag>教程</tag>
         <tag>笔记</tag>
         <tag>vscode</tag>
         <tag>Markdown</tag>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于github与hexo的个人博客搭建教程</title>
-    <url>/2024/07/24/BlogBuildingGuide/</url>
-    <content><![CDATA[<h3 id="前言：跨出成为CS人的重要一步">前言：跨出成为CS人的重要一步</h3>
-<ul>
-<li>当我们从头开始迈入CS学习的大门时，都必然会参考学习网络上丰富的各类资源。无论你是习惯于查阅CSDN、知乎，还是在浏览器中直接搜索，都一定会找到许多前人之鉴。很多个人博客文章，都能给予小白莫大的帮助。</li>
-<li>然而，随着CS学习的深入，我们可能会发现，许多博客文章也许并不正确，亦或我们自己也找到一些很好的解决方法。这时，我们可能会萌生自己搭建一个博客的想法，以便于记录自己的学习过程，分享自己的心得体会，甚至与志同道合的人交流。</li>
-<li>因此，本教程将简要介绍如何使用GitHub Pages和Hexo搭建一个Window系统下的简易个人博客，并使用Butterfly主题进行美化，同时配置Picgo作为图床以提高访问速度。通过本教程，你可以快速搭建一个属于自己的博客，并享受写作和分享的乐趣。</li>
-</ul>
-<blockquote>
-<p>本教程面向的是和我一样的CS小白，也会提供一些我遇上的bug我解决思路。并且我需要强调的是，如果你有更多的精力和资源，完全可以选择购买云服务器，甚至可以自己从头开始写一个博客网站。但如果你像我一样，既想有一个自己的博客，又不想投入太多学习成本，那么本教程将是一个很好的选择。</p>
-</blockquote>
-<h3 id="所需工具网站">所需工具网站</h3>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407241217735.jpg"></div>
-<p>
-<ol>
-<li>
-<p><strong>GitHub账号</strong>：首先，你需要有一个GitHub账号，用于在<a href="https://pages.github.com/">Github pages</a>在线部署博客，在Github仓库托管和发布自己的静态网站页面。如果没有，请先注册一个<a href="https://github.com/">Github账号</a>。</p>
-</li>
-<li>
-<p><strong>Node.js和npm</strong>：Hexo是基于Node.js的静态博客框架，因此你需要安装Node.js和npm。我们可以从<a href="https://nodejs.org/zh-cn">Node.js官网</a>下载并安装。</p>
-</li>
-<li>
-<p><strong>Git</strong>：Git是一个版本控制工具，用于管理代码的版本。我们可以从<a href="https://git-scm.com/">Git官网</a>下载并安装。</p>
-</li>
-<li>
-<p><strong>PicGo</strong>：PicGo是一个用于快速上传图片并生成图片链接的工具，我们将使用它来配置图床。我们可以从<a href="https://picgo.github.io/PicGo-Doc/">PicGo官网</a>下载并安装。</p>
-</li>
-</ol>
-</p><h3 id="搭建步骤">搭建步骤</h3>
-<ul>
-<li>参考<a href="https://zhuanlan.zhihu.com/p/60578464">一篇知乎专栏</a>、<a href="https://hexo.io/zh-cn/docs/">Hexo官方文档</a>、<a href="https://pages.github.com/">Github pages官方文档</a>和<a href="https://onlyar.site/2024/01/11/hexo-guide-1/https://butterfly.js.org/">一位学长的博客</a>，我们将根据以下流程搭建个人博客。</li>
-</ul>
-<figure>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407291104549.png" alt="流程图"></div>
-<p><figcaption style="text-align: center;" class="center">免费个人博客搭建流程图</figcaption>
-</p></figure>
-<h4 id="环境搭建">环境搭建</h4>
-<ol>
-<li>进入Git官网<a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a> 下载对应版本(此处以Windows为例)</li>
-</ol>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281150467.png
-" class="center"></div>
-<p>
-<ol start="2">
-<li>进入<a href="https://nodejs.org/zh-cn/download/prebuilt-installer">Node.js下载界面</a>下载安装对应版本(仍以Windows为例)</li>
-</ol>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407281159724.png" class="center"></div>
-</p><p>
-<ol start="3">
-<li>在桌面右键点击&quot;在终端打开&quot;，输入以下命令检查是否安装成功：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-</p><p>当三个命令都返回版本号时，说明环境搭建成功。</p>
-<h4 id="创建GitHub-Pages仓库">创建GitHub Pages仓库</h4>
-<ol>
-<li>登录或注册GitHub后，桌面右键打开Git Bash，输入以下命令设置用户名和邮箱：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Github 用户名&quot;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.email <span class="string">&quot;Github 用户邮箱</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>输入以下命令创建SSH Key：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;Github 用户邮箱&quot;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>按照提示完成创建，默认保存路径为C:\Users\用户名.ssh，用记事本打开该路径，复制id_rsa.pub文件中的内容。</li>
-<li>登录GitHub，点击右上角头像，选择<code>Settings</code>，在左侧选择<code>SSH and GPG keys</code>，点击<code>New SSH key</code>，将刚刚复制的公钥粘贴到Key中，Title可以随意填写，最后选择<code>Add SSH key</code>。</li>
-</ol>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407290942095.png" class="center"></div>
-<p>
-<ol start="5">
-<li>打开Git Bash，输入以下命令检查是否连接成功：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-</p><p>输入<code>yes</code>确认后，如果返回<code>Hi 用户名! You've successfully authenticated, but GitHub does not provide shell access.</code>说明连接成功。</p>
-<ol>
-<li>Github首页点击右上角的“+”号，选择“New repository”创建Github Pages仓库。</li>
-</ol>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407290908296.png" class="center"></div>
-<p>
-<ol start="2">
-<li>在“Repository name”中输入你的用户名，例如<code>用户名.github.io</code>。</li>
-<li>选择“Public”作为仓库的可见性。</li>
-<li>勾选“Add a README file”。</li>
-<li>点击“Create repository”按钮。</li>
-</ol>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407290915320.png" class="center"></div>
-</p><p>
-</p><h4 id="安装部署Hexo程序">安装部署Hexo程序</h4>
-<ol>
-<li>打开终端，输入以下命令安装Hexo：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>打开资源管理器，选择一个合适的目录，创建一个新的Hexo博客文件夹，例如<code>myblog</code>，并进入该文件夹：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>初始化Hexo博客并安装组件：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init      <span class="comment"># 初始化</span></span><br><span class="line">npm install    <span class="comment"># 安装组件</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>需要耐心等待一段时间，可以挂个梯子加速</p>
-</blockquote>
-<ol start="4">
-<li>成功后可输入以下命令查看博客：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p><code>Ctrl</code>+左键点击终端上的<code>http://localhost:4000</code>或打开浏览器，输入<code>http://localhost:4000</code>，即可看到Hexo博客的初始页面。</p>
-<ol start="5">
-<li>打开Hexo博客文件夹，找到<code>_config.yml</code>文件，使用文本编辑器打开。</li>
-<li>修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Title</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Subtitle</span> <span class="comment">#选填</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Your</span> <span class="string">Blog</span> <span class="string">Description</span> <span class="comment">#选填</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Your</span> <span class="string">Name</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span> <span class="comment">#一般填这个</span></span><br><span class="line"></span><br><span class="line"><span class="string">···</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://用户名.github.io</span> <span class="comment">#或是绑定的域名</span></span><br><span class="line"></span><br><span class="line"><span class="string">···</span></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/用户名/用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>保存并关闭<code>_config.yml</code>文件，输入<code>hexo d</code>部署网站。这时候访问<code>https://用户名.github.io</code>就可以看到你的博客了。</li>
-</ol>
-<h4 id="安装配置Butterfly主题">安装配置Butterfly主题</h4>
-<ol>
-<li>在终端中输入以下命令安装Butterfly主题： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-theme-butterfly</span><br></pre></td></tr></table></figure>
-</li>
-<li>打开Hexo博客文件夹，打开<code>_config.yml</code>文件，修改以下配置： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">···</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">butterfly</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>保存并关闭<code>_config.yml</code>文件。</li>
-<li>按照themes\butterfly_config.yml的路径打开配置文件，根据<a href="https://butterfly.js.org/posts/21cfbf15/">Butterfly主题的官方文档</a>进行配置。</li>
-</ol>
-<blockquote>
-<p>文档比较长，一些不想要的功能跳过就好</p>
-</blockquote>
-<ol start="6">
-<li>重新部署网站，即可看到Butterfly主题的效果。</li>
-</ol>
-<h4 id="绑定配置域名-可选">绑定配置域名(可选)</h4>
-<ol>
-<li>
-<p>去<a href="https://cloud.tencent.com/">腾讯云</a>、<a href="https://cn.aliyun.com/">阿里云</a>或者其他域名注册商走一遍注册流程，购买一个域名，如<code>yourdomain.com</code>。</p>
-</li>
-<li>
-<p>在Github仓库下创建一个CNAME(别名记录)文件，命名为<code>CNAME</code>文件内容为你的域名，如<code>yourdomain.com</code>。</p>
-</li>
-<li>
-<p>在域名管理后台添加CNAME解析，将<code>yourdomain.com</code>解析到<code>用户名.github.io</code>。参考网站上的教程或者搜索相关教程。</p>
-</li>
-<li>
-<p>等待解析生效，即可通过域名访问博客。</p>
-</li>
-</ol>
-<h4 id="配置PicGo图床">配置PicGo图床</h4>
-<blockquote>
-<p>由于Github国内访问速度感人，现在配置出来的博客访问也是极其缓慢的，这时我们可以考虑使用国内的图床网站，如腾讯云COS，阿里云COS，Gitee等，利用PicGo软件进行图床管理，将图片上传到图床，然后在博客中引用图床中的图片。此处建议搜索相关教程，我使用的是Gitee <s>(因为免费)</s></p>
-</blockquote>
-<div style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);box-sizing: border-box">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407291151044.png" class="center"></div>
-<p>
-</p><h4 id="创建博客文章">创建博客文章</h4>
-<ol>
-<li>在终端中输入以下命令创建新的博客文章： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;Your Blog Post Title&quot;</span> <span class="comment">#hexo n</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>根据<code>source/_posts/Your Blog Post Title.md</code>路径打开文件编辑即可。</li>
-<li>写完后保存文章文件。</li>
-</ol>
-<h4 id="部署博客">部署博客</h4>
-<ol>
-<li>在终端中输入以下命令生成静态文件： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-</li>
-<li>在终端中输入以下命令部署博客： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>或者直接输入以下命令</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>等待部署完成，打开浏览器，访问<code>https://用户名.github.io</code>或者绑定的域名即可查看你的博客。</li>
-</ol>
-<h3 id="结语">结语</h3>
-<blockquote>
-<p>至此，我们已经成功创建了一个基于Hexo和Github Pages的博客，并且可以通过域名访问你的博客。我自己在搭建的过程中还碰见了很多问题，但都可以通过搜索相关回复解决。这篇文章只是给出博客搭建的实现思路和简要教程，你仍然可以通过Hexo的其他插件来美化你的博客。希望这篇博客对你有所帮助，祝你使用愉快！</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>教程</tag>
-        <tag>github</tag>
-        <tag>hexo</tag>
-        <tag>博客</tag>
-        <tag>网站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2024/05/15/test/</url>
-    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
-<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
-<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
-</h3>]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -821,6 +798,287 @@ Sun SPARCstation20(RISC):多总线结构</p>
         <tag>学习</tag>
         <tag>教程</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2024/05/15/test/</url>
+    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
+<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
+<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
+</h3>]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第一篇博客！</title>
+    <url>/2024/03/13/theFirstBlog/</url>
+    <content><![CDATA[<h1>For the first time</h1>
+<p>鼓掌鼓掌<br>
+今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
+特此纪念</p>
+]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树学习笔记</title>
+    <url>/2024/04/28/treelearning1/</url>
+    <content><![CDATA[<h4 id="树和二叉树">树和二叉树</h4>
+<p><strong>2024.4.25 DS笔记</strong></p>
+<table>
+<thead>
+<tr>
+<th>目录跳转</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#section1">1. 树的结构</a></td>
+</tr>
+<tr>
+<td><a href="#section2">2. 树的储存结构</a></td>
+</tr>
+<tr>
+<td><a href="#section3">3. 二叉树</a></td>
+</tr>
+<tr>
+<td><a href="#section4">4. 二叉树的存储结构</a></td>
+</tr>
+<tr>
+<td><a href="#section5">5. 二叉树的遍历</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="section1"></a></p>
+<ol>
+<li>
+<h5 id="树的结构">树的结构</h5>
+<ul>
+<li><strong>结点</strong>：
+<ul>
+<li><strong>叶结点</strong>：度为0的结点 <em>(终端结点)</em>；</li>
+<li><strong>分支结点</strong>：度非0的结点 <em>(非终端结点)</em>；</li>
+<li><strong>结点的度</strong>：结点子树的数目；</li>
+</ul>
+  <span id="more"></span>
+</li>
+<li><strong>结点间关系</strong>：结点的子树的根称为该结点的孩子(child)，相应地，该结点称为孩子结点的父结点(或双亲，parent)同一个双亲的孩子之间互称兄弟;</li>
+<li><strong>树的度</strong>：结点度的最大值</li>
+<li><strong>树的层次</strong>：根结点为第一层，孩子结点依次加一；</li>
+<li><strong>树的深度</strong>：树中结点所处的最大层数；</li>
+<li><strong>路径</strong>：对于树中任意结点dj，若在树中存在一个结点序列d1，d2，…di，…，dj，使得di是di+1的双亲(1≤i&lt;j)，则称该结点序列是从d1到dj的一条路径，路径的长度为j-1；</li>
+<li><strong>树林</strong>：m≥0 棵不相交的树组成的树的集合；</li>
+<li><strong>树的有序性</strong>：若树中结点的子树的相对位置不能随意改变, 则称该树为有序树，否则称该树为无序树；</li>
+</ul>
+</li>
+</ol>
+<p><a id="sectio2"></a></p>
+<ol start="2">
+<li>
+<h5 id="树的储存结构">树的储存结构</h5>
+<ol>
+<li><strong>多重链表结构</strong>
+<ul>
+<li>定长结点的多重链表结构<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135093.png" alt="定长结点链表结构"></li>
+<li>不定长结点的多重链表结构<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135092.jpg" alt="不定长结点链表结构"></li>
+</ul>
+</li>
+<li><strong>三重链表结构</strong><br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135094.png" alt="三重链表结构"><br>
+<a id="section3"></a></li>
+</ol>
+</li>
+<li>
+<h5 id="二叉树">二叉树</h5>
+<ol>
+<li><font color="#BB1C1C">二叉树</font>是 n ≥ 0个结点的有穷集合D与D上关系的集合R构成的结构，记为T，二叉树是有序树，区分左右子树；</li>
+<li>两种特殊形态的二叉树
+<ul>
+<li>满二叉树：二叉树中的结点,或者为叶结点， 或者具有两棵非空子树,并且叶结点都集中在二叉树的最下面一层；</li>
+<li>完全二叉树：二叉树中只有最下面两层的结点的度可以小于2，并且最下面一层的结点(叶结点)都依次排列在该层从左至右的位置上；</li>
+</ul>
+</li>
+<li>二叉树的性质
+<ul>
+<li>具有n个结点的非空二叉树共有<strong>n-1</strong>个分支；</li>
+<li>非空二叉树的第 <strong>i</strong> 层最多有2<sup>i–1</sup>个结点( i ≥1)；</li>
+<li>深度为 h 的非空二叉树最多有2<sup>h</sup> –1个结点；</li>
+<li>若非空二叉树有n<SUB>0</SUB>个叶结点,有n<SUB>2</SUB>个度为2的结点,则 n<SUB>0</SUB>=n<SUB>2</SUB>+1;</li>
+<li>具有n个结点的非空完全二叉树的深度为 h=⌊log<SUB>2</SUB>n⌋+1；</li>
+<li>若对具有n个结点的完全二叉树按照层次从上到下,每层从左到右的顺序进行编号, 则编号为i的结点具有以下性质:
+<ul>
+<li>(1) 当i=1,则编号为i的结点为二叉树的根结点；若i &gt;1,则编号为i 的结点的双亲的编号为⌊i/2⌋；</li>
+<li>(2) 若2i&gt;n,则编号为i的结点无左子树; 若2i≤n,则编号为i 的结点的左孩子的编号为2i；</li>
+<li>(3) 若2i+1&gt;n,则编号为i 的结点无右子树; 若2i+1≤n,则编号为i 的结点的右孩子的编号为 2i+1。<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135095.png" alt="图示"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>二叉树的基本操作
+<ul>
+<li><font color="#FF4500">INITIAL(T)</font> 初始(创建)一棵二叉树；</li>
+<li><font color="#FF4500">ROOT(T)</font> 求二叉树T的根结点, 或求结点x 所在二叉树的根结点；</li>
+<li><font color="#FF4500">PARENT(T,x)</font>  求二叉树T中结点x的双亲结点；</li>
+<li><font color="#FF4500">LCHILD(T,x)</font>或<font color="#FF4500">RCHILD(T,x)</font>  分别求二叉树T中结点x的左孩子结点或右孩子结点；</li>
+<li><font color="#FF4500"> LDELETE(T,x)</font>或<font color="#FF4500"> RDELETE(T,x)</font>   分别删除二叉树T中以结点x为根的左子树或右子树；</li>
+<li><font color="#FF4500">TRAVERSE(T)</font>  按照某种次序(或原则)依次访问二叉树T中各个结点，得到由该二叉树的所有结点组成的序列；</li>
+<li><font color="#FF4500">LAYER(T,x)</font> 求二叉树中结点x所处的层次；</li>
+<li><font color="#FF4500">DEPTH(T)</font> 求二叉树T的深度；</li>
+<li><font color="#FF4500">DESTROY(T)</font> 销毁一棵二叉树；</li>
+</ul>
+</li>
+<li>二叉树与树、树林之间的转换*
+<ul>
+<li>树与二叉树的转换
+<ol>
+<li>在所有相邻的兄弟结点之间分别加一条连线；</li>
+<li>对于每一个分支结点，除了其最左孩子外，删除该结点与其他孩子结点之间的连线；</li>
+<li>以根结点为轴心，顺时针旋转45°；<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135086.png" alt="图示"></li>
+</ol>
+</li>
+<li>树林与二叉树的转换
+<ol>
+<li>分别将树林中每一棵树转换为一棵二叉树；</li>
+<li>从最后那一棵二叉树开始，依次将后一棵二叉树的根结点作为前一棵二叉树的根结点的右孩子，直到所有二叉树都这样处理。这样得到的二叉树的根结点是树林中第一棵二叉树的根结点；<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135088.png" alt="图示"></li>
+</ol>
+</li>
+<li>二叉树还原成树
+<ol>
+<li>若某结点是其双亲结点的左孩子，则将该结点的右孩子以及当且仅当连续地沿此右孩子的右子树方向的所有结点都分别与该结点的双亲结点用一根虚线连接；</li>
+<li>去掉二叉树中所有双亲结点与其右孩子的连线；</li>
+<li>规整图形(即使各结点按照层次排列),并将虚线改成实线；<br>
+<a id="section4"></a></li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<h5 id="二叉树的存储结构">二叉树的存储结构</h5>
+<ol>
+<li>
+<p>二叉树的顺序存储结构</p>
+<ol>
+<li>完全二叉树的顺序存储结构：对于深度为h的完全二叉树, 将树中所有结点的数据信息按照编号的顺序依次存储到一维数组BT[0…2<sup>h</sup>-2]中,由于编号与数组下标一一对应，该数组就是该完全二叉树的顺序存储结构</li>
+<li>一般二叉树的顺序存储结构：对于一般二叉树, 只须在二叉树中“添加”一些实际上二叉树中并不存在的“虚结点” (可以认为这些结点的数据信息为空)， 使其在形式上成为一棵“完全二叉树”，然后按照完全二叉树的顺序存储结构的构造方法将所有结点的数据信息依次存放于数组BT[0…2<sup>h</sup>-2]中；</li>
+</ol>
+</li>
+<li>
+<p>二叉树的链式存储结构</p>
+<ol>
+<li>二叉链表 <code>lchild</code> <code>data</code> <code>rchild</code> 分别表示左子树的指针域、数据域、右子树的指针域；</li>
+</ol>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135089.png" alt="图示"></p>
+<ol start="2">
+<li>二叉链表 <code>data</code> <code>parent</code> <code>lchild</code> <code>rchild</code> 分别表示数据域、双亲结点的指针域、左子树的指针域、右子树的指针域；</li>
+</ol>
+ <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">parent</span>, *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135090.png" alt="图示"><br>
+<a id="section5"></a></p>
+</li>
+</ol>
+</li>
+<li>
+<h5 id="二叉树的遍历">二叉树的遍历</h5>
+<ol>
+<li>
+<p>常用的遍历方法：</p>
+<ol>
+<li><a href="#qianxubianli"><font color="#FF4500">前序遍历DLR</font></a></li>
+<li><a href="#zhongxubianli"><font color="#FF4500">中序遍历LDR</font></a></li>
+<li><a href="#houxubianli"><font color="#FF4500">后序遍历LRD</font></a></li>
+<li><a href="#cengcibianli"><font color="#FF4500">按层次遍历</font></a></li>
+</ol>
+</li>
+<li>
+<p>前序遍历<br>
+<a id="qianxubianli"></a></p>
+<ul>
+<li>原则：若被遍历的二叉树非空, 则
+<ol>
+<li>访问根结点；</li>
+<li>以前序遍历原则遍历根结点的左子树；</li>
+<li>以前序遍历原则遍历根结点的右子树；<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135091.png" alt="图示"><br>
+<font color="#3198FD">前序序列：</font><font color="#FF4500">A B D E C G H I F</font></li>
+</ol>
+</li>
+<li>递归算法</li>
+</ul>
+ <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        preorder(t-&gt;lchild);</span><br><span class="line">        preorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>中序遍历<br>
+<a id="qianxubianli"></a></p>
+<ul>
+<li>原则：若被遍历的二叉树非空,则
+<ol>
+<li>以中序遍历原则遍历根结点的左子树；</li>
+<li>访问根结点；</li>
+<li>以中序遍历原则遍历根结点的右子树；<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135091.png" alt="图示"><br>
+<font color="#3198FD">中序序列：</font><font color="#FF4500">D E B A H G I C F<br>
+</font></li>
+</ol>
+</li>
+<li>递归算法</li>
+</ul>
+ <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        inorder(t-&gt;lchild);</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        inorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>后序遍历<br>
+<a id="qianxubianli"></a></p>
+<ul>
+<li>原则：若被遍历的二叉树非空,则
+<ol>
+<li>以中序遍历原则遍历根结点的左子树；</li>
+<li>访问根结点；</li>
+<li>以中序遍历原则遍历根结点的右子树；<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135091.png" alt="图示"><br>
+<font color="#3198FD">中序序列：</font><font color="#FF4500">D E B A H G I C F<br>
+</font></li>
+</ol>
+</li>
+<li>递归算法</li>
+</ul>
+ <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        inorder(t-&gt;lchild);</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        inorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>数据结构</tag>
       </tags>
   </entry>
   <entry>
@@ -1149,270 +1407,12 @@ Sun SPARCstation20(RISC):多总线结构</p>
       </categories>
       <tags>
         <tag>学习</tag>
+        <tag>教程</tag>
         <tag>笔记</tag>
         <tag>vscode</tag>
-        <tag>教程</tag>
         <tag>工具</tag>
         <tag>vim</tag>
         <tag>编辑器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第一篇博客！</title>
-    <url>/2024/03/13/theFirstBlog/</url>
-    <content><![CDATA[<h1>For the first time</h1>
-<p>鼓掌鼓掌<br>
-今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
-特此纪念</p>
-]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二叉树学习笔记</title>
-    <url>/2024/04/28/treelearning1/</url>
-    <content><![CDATA[<h4 id="树和二叉树">树和二叉树</h4>
-<p><strong>2024.4.25 DS笔记</strong></p>
-<table>
-<thead>
-<tr>
-<th>目录跳转</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="#section1">1. 树的结构</a></td>
-</tr>
-<tr>
-<td><a href="#section2">2. 树的储存结构</a></td>
-</tr>
-<tr>
-<td><a href="#section3">3. 二叉树</a></td>
-</tr>
-<tr>
-<td><a href="#section4">4. 二叉树的存储结构</a></td>
-</tr>
-<tr>
-<td><a href="#section5">5. 二叉树的遍历</a></td>
-</tr>
-</tbody>
-</table>
-<p><a id="section1"></a></p>
-<ol>
-<li>
-<h5 id="树的结构">树的结构</h5>
-<ul>
-<li><strong>结点</strong>：
-<ul>
-<li><strong>叶结点</strong>：度为0的结点 <em>(终端结点)</em>；</li>
-<li><strong>分支结点</strong>：度非0的结点 <em>(非终端结点)</em>；</li>
-<li><strong>结点的度</strong>：结点子树的数目；</li>
-</ul>
-  <span id="more"></span>
-</li>
-<li><strong>结点间关系</strong>：结点的子树的根称为该结点的孩子(child)，相应地，该结点称为孩子结点的父结点(或双亲，parent)同一个双亲的孩子之间互称兄弟;</li>
-<li><strong>树的度</strong>：结点度的最大值</li>
-<li><strong>树的层次</strong>：根结点为第一层，孩子结点依次加一；</li>
-<li><strong>树的深度</strong>：树中结点所处的最大层数；</li>
-<li><strong>路径</strong>：对于树中任意结点dj，若在树中存在一个结点序列d1，d2，…di，…，dj，使得di是di+1的双亲(1≤i&lt;j)，则称该结点序列是从d1到dj的一条路径，路径的长度为j-1；</li>
-<li><strong>树林</strong>：m≥0 棵不相交的树组成的树的集合；</li>
-<li><strong>树的有序性</strong>：若树中结点的子树的相对位置不能随意改变, 则称该树为有序树，否则称该树为无序树；</li>
-</ul>
-</li>
-</ol>
-<p><a id="sectio2"></a></p>
-<ol start="2">
-<li>
-<h5 id="树的储存结构">树的储存结构</h5>
-<ol>
-<li><strong>多重链表结构</strong>
-<ul>
-<li>定长结点的多重链表结构<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135093.png" alt="定长结点链表结构"></li>
-<li>不定长结点的多重链表结构<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135092.jpg" alt="不定长结点链表结构"></li>
-</ul>
-</li>
-<li><strong>三重链表结构</strong><br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135094.png" alt="三重链表结构"><br>
-<a id="section3"></a></li>
-</ol>
-</li>
-<li>
-<h5 id="二叉树">二叉树</h5>
-<ol>
-<li><font color="#BB1C1C">二叉树</font>是 n ≥ 0个结点的有穷集合D与D上关系的集合R构成的结构，记为T，二叉树是有序树，区分左右子树；</li>
-<li>两种特殊形态的二叉树
-<ul>
-<li>满二叉树：二叉树中的结点,或者为叶结点， 或者具有两棵非空子树,并且叶结点都集中在二叉树的最下面一层；</li>
-<li>完全二叉树：二叉树中只有最下面两层的结点的度可以小于2，并且最下面一层的结点(叶结点)都依次排列在该层从左至右的位置上；</li>
-</ul>
-</li>
-<li>二叉树的性质
-<ul>
-<li>具有n个结点的非空二叉树共有<strong>n-1</strong>个分支；</li>
-<li>非空二叉树的第 <strong>i</strong> 层最多有2<sup>i–1</sup>个结点( i ≥1)；</li>
-<li>深度为 h 的非空二叉树最多有2<sup>h</sup> –1个结点；</li>
-<li>若非空二叉树有n<SUB>0</SUB>个叶结点,有n<SUB>2</SUB>个度为2的结点,则 n<SUB>0</SUB>=n<SUB>2</SUB>+1;</li>
-<li>具有n个结点的非空完全二叉树的深度为 h=⌊log<SUB>2</SUB>n⌋+1；</li>
-<li>若对具有n个结点的完全二叉树按照层次从上到下,每层从左到右的顺序进行编号, 则编号为i的结点具有以下性质:
-<ul>
-<li>(1) 当i=1,则编号为i的结点为二叉树的根结点；若i &gt;1,则编号为i 的结点的双亲的编号为⌊i/2⌋；</li>
-<li>(2) 若2i&gt;n,则编号为i的结点无左子树; 若2i≤n,则编号为i 的结点的左孩子的编号为2i；</li>
-<li>(3) 若2i+1&gt;n,则编号为i 的结点无右子树; 若2i+1≤n,则编号为i 的结点的右孩子的编号为 2i+1。<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135095.png" alt="图示"></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>二叉树的基本操作
-<ul>
-<li><font color="#FF4500">INITIAL(T)</font> 初始(创建)一棵二叉树；</li>
-<li><font color="#FF4500">ROOT(T)</font> 求二叉树T的根结点, 或求结点x 所在二叉树的根结点；</li>
-<li><font color="#FF4500">PARENT(T,x)</font>  求二叉树T中结点x的双亲结点；</li>
-<li><font color="#FF4500">LCHILD(T,x)</font>或<font color="#FF4500">RCHILD(T,x)</font>  分别求二叉树T中结点x的左孩子结点或右孩子结点；</li>
-<li><font color="#FF4500"> LDELETE(T,x)</font>或<font color="#FF4500"> RDELETE(T,x)</font>   分别删除二叉树T中以结点x为根的左子树或右子树；</li>
-<li><font color="#FF4500">TRAVERSE(T)</font>  按照某种次序(或原则)依次访问二叉树T中各个结点，得到由该二叉树的所有结点组成的序列；</li>
-<li><font color="#FF4500">LAYER(T,x)</font> 求二叉树中结点x所处的层次；</li>
-<li><font color="#FF4500">DEPTH(T)</font> 求二叉树T的深度；</li>
-<li><font color="#FF4500">DESTROY(T)</font> 销毁一棵二叉树；</li>
-</ul>
-</li>
-<li>二叉树与树、树林之间的转换*
-<ul>
-<li>树与二叉树的转换
-<ol>
-<li>在所有相邻的兄弟结点之间分别加一条连线；</li>
-<li>对于每一个分支结点，除了其最左孩子外，删除该结点与其他孩子结点之间的连线；</li>
-<li>以根结点为轴心，顺时针旋转45°；<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135086.png" alt="图示"></li>
-</ol>
-</li>
-<li>树林与二叉树的转换
-<ol>
-<li>分别将树林中每一棵树转换为一棵二叉树；</li>
-<li>从最后那一棵二叉树开始，依次将后一棵二叉树的根结点作为前一棵二叉树的根结点的右孩子，直到所有二叉树都这样处理。这样得到的二叉树的根结点是树林中第一棵二叉树的根结点；<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135088.png" alt="图示"></li>
-</ol>
-</li>
-<li>二叉树还原成树
-<ol>
-<li>若某结点是其双亲结点的左孩子，则将该结点的右孩子以及当且仅当连续地沿此右孩子的右子树方向的所有结点都分别与该结点的双亲结点用一根虚线连接；</li>
-<li>去掉二叉树中所有双亲结点与其右孩子的连线；</li>
-<li>规整图形(即使各结点按照层次排列),并将虚线改成实线；<br>
-<a id="section4"></a></li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>
-<h5 id="二叉树的存储结构">二叉树的存储结构</h5>
-<ol>
-<li>
-<p>二叉树的顺序存储结构</p>
-<ol>
-<li>完全二叉树的顺序存储结构：对于深度为h的完全二叉树, 将树中所有结点的数据信息按照编号的顺序依次存储到一维数组BT[0…2<sup>h</sup>-2]中,由于编号与数组下标一一对应，该数组就是该完全二叉树的顺序存储结构</li>
-<li>一般二叉树的顺序存储结构：对于一般二叉树, 只须在二叉树中“添加”一些实际上二叉树中并不存在的“虚结点” (可以认为这些结点的数据信息为空)， 使其在形式上成为一棵“完全二叉树”，然后按照完全二叉树的顺序存储结构的构造方法将所有结点的数据信息依次存放于数组BT[0…2<sup>h</sup>-2]中；</li>
-</ol>
-</li>
-<li>
-<p>二叉树的链式存储结构</p>
-<ol>
-<li>二叉链表 <code>lchild</code> <code>data</code> <code>rchild</code> 分别表示左子树的指针域、数据域、右子树的指针域；</li>
-</ol>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135089.png" alt="图示"></p>
-<ol start="2">
-<li>二叉链表 <code>data</code> <code>parent</code> <code>lchild</code> <code>rchild</code> 分别表示数据域、双亲结点的指针域、左子树的指针域、右子树的指针域；</li>
-</ol>
- <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">ElemType data;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">Node</span> *<span class="title">parent</span>, *<span class="title">lchild</span>, *<span class="title">rchild</span>;</span></span><br><span class="line">&#125; BTNode, *BTNodeptr;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135090.png" alt="图示"><br>
-<a id="section5"></a></p>
-</li>
-</ol>
-</li>
-<li>
-<h5 id="二叉树的遍历">二叉树的遍历</h5>
-<ol>
-<li>
-<p>常用的遍历方法：</p>
-<ol>
-<li><a href="#qianxubianli"><font color="#FF4500">前序遍历DLR</font></a></li>
-<li><a href="#zhongxubianli"><font color="#FF4500">中序遍历LDR</font></a></li>
-<li><a href="#houxubianli"><font color="#FF4500">后序遍历LRD</font></a></li>
-<li><a href="#cengcibianli"><font color="#FF4500">按层次遍历</font></a></li>
-</ol>
-</li>
-<li>
-<p>前序遍历<br>
-<a id="qianxubianli"></a></p>
-<ul>
-<li>原则：若被遍历的二叉树非空, 则
-<ol>
-<li>访问根结点；</li>
-<li>以前序遍历原则遍历根结点的左子树；</li>
-<li>以前序遍历原则遍历根结点的右子树；<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135091.png" alt="图示"><br>
-<font color="#3198FD">前序序列：</font><font color="#FF4500">A B D E C G H I F</font></li>
-</ol>
-</li>
-<li>递归算法</li>
-</ul>
- <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        preorder(t-&gt;lchild);</span><br><span class="line">        preorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>中序遍历<br>
-<a id="qianxubianli"></a></p>
-<ul>
-<li>原则：若被遍历的二叉树非空,则
-<ol>
-<li>以中序遍历原则遍历根结点的左子树；</li>
-<li>访问根结点；</li>
-<li>以中序遍历原则遍历根结点的右子树；<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135091.png" alt="图示"><br>
-<font color="#3198FD">中序序列：</font><font color="#FF4500">D E B A H G I C F<br>
-</font></li>
-</ol>
-</li>
-<li>递归算法</li>
-</ul>
- <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        inorder(t-&gt;lchild);</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        inorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>后序遍历<br>
-<a id="qianxubianli"></a></p>
-<ul>
-<li>原则：若被遍历的二叉树非空,则
-<ol>
-<li>以中序遍历原则遍历根结点的左子树；</li>
-<li>访问根结点；</li>
-<li>以中序遍历原则遍历根结点的右子树；<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407221135091.png" alt="图示"><br>
-<font color="#3198FD">中序序列：</font><font color="#FF4500">D E B A H G I C F<br>
-</font></li>
-</ol>
-</li>
-<li>递归算法</li>
-</ul>
- <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorder</span><span class="params">(BTNodeptr t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (t != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        inorder(t-&gt;lchild);</span><br><span class="line">        VISIT(t);<span class="comment">//访问t结点</span></span><br><span class="line">        inorder(t-&gt;rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>学习</category>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>数据结构</tag>
       </tags>
   </entry>
 </search>
