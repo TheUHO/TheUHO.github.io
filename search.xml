@@ -200,92 +200,400 @@
       </tags>
   </entry>
   <entry>
-    <title>Markdown语法学习</title>
-    <url>/2024/03/14/markdownnote/</url>
-    <content><![CDATA[<h6 id="2024-1-21">2024.1.21</h6>
-<p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br>
-<strong>学习参考</strong>：<a href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
-<span id="more"></span>
-<h3 id="Part-1-Markdown概述">Part.1 Markdown概述</h3>
-<h6 id="markdown是什么，为什么要学？">markdown是什么，为什么要学？</h6>
-<ol>
-<li>首先，如果UHO没学markdown <i>(如学)</i>，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><s>伟大，无需多言</s></li>
-<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：</li>
-</ol>
-<pre><code># heading                &lt;h1&gt;heading&lt;/h1&gt;
-## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;
-- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;
-- **strong importance**
-- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;
-- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-</code></pre>
-<ol start="3">
-<li>可以看出markdown实际上就是对与HTML的简化，<s>能够帮助笨人偷懒</s>有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？<s>那当然是万能的记事本喽</s><br>个人觉得VScode里的<a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">MPE插件</a>就挺好<s>才不是因为本蒟蒻只用过这个捏</s><br></li>
-</ol>
+    <title>计算机组成原理笔记</title>
+    <url>/2024/09/11/ComputerConstructionNote/</url>
+    <content><![CDATA[<h3 id="计算机组成概述">计算机组成概述</h3>
+<h4 id="1-1-计算机的基本组成">1.1 计算机的基本组成</h4>
+<p>硬件、软件</p>
+<ul>
+<li>计算机的功能<br>
+Data Processing数据处理 - 运算器<br>
+Data Storage数据存储 - 存储器<br>
+Data Movement书籍移动交换 - IO设备<br>
+Control控制 - 控制器</li>
+</ul>
+<p>运算器:实现数据处理的部件datapath<br>
+ALU算数逻辑单元+Registers寄存器</p>
+<p>运算器与机器字长<br>
+运算器与机器性能指标 MIPS每秒平均运行百万条指令 CPI执行一条指令的时钟周期</p>
+<p>存储器:实现数据存储的部件<br>
+存储体+控制电路<br>
+存储体-&gt;多个存储单元-&gt;存储字(存储的二进制代码)<br>
+存储字长:每个存储单元存放的二进制代码的位数<br>
+存储容量=存储单元个数*存储字长 单位:bit、Byte、word</p>
+<p>控制器：实现控制功能的部件<br>
+提供各部件工作所需的控制信号，控制计算机其他部件协同工作<br>
+指令部件（Instruction Register ，Instruction Decoder）<br>
+指令顺序控制（Program Counter）<br>
+时序逻辑部件（Clock，Timer ，Sequencing Logic）<br>
+控制信号生成部件（Control Signal Generator or Control Memory）<br>
+Datapath运算器 ＋Control控制器 ＝CPU</p>
+<p>输入输出：实现数据交换的部件<br>
+实现计算机内部与外界（其他系统或人类）的信息交换<br>
+实现数据交换的设备：输入设备、输出设备<br>
+接口标准与接口部件</p>
+<h4 id="1-2-计算机系统层次结构">1.2 计算机系统层次结构</h4>
+<ul>
+<li>机器语言 实际机器M1 机器语言程序</li>
+<li>汇编语言 虚拟机器M2 汇编语言程序</li>
+<li>高级语言 虚拟机器M3 高级语言程序</li>
+</ul>
+<p>ISA指令集架构 定义了计算机硬件所能执行的所有指令集，是计算机软硬件的分界线</p>
+<h4 id="1-3-计算机总线结构">1.3 计算机总线结构</h4>
+<ul>
+<li>总线:符合一定标准的一组公共信息通道</li>
+<li>系统总线构成：地址总线、数据总线、控制总线</li>
+<li>总线举例： QPI/HT, PCI/PCI-E，SCSI</li>
+<li>单总线结构、多总线结构</li>
+</ul>
+<blockquote>
+<p>冯诺依曼:分散结构<br>
+早期PC内部结构:单总线结构 总线可能成为性能瓶颈，不同资源相互拖累<br>
+普通PC的内部结构:多总线结构 通过南北桥芯片进行协议的转换和信息的交换<br>
+Sun SPARCstation20(RISC):多总线结构</p>
+</blockquote>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409040804678.png" alt="计算机结构简图"></p>
 <hr>
-<h3 id="Part-2-Markdown语法简介">Part.2 Markdown语法简介</h3>
-<p><s>看这个干嘛，自己看官网自己试呗</s></p>
-<h6 id="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档">基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档</h6>
-<ol>
-<li><code># 一级标题</code> <code>## 二级标题</code> <code>### 三级标题</code><br> <code>#### 四级标题</code> <code>##### 五级标题</code> <code>###### 六级标题</code> 不同数量的<code>#</code>开头外加一个或多个空格就可以表示标题了~<br>然后<code>=====</code> <code>-----</code>任意多的<code>=</code> <code>-</code>也可以分别表示一级和二级标题.</li>
-<li>至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</li>
-<li><code>&gt; 引言</code>一个<code>&gt;</code>后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</li>
-<li>无序列表是<code>-</code> <code>+</code> <code>*</code>后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</li>
-</ol>
+<h3 id="计算机中数的表示">计算机中数的表示</h3>
 <ul>
-<li>第一级
+<li>计算机的基本功能:对数据进行操作</li>
+<li>实现功能的基本前提:能够对数字表述</li>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409040808096.png" alt><br>
+计算机的基本约束:采用二进制，只有0和1</p>
 <ul>
-<li>第二级
+<li>不同编码规则表示的含义不同</li>
+<li>数的表示要解决的问题
 <ul>
-<li>第三级</li>
+<li>数的符号:正、负、零</li>
+<li>数的形态:整数、小数、定点、浮点</li>
+<li>数的绝对值</li>
+</ul>
+</li>
+</ul>
+<h4 id="无符号数和有符号数">无符号数和有符号数</h4>
+<ul>
+<li>
+<p>无符号数</p>
+<ul>
+<li>数的编码中所有位均为数值位，没有符号位</li>
+<li>只能表示 &gt;=0 的正整数</li>
+<li>一般在全部是正数运算且不出现负值结果的场合下，可使用无符号数表示，例如 地址运算</li>
+</ul>
+<blockquote>
+<p>16位无符号数的表示范围： 0 ~ 65535</p>
+</blockquote>
+</li>
+<li>
+<p>有符号数</p>
+<ul>
+<li>
+<p>机器数表示<br>
+数的正负问题：设符号位，</p>
+<ul>
+<li>“0”表示“正”，“1”表示“负”，固定为编码的最高位。</li>
+<li>机器数和真值</li>
+<li>真值0怎么办：正零，负零</li>
+</ul>
+<p>小数点怎么办：固定小数点 （即 定点数）</p>
+<ul>
+<li>定点小数：绝对值小于1 , 如： <font color="red">0</font> ^1100000</li>
+<li>定点整数：没有小数部分, 如： <font color="red">0</font> 1100000^</li>
+</ul>
+<p>带有整数和小数部分的数怎么办：浮点数，</p>
+<ul>
+<li>按2为基的科学表示方法表示(浮点数)</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<ol start="5">
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409040822054.png" alt></p>
+<ul>
+<li>原码、反码、补码
+<ul>
+<li>原码:符号位+真值</li>
+<li>反码:符号位不变，真值取反</li>
+<li>补码:符号位不变，每位取反后加1</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">原码</th>
+<th style="text-align:center">反码</th>
+<th style="text-align:center">补码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">容易理解</td>
+<td style="text-align:center">很少使用</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">0的表示不唯一</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">0的表示唯一</td>
+</tr>
+<tr>
+<td style="text-align:center">符号位需单独处理</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">符号位不需单独处理</td>
+</tr>
+<tr>
+<td style="text-align:center">加减运算不统一</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">加减运算统一</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>浮点数表示<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409040836844.png" alt></li>
+</ul>
+<p>进制转化:十进制的小数转二进制</p>
+<ul>
+<li>小数部分：乘2取整，倒序排列</li>
+<li>整数部分：除2取余，正序排列</li>
+</ul>
+<p>规格化:将小数点移动到第一个非零数字之后，尾数保证第一位为1，此时阶码与小数点移动的位数有关</p>
+<ul>
 <li>
-<p>有序列表是任意数字加<code>.</code>表示，软件会自动处理序号。</p>
+<p>浮点数的溢出问题</p>
+<ul>
+<li>上溢、下溢</li>
+</ul>
 </li>
 <li>
-<p>分割线<code>***</code> <code>----</code> <code>___</code>至少重复三次，要和刚刚说的标题区分。</p>
+<p>IEEE754标准<br>
+符号、阶码和尾数表示</p>
 </li>
-<li>
-<p>代码块可以是空行加缩进，也可以是<code>```或者~~~</code>加语言名称(加的话才能显示高亮)，行内代码则是<code>``</code>，在内部写就行。</p>
+</ul>
+<ul>
+<li>浮点数表示公式
+<ul>
+<li>单精度浮点数<br>
+(-1)<sup>S</sup> * 1.m * 2<sup>E-127</sup></li>
+<li>双精度浮点数<br>
+(-1)<sup>S</sup> * 1.m * 2<sup>E-1023</sup></li>
+</ul>
 </li>
-<li>
-<p><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*</code> <code>**粗体**</code> <code>__也是粗体__</code><br>
-<code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</p>
+<li>单精度浮点数
+<ul>
+<li>1位符号位</li>
+<li>8位指数位</li>
+<li>23位尾数位</li>
+</ul>
 </li>
-<li>
-<p>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。</p>
+<li>双精度浮点数
+<ul>
+<li>1位符号位</li>
+<li>11位指数位</li>
+<li>52位尾数位</li>
+</ul>
 </li>
-</ol>
-<p><s>先去吃个饭</s></p>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409040905711.png" alt></p>
+<ul>
+<li>非数值数据表示<br>
+逻辑数据编码、字符编码、汉字编码、数据的检错/纠错</li>
+</ul>
 <hr>
-<ol start="10">
-<li>
-<p>表格的写法<br>
-<code>    |表头|表头|表头|</code> <br><code> |:--|:--:|--:|</code> <br><code>    |居左|居中|居右|</code><br><code>    |abcde|fghij|klmno|</code><br><code>    |.......|.......|.......|</code></p>
+<h3 id="计算机的基本工作过程">计算机的基本工作过程</h3>
+<h4 id="计算机的工作过程">计算机的工作过程</h4>
+<ul>
+<li>机器指令<br>
+算机硬件可以执行的表示一种基本操作的<br>
+二进制代码。
+<ul>
+<li>指令格式：操作码 + 操作数（操作数地址）</li>
+<li>操作码：指明指令的操作性质</li>
+<li>操作数（地址）：指令操作数的位置（或操作数本身）</li>
+</ul>
 </li>
-<li>
-<p>插入脚注<code>[^脚注名]</code> ,<br>
-添加脚注<code>[^脚注名]:脚注内容</code></p>
+<li>程序<br>
+在此特指一段机器指令序列。
+<ul>
+<li>完成一定的功能，采用某种算法，具备一定的流程；</li>
+<li>计算机按照程序所规定的流程和指令顺序，一条一条地执行指令，达到完成程序所规定的功能的目的。</li>
+<li>计算机采用程序计数器（Program Counter）来决定指令执行的顺序。</li>
+</ul>
 </li>
-<li>
-<p>任务列表，使用<code>- [ ]</code>插入未完成任务，使用<code>- [x]</code>插入已完成任务</p>
+<li>微操作<br>
+计算机可以完成的最基本的操作，一条机器指令的执行<br>
+可以解释为一系列的微操作的执行
+<ul>
+<li>操作性质：对数据进行某种处理</li>
+<li>操作对象</li>
+<li>操作的时间与条件</li>
+</ul>
 </li>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409040916194.png" alt></p>
+<h3 id="组合逻辑">组合逻辑</h3>
+<h4 id="逻辑代数基础">逻辑代数基础</h4>
+<ul>
+<li>逻辑代数的基本概念<br>
+逻辑、逻辑运算和布尔代数<br>
+布尔代数(Bollean Algebra)又叫开关代数或逻辑代数</li>
+<li>逻辑代数:逻辑代数L是一个封闭的代数系统，它由一个<br>
+逻辑变量集K，常量0和1，以及“或”、“与”、“非”<br>
+三种基本运算所构成，记为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mo stretchy="false">{</mo><mi>K</mi><mo separator="true">,</mo><mo>∨</mo><mo separator="true">,</mo><mo>∧</mo><mo separator="true">,</mo><mtext>￢</mtext><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L=\{ K,∨,∧,￢,0 ,1 \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∨</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∧</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">￢</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span>
+<ul>
+<li>逻辑变量:在逻辑运算中值会发生改变的量，由字母或字母加数字来表示，原变量(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span>)、反变量(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\overline A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>)</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>与运算(合取) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mi>B</mi><mtext>或者</mtext><mi>F</mi><mo>=</mo><mi>A</mi><mo>∧</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">F=AB或者F=A\wedge B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord cjk_fallback">或者</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></li>
+<li>或运算(析取) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo>+</mo><mi>B</mi><mtext>或者</mtext><mi>F</mi><mo>=</mo><mi>A</mi><mo>∨</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">F=A+B或者F=A∨B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord cjk_fallback">或者</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></li>
+<li>非运算(否定) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mtext>￢</mtext><mi>A</mi><mtext>或者</mtext><mi>F</mi><mo>=</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">F=￢A或者F=\overline A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">￢</span><span class="mord mathnormal">A</span><span class="mord cjk_fallback">或者</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></li>
+<li>异或运算 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo>⊕</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">F=A\oplus B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></li>
+<li>同或运算 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo>⊙</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">F=A\odot B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊙</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></li>
 </ol>
+<blockquote>
+<p>异或逻辑与同或逻辑是互非关系:<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>⊕</mo><mi>B</mi><mo>=</mo><mover accent="true"><mrow><mi>A</mi><mo>⊙</mo><mi>B</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">A\oplus B=\overline{A\odot B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9667em;vertical-align:-0.0833em;"></span><span class="mord overline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊙</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.0833em;"><span></span></span></span></span></span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>⊙</mo><mi>B</mi><mo>=</mo><mover accent="true"><mrow><mi>A</mi><mo>⊕</mo><mi>B</mi></mrow><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">A\odot B=\overline {A\oplus B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊙</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9667em;vertical-align:-0.0833em;"></span><span class="mord overline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.0833em;"><span></span></span></span></span></span></span></span></span></p>
+</blockquote>
+<ul>
+<li>逻辑运算的优先级</li>
+<li>逻辑电路的符号表示<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409091424048.png" alt></li>
+</ul>
+<h4 id="逻辑代数的基本定理">逻辑代数的基本定理</h4>
+<ul>
+<li>逻辑代数的五条公理</li>
+</ul>
+<h4 id="逻辑代数的基本定律">逻辑代数的基本定律</h4>
+<p>交换律、结合律、分配律、0·1律、互补律</p>
+<h4 id="逻辑代数基本定理">逻辑代数基本定理</h4>
+<ol>
+<li>重叠律 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>+</mo><mi>A</mi><mo>=</mo><mi>A</mi><mtext>；</mtext><mi>A</mi><mo separator="true">⋅</mo><mi>A</mi><mo>=</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">A+A=A；A·A=A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mord cjk_fallback">；</span><span class="mord mathnormal">A</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span></li>
+<li>吸收律 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>+</mo><mi>A</mi><mo separator="true">⋅</mo><mi>B</mi><mo>=</mo><mi>A</mi><mtext>；</mtext><mi>A</mi><mo separator="true">⋅</mo><mo stretchy="false">(</mo><mi>A</mi><mo>+</mo><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">A+A·B=A；A·(A+B)=A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mord cjk_fallback">；</span><span class="mord mathnormal">A</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span></li>
+<li>还原律 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover><mo stretchy="true">‾</mo></mover><mo>=</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\overline{\overline{A}}=A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.0833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span><span style="top:-4.0033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span></li>
+<li>反演律(德摩根定律) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi>A</mi><mo>+</mo><mi>B</mi></mrow><mo stretchy="true">‾</mo></mover><mo>=</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover><mo>⋅</mo><mover accent="true"><mi>B</mi><mo stretchy="true">‾</mo></mover><mtext>；</mtext><mover accent="true"><mrow><mi>A</mi><mo separator="true">⋅</mo><mi>B</mi></mrow><mo stretchy="true">‾</mo></mover><mo>=</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover><mo>+</mo><mover accent="true"><mi>B</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\overline{A+B}=\overline{A}\cdot\overline{B}；\overline{A·B}=\overline{A}+\overline{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9667em;vertical-align:-0.0833em;"></span><span class="mord overline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.0833em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord cjk_fallback">；</span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9667em;vertical-align:-0.0833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></li>
+<li>包含律 $$A·B+\overline A·C + B·C=A·B+\overline{A}·C；$$$$(A+B)·(\overline A+C)·(B+C)=(A+B)·(\overline A+C)$$</li>
+</ol>
+<h4 id="逻辑代数的规则">逻辑代数的规则</h4>
+<ol>
+<li>代入规则</li>
+<li>反演规则 与、或互换，0、1互换，原变量与反变量互换</li>
+<li>对偶规则 与、或互换，0、1互换，原变量与反变量<strong>不</strong>换</li>
+</ol>
+<h4 id="逻辑函数的表达式">逻辑函数的表达式</h4>
+<ul>
+<li>逻辑函数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>A</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>A</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>A</mi><mi>n</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F=f(A_1,A_2,\cdots,A_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+<li>逻辑函数的常用表达式<br>
+与或式、或与式、与或非式……</li>
+<li>逻辑函数的标准表达式
+<ul>
+<li>最小项表达式：全部由最小项构成的 与或式（积之和式）</li>
+<li>最大项表达式：全部由最大项构成的 或与式（和之积式）</li>
+</ul>
+</li>
+<li>最小项
+<ul>
+<li>定义:由n个变量组成的 “与” 项中，每个变量以原变量或反变量的形式出现且仅出现一次，则这个与项称为最小项。n个变量有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>个最小项</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>为书写方便，把最小项记做<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">m_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。<br>
+下标i的取值规则：按照变量顺序将最小项中的原变量用1表示、反变量用0表示，得到一个二进制数，与其对应的十进制数，即该最小项的编号i。</p>
+</blockquote>
+<ul>
+<li>最小项性质
+<ul>
+<li>对于任何一个最小项，只有对应的一组变量取值，使其值为1，其余情况下均为0；</li>
+<li>全体最小项之和为1 ；</li>
+<li>任意两个最小项的乘积为0；</li>
+<li>相邻最小项：除一个变量互为相反外，其余变量都分别相同的两个最小项。<br>
+具有相邻性的两个最小项之和，可以合并为一个乘积项，消去一个以原变量和反变量形式出现的变量，保留由没有变化的变量构成的乘积项。</li>
+</ul>
+</li>
+</ul>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>例</mtext><mo>:</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover><mover accent="true"><mi>B</mi><mo stretchy="true">‾</mo></mover><mover accent="true"><mi>C</mi><mo stretchy="true">‾</mo></mover><mo>+</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover><mover accent="true"><mi>B</mi><mo stretchy="true">‾</mo></mover><mi>C</mi><mo>=</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover><mover accent="true"><mi>B</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">例:\overline A\overline B\overline C+\overline A\overline BC=\overline A\overline B
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">例</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9667em;vertical-align:-0.0833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span></span></p>
+<ul>
+<li>最小项表达式<br>
+全部由最小项构成的与或式，也称标准与或式，可由<br>
+最小项推导法直接从真值表中导出。</li>
+</ul>
+<blockquote>
+<p>最小项推导法： 从真值表推出逻辑函数表达式的一种方法 。把输出为1的输入组合写成乘积项的形式，其中取值为 1 的输入用原变量表示，取值为 0 的输入用反变量表示，然后把这些乘积项加起来</p>
+</blockquote>
+<ul>
+<li>最大项
+<ul>
+<li>定义：由n个变量组成的 “或” 项中，每个变量以原变量或反变量的形式出现且仅出现一次，则这个或项称为最大项。n个变量有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>个最大项</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>为书写方便，把最大项记做<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">M_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。<br>
+下标i的取值规则：按照变量顺序将最大项中的原变量用0表示、反变量用1表示，得到一个二进制数，与其对应的十进制数，即该最大项的编号i。</p>
+</blockquote>
+<ul>
+<li>
+<p>最大项性质</p>
+<ul>
+<li>对于任何一个最大项，只有对应的一组变量取值，使其值为0，其余情况下均为1；</li>
+<li>全体最大项之积为0 ；</li>
+<li>任意两个最大项的加和为1；</li>
+<li>相邻最大项：除一个变量互为相反外，其余变量都分别相同的两个最大项。<br>
+具有相邻性的两个最大项之积，可以合并为一个和项，消去一个以原变量和反变量形式出现的变量，保留由没有变化的变量构成的和项。</li>
+</ul>
+</li>
+<li>
+<p>最大项表达式<br>
+全部由最大项构成的或与式，也称标准或与式，可由<br>
+最大项推导法直接从真值表中导出。</p>
+</li>
+</ul>
+<blockquote>
+<p>最大项推导法： 从真值表推出逻辑函数表达式的一种方法 。把输出为0的输入组合写成和项的形式，其中取值为 0 的输入用原变量表示，取值为 1 的输入用反变量表示，然后把这些和项乘起来</p>
+</blockquote>
+<h4 id="逻辑函数化简">逻辑函数化简</h4>
+<ul>
+<li>代数法
+<ol>
+<li>合并乘积项法 ——利用互补律消去1个变量</li>
+<li>吸收项法 ——利用吸收律和包含律减少“与”项</li>
+<li>配项法 ——利用互补律，配在乘积项上</li>
+</ol>
+</li>
+<li>卡诺图化简<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409091527691.png" alt>
+<ul>
+<li>卡诺图化简法
+<ol>
+<li>将真值表中的1填入卡诺图相应位置；</li>
+<li>找出相邻的1，并圈出最小项，注意圈1的个数只能是2的n次方（n为变量个数）；</li>
+<li>将圈出的1对应的乘积项相加，得到化简后的逻辑函数表达式。</li>
+</ol>
+</li>
+<li>卡诺图化简规则<br>
+同一卡诺图内，相邻的1可以合并为一个乘积项，同时消去取值不同的一个变量</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409091531911.png" alt></p>
+<blockquote>
+<p>注意:卡诺图边角是循环连续的，即边角只有一个值不同，也是相邻的。</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>学习</category>
-        <category>工具</category>
+        <category>CO</category>
       </categories>
       <tags>
         <tag>学习</tag>
-        <tag>教程</tag>
         <tag>笔记</tag>
-        <tag>Markdown</tag>
+        <tag>CO</tag>
+        <tag>自存</tag>
         <tag>vscode</tag>
       </tags>
   </entry>
@@ -400,6 +708,96 @@
         <tag>学习</tag>
         <tag>教程</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown语法学习</title>
+    <url>/2024/03/14/markdownnote/</url>
+    <content><![CDATA[<h6 id="2024-1-21">2024.1.21</h6>
+<p><strong>写在前面</strong>：不会就去查Markdown CommonMark<a href="spec.commonmark.org">标准文档</a><br>
+<strong>学习参考</strong>：<a href="https://note.tonycrane.cc/">鹤翔万里的笔记本</a> &amp; <a href="https://www.bilibili.com/video/BV1t34y1g7YU/?spm_id_from=333.788">通往pro的第一步丨实用技能拾遗</a></p>
+<span id="more"></span>
+<h3 id="Part-1-Markdown概述">Part.1 Markdown概述</h3>
+<h6 id="markdown是什么，为什么要学？">markdown是什么，为什么要学？</h6>
+<ol>
+<li>首先，如果UHO没学markdown <i>(如学)</i>，就不会有这篇文章了，因为本蒟蒻不会html，所以博客上的所有内容都是用markdown写的,这恰恰反映了markdown对于小白的帮助<br><s>伟大，无需多言</s></li>
+<li>然后，markdown是一种文本标记语言，所以只需要用纯文本表示格式，语法实际上是很简单的，也易于学习(大概几个小时就能学会基本语法，只要<strong>多加练习</strong>，就能熟练掌握)。然后，像上面提到的能用markdown写博客，原因也在于markdown可以转换为HTML，比如：</li>
+</ol>
+<pre><code># heading                &lt;h1&gt;heading&lt;/h1&gt;
+## sub-heading           &lt;h2&gt;sub-heading&lt;/h2&gt;
+- *emphasis*          -&gt; &lt;li&gt;&lt;em&gt;emphasis&lt;/em&gt;&lt;/li&gt;
+- **strong importance**
+- `code`                 &lt;li&gt;&lt;code&gt;code&lt;code&gt;&lt;/li&gt;
+- [links](url)           &lt;li&gt;&lt;a href=&quot;url&quot;&gt;links&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+</code></pre>
+<ol start="3">
+<li>可以看出markdown实际上就是对与HTML的简化，<s>能够帮助笨人偷懒</s>有效提高了生产力(理论上来说可以用)。至于如何编辑markdown文档呢？<s>那当然是万能的记事本喽</s><br>个人觉得VScode里的<a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">MPE插件</a>就挺好<s>才不是因为本蒟蒻只用过这个捏</s><br></li>
+</ol>
+<hr>
+<h3 id="Part-2-Markdown语法简介">Part.2 Markdown语法简介</h3>
+<p><s>看这个干嘛，自己看官网自己试呗</s></p>
+<h6 id="基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档">基本语法掌握之后可以多多尝试写文档深刻体会，最后写出美观且实用的markdown文档</h6>
+<ol>
+<li><code># 一级标题</code> <code>## 二级标题</code> <code>### 三级标题</code><br> <code>#### 四级标题</code> <code>##### 五级标题</code> <code>###### 六级标题</code> 不同数量的<code>#</code>开头外加一个或多个空格就可以表示标题了~<br>然后<code>=====</code> <code>-----</code>任意多的<code>=</code> <code>-</code>也可以分别表示一级和二级标题.</li>
+<li>至于段落，大概就是空格和换行，只不过也可以用HTML的语法来做到</li>
+<li><code>&gt; 引言</code>一个<code>&gt;</code>后接空格和内容，内部也可以正常使用markdown语法，并且能多层嵌套，退出的时候要空行。</li>
+<li>无序列表是<code>-</code> <code>+</code> <code>*</code>后接空格和内容，每一层级符号相同，下级要换行缩进，比如：</li>
+</ol>
+<ul>
+<li>第一级
+<ul>
+<li>第二级
+<ul>
+<li>第三级</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>
+<p>有序列表是任意数字加<code>.</code>表示，软件会自动处理序号。</p>
+</li>
+<li>
+<p>分割线<code>***</code> <code>----</code> <code>___</code>至少重复三次，要和刚刚说的标题区分。</p>
+</li>
+<li>
+<p>代码块可以是空行加缩进，也可以是<code>```或者~~~</code>加语言名称(加的话才能显示高亮)，行内代码则是<code>``</code>，在内部写就行。</p>
+</li>
+<li>
+<p><code>*斜体*</code> <code>_也是斜体_ </code> <code>\*这不是斜体\*</code> <code>**粗体**</code> <code>__也是粗体__</code><br>
+<code>***粗斜体***</code> <code>___也是粗斜体___</code> <code>~~删除线~~``&lt;u&gt;下划线&lt;/u&gt;</code>这些是行内的标记，除了行内代码其他都可以互相嵌套，<code>\*</code>转义使用<code>*</code>。</p>
+</li>
+<li>
+<p>图片和链接都是<code>[]()</code>的形式只不过后面是分别是图片位置和链接，也可以单用<code>&lt;链接&gt;</code>显示出来。</p>
+</li>
+</ol>
+<p><s>先去吃个饭</s></p>
+<hr>
+<ol start="10">
+<li>
+<p>表格的写法<br>
+<code>    |表头|表头|表头|</code> <br><code> |:--|:--:|--:|</code> <br><code>    |居左|居中|居右|</code><br><code>    |abcde|fghij|klmno|</code><br><code>    |.......|.......|.......|</code></p>
+</li>
+<li>
+<p>插入脚注<code>[^脚注名]</code> ,<br>
+添加脚注<code>[^脚注名]:脚注内容</code></p>
+</li>
+<li>
+<p>任务列表，使用<code>- [ ]</code>插入未完成任务，使用<code>- [x]</code>插入已完成任务</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>教程</tag>
+        <tag>笔记</tag>
+        <tag>vscode</tag>
+        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
