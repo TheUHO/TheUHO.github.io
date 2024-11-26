@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
 <meta property="article:published_time" content="2024-11-26T03:14:53.000Z">
-<meta property="article:modified_time" content="2024-11-26T03:17:01.687Z">
+<meta property="article:modified_time" content="2024-11-26T06:07:25.542Z">
 <meta property="article:author" content="theUHO">
 <meta property="article:tag" content="学习">
 <meta property="article:tag" content="CO">
@@ -64,7 +64,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2024-11-26 11:17:01'
+  postUpdate: '2024-11-26 14:07:25'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -180,7 +180,7 @@
         }
       }
       detectApple()
-    })(window)</script><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"/><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">P6-CPU设计文档[BUAA-CO]</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-26T03:14:53.000Z" title="发表于 2024-11-26 11:14:53">2024-11-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-26T03:17:01.687Z" title="更新于 2024-11-26 11:17:01">2024-11-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="P6-CPU设计文档[BUAA-CO]"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="p5流水线cpu设计文档">P5流水线CPU设计文档</h1>
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"/><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">P6-CPU设计文档[BUAA-CO]</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-26T03:14:53.000Z" title="发表于 2024-11-26 11:14:53">2024-11-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-26T06:07:25.542Z" title="更新于 2024-11-26 14:07:25">2024-11-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="P6-CPU设计文档[BUAA-CO]"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="p5流水线cpu设计文档">P5流水线CPU设计文档</h1>
 <h2 id="设计整体概述">设计整体概述</h2>
 <ol>
 <li><strong>预计实现指令集</strong>：<br>
@@ -216,21 +216,45 @@ beq、bne、nop、j、jr、jal、jalr</li>
 </tbody>
 </table>
 <ul>
-<li>
-<p>I型指令：lui、ori、andi、addi、lw、lh、lhu、lb、lbu、sw、sh、sb、beq、bne、<br>
-| opcode |  rs   |  rt   | offset |<br>
-| :----: | :—: | :—: | :----: |<br>
-|   6    |   5   |   5   |   16   |</p>
-</li>
-<li>
-<p>J型指令：j、jal<br>
-| opcode | instr_index |<br>
-| :----: | :---------: |<br>
-|   6    |     26      |</p>
-</li>
-<li>
-<p>乘除器操作指令：mult、multu、div、divu、mfhi、mflo、mthi、mtlo</p>
-</li>
+<li>I型指令：lui、ori、andi、addi、lw、lh、lhu、lb、lbu、sw、sh、sb、beq、bne、</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">rs</th>
+<th style="text-align:center">rt</th>
+<th style="text-align:center">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">16</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>J型指令：j、jal</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">instr_index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">26</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>乘除器操作指令：mult、multu、div、divu、mfhi、mflo、mthi、mtlo</li>
 </ul>
 <blockquote>
 <p>其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu</p>
@@ -2455,13 +2479,13 @@ MCU 控制单元用于生成控制信号，控制其他模块的行为。</p>
 <blockquote>
 <p>真实的流水线CPU通常使用硬件乘除器来实现乘除法运算。乘法通常有若干个较小的组合逻辑的乘法单元组成，然后每个周期计算特定的几位，依次累加起来，采取流水的方式，每个周期计算一次，从而实现乘法运算。除法运算则采取试算的方式，每次试算一位，然后根据试算结果调整被除数，直到除尽为止。</p>
 </blockquote>
-<ol>
+<ol start="3">
 <li>请结合自己的实现分析，你是如何处理 Busy 信号带来的周期阻塞的？</li>
 </ol>
 <blockquote>
 <p>busy作为乘除器模块的一种状态，当busy或者乘除器模块输出的start状态为1时，传入冒险控制器模块，若此时D级的指令为乘除法指令，则将阻塞D级指令。</p>
 </blockquote>
-<ol>
+<ol start="4">
 <li>请问采用字节使能信号的方式处理写指令有什么好处？（提示：从清晰性、统一性等角度考虑）</li>
 </ol>
 <blockquote>
@@ -2470,27 +2494,27 @@ MCU 控制单元用于生成控制信号，控制其他模块的行为。</p>
 <li>统一性：字节使能信号的使用，使得写指令的处理方式更加统一，将32位数据根据需求执行对应的写入操作，无需传入额外控制信号。</li>
 </ul>
 </blockquote>
-<ol>
+<ol start="5">
 <li>请思考，我们在按字节读和按字节写时，实际从 DM 获得的数据和向 DM 写入的数据是否是一字节？在什么情况下我们按字节读和按字节写的效率会高于按字读和按字写呢？</li>
 </ol>
 <blockquote>
 <p>不是，而是一字，这是因为我们的DM实现的按字读写，需要对于读写的数据进行拆分或拼接；当我们涉及的数据均为单个字节时，按字节读写效率更高，因为不需要进行拆分或拼接，直接读写即可。</p>
 </blockquote>
-<ol>
+<ol start="6">
 <li>为了对抗复杂性你采取了哪些抽象和规范手段？这些手段在译码和处理数据冲突的时候有什么样的特点与帮助？</li>
 </ol>
 <blockquote>
 <p>P6设计沿用了P5，将支持的指令集根据类型区分，从而将新增指令归类提取，译码时控制信号与Tnew、Tuse可直接加到对应的分类中，基本不需要再进行额外处理。<br>
 对于数据冲突处理，暂停与转发控制只需要增加乘除法指令的阻塞控制即可，而乘除法指令本身也可以分为md、mf、mt。</p>
 </blockquote>
-<ol>
+<ol start="7">
 <li>在本实验中你遇到了哪些不同指令类型组合产生的冲突？你又是如何解决的？相应的测试样例是什么样的？</li>
 </ol>
 <blockquote>
 <p>由于P6相较于P5增加了乘除法指令，而乘除槽的存在使得对于md类型的指令，乘除槽内出现的乘除法指令将会出现冒险，而我们没法通过转发的方式解决，因而只能暂停流水线。</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">lui $t0,0x1234</span><br><span class="line">lui $t2,0xffff</span><br><span class="line">ori $t0,$t0,0x6789</span><br><span class="line">ori $t1,$t1,0xabcd</span><br><span class="line">mult $t0,$t1</span><br><span class="line">mfhi $s0</span><br><span class="line">mflo $s1</span><br><span class="line">mult $t0,$t2</span><br><span class="line">mfhi $s0</span><br><span class="line">mflo $s1</span><br><span class="line">multu $t0,$t2</span><br><span class="line">mfhi $s0</span><br><span class="line">mflo $s1</span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="8">
 <li>如果你是手动构造的样例，请说明构造策略，说明你的测试程序如何保证覆盖了所有需要测试的情况；如果你是完全随机生成的测试样例，请思考完全随机的测试程序有何不足之处；如果你在生成测试样例时采用了特殊的策略，比如构造连续数据冒险序列，请你描述一下你使用的策略如何结合了随机性达到强测的效果。</li>
 </ol>
 <blockquote>
