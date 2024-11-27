@@ -6602,7 +6602,7 @@ blockquote.pullquote.right {
   }
   
   .author-content-item.map {
-    background: url(/about/map-light.webp) no-repeat center;
+    background: url(https://gitee.com/TheUHO/blog/raw/master/images/202411271710035.png) no-repeat center;
     min-height: 160px;
     max-height: 400px;
     position: relative;
@@ -6613,7 +6613,7 @@ blockquote.pullquote.right {
     transition: 1s ease-in-out;
   }
   [data-theme="dark"] .author-content-item.map {
-    background: url(/about/map-night.webp) no-repeat center;
+    background: url(https://gitee.com/TheUHO/blog/raw/master/images/202411271710035.png) no-repeat center;
     background-size: 100%;
   }
   
