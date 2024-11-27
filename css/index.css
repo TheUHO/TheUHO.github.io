@@ -6268,7 +6268,7 @@ blockquote.pullquote.right {
 #gitcalendar {
     margin: 0 auto;
     border-radius: 24px;
-    background: #7395eb;
+    background: #eef3ff;
     border: #3f5ed8;
     box-shadow: 0 0 10px 0 #3f5ed8;
     position: relative;
@@ -6350,7 +6350,7 @@ blockquote.pullquote.right {
   .author-content-item {
     width: 49%;
     border-radius: 24px;
-    background: #7395eb;
+    background: #e8edfb;
     border: #3f5ed8;
     box-shadow: 0 0 10px 0 #3f5ed8;
     position: relative;
@@ -6911,14 +6911,6 @@ blockquote.pullquote.right {
     bottom: -40%;
     transform: rotate(30deg);
     transition: 2s ease-in-out;
-  }
-  .author-content-item.game-yuanshen {
-    background: url(/about/hypixel.jpg) no-repeat top;
-    background-size: cover;
-    min-height: 300px;
-    overflow: hidden;
-    color: #fff;
-    width: 59%;
   }
   .author-content-item .content-bottom {
     margin-top: auto;
