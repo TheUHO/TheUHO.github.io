@@ -347,13 +347,6 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://theuho.site/tags/Markdown/</loc>
     <lastmod>2024-11-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -362,6 +355,13 @@
   
   <url>
     <loc>https://theuho.site/tags/vscode/</loc>
+    <lastmod>2024-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://theuho.site/tags/%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2024-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
