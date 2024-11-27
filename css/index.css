@@ -7654,9 +7654,9 @@ blockquote.pullquote.right {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 315px;
+    height: 200px;
     width: 100%;
-    background: #f3fbff;
+    background: #fbfeff;
     mix-blend-mode: screen;
   }
   [data-theme="dark"] .hello-about .content {
@@ -7667,7 +7667,7 @@ blockquote.pullquote.right {
   }
   
   .hello-about h1 {
-    font-size: 150px;
+    font-size: 100px;
     color: #000;
     margin: 0;
     text-align: center;
