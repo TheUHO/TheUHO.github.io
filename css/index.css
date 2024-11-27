@@ -7036,13 +7036,15 @@ blockquote.pullquote.right {
       padding: 1rem;
     }
     .author-content-item.map {
-      margin-bottom: 0;
+      margin-right: 1rem;
+
     }
     .author-content-item-group.column {
       width: 100% !important;
     }
     .author-content-item.selfInfo {
       height: 100%;
+      margin-left: 1rem;
     }
     .author-content-item.personalities {
       height: 170px;
