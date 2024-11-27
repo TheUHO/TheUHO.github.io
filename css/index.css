@@ -6685,7 +6685,7 @@ blockquote.pullquote.right {
     line-height: 1;
   }
   .author-content-item-group.column.mapAndInfo {
-    width: 59%;
+    width: 100%;
   }
   .author-content-item.map:hover {
     background-size: 120%;
@@ -6698,7 +6698,7 @@ blockquote.pullquote.right {
   }
   .author-content-item-group.column {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 49%;
     justify-content: space-between;
   }
