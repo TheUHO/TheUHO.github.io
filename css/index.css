@@ -7627,14 +7627,14 @@ blockquote.pullquote.right {
   }
   
   .shape.shape-1 {
-    background: #005ffe;
+    background: #2e7aff;
     width: 650px;
     height: 650px;
     margin: -325px 0 0 -325px;
   }
   
   .shape.shape-2 {
-    background: #ffe5e3;
+    background: #ff9a93;
     width: 440px;
     height: 440px;
     margin: -220px 0 0 -220px;
@@ -7656,7 +7656,7 @@ blockquote.pullquote.right {
     align-items: center;
     height: 315px;
     width: 100%;
-    background: #fff;
+    background: #f3fbff;
     mix-blend-mode: screen;
   }
   [data-theme="dark"] .hello-about .content {
