@@ -6337,6 +6337,27 @@ blockquote.pullquote.right {
     margin-top: 1rem;
   }
   
+  .author-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.author-info h1 {
+  font-size: 32px; /* 设置字体大小 */
+  opacity: 0.8;
+  line-height: 1.3;
+  color: #292929; /* 设置字体颜色 */
+  margin-bottom: 0.5rem; /* 设置底部外边距 */
+}
+
+.author-info p {
+  font-size: 24px; /* 设置字体大小 */
+  color: #494949; /* 设置字体颜色 */
+}
+  
   #about-page .myInfoAndSayHello {
     display: flex;
     flex-direction: column;
@@ -7674,7 +7695,7 @@ blockquote.pullquote.right {
     font: inherit;
     vertical-align: baseline;
     line-height: 1;
-    font-size: calc((0.0589119683 * 100vw + (48.5558852621px)));
+    font-size: calc((0.0489119683 * 100vw + (40.5558852621px)));
     width: 100%;
     height: 100%;
     display: flex;
@@ -7683,7 +7704,7 @@ blockquote.pullquote.right {
   }
   @media (min-width: 419px) {
     .hello-about h1 {
-      font-size: calc((0.0589119683 * 100vw + (48.5558852621px)));
+      font-size: calc((0.0489119683 * 100vw + (40.5558852621px)));
     }
   }
   
