@@ -7654,9 +7654,9 @@ blockquote.pullquote.right {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 315px;
     width: 100%;
-    background: #fbfeff;
+    background: #f3fbff;
     mix-blend-mode: screen;
   }
   [data-theme="dark"] .hello-about .content {
