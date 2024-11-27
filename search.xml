@@ -200,6 +200,3005 @@
       </tags>
   </entry>
   <entry>
+    <title>P3-CPU设计文档[BUAA-CO]</title>
+    <url>/2024/11/04/CO-P3-document/</url>
+    <content><![CDATA[<h2 id="p3单周期cpu设计文档">P3单周期CPU设计文档</h2>
+<h3 id="设计整体概述">设计整体概述</h3>
+<ol>
+<li><strong>预计实现指令集</strong>：add、sub、ori、Lui、lw、sw、beq、nop</li>
+</ol>
+<ul>
+<li>R型指令：add、sub、ori</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">rs</th>
+<th style="text-align:center">rt</th>
+<th style="text-align:center">rd</th>
+<th style="text-align:center">shamt</th>
+<th style="text-align:center">funct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>I型指令：lui、lw、sw、beq</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">rs</th>
+<th style="text-align:center">rt</th>
+<th style="text-align:center">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">16</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>J型指令：暂无</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">instr_inde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">26</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu</p>
+</blockquote>
+<ol start="3">
+<li><strong>实现功能</strong>：实现单周期CPU，能够执行上述指令集，采用模块化设计，顶层模块包含控制器<code>CU</code>和数据通路模块<code>ALU</code>、<code>IFU</code>、<code>NPC</code>、<code>GRF</code>、<code>DM</code>、<code>Ext</code>共七个子模块，预留了J型指令的<code>NPC</code>接口</li>
+<li><strong>顶层设计图</strong>：<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510976.png" alt></li>
+</ol>
+<h3 id="数据通路模块设计">数据通路模块设计</h3>
+<h4 id="ifu-指令单元">IFU 指令单元</h4>
+<ol>
+<li><strong>定义</strong>：模块内部包含<code>PC</code>程序计数器、<code>IM</code>指令存储器子模块，负责根据PC的值从指令存储器中读取指令，输出到数据总线。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Next_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center"><code>NPC</code>模块输出的下一条指令地址</td>
+</tr>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">stop</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">停机信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RD</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center"><code>IM</code>取得的指令</td>
+</tr>
+<tr>
+<td style="text-align:center">PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center"><code>PC</code>模块输出地址，传入<code>NPC</code>模块用于得到下一条指令地址</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510974.png" alt></p>
+<ol start="2">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位</td>
+<td style="text-align:center">当reset信号为1时，<code>PC</code>置0x00003000</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">停机</td>
+<td style="text-align:center">当stop信号为1时，<code>PC</code>保持不变</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">取指</td>
+<td style="text-align:center">当stop信号为0时，根据<code>PC</code>在clk上升沿得到的下一条指令地址，从<code>IM</code>读取指令</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510975.png" alt></p>
+<blockquote>
+<p><code>PC</code>通过寄存器实现，初始化为0x00003000<br>
+IM`通过ROM实现，取PC[13:2]作为地址，减去0x00003000后读取指令</p>
+</blockquote>
+<h4 id="npc-指令地址生成单元">NPC 指令地址生成单元</h4>
+<ol>
+<li><strong>定义</strong>：根据当前PC地址和控制信号，生成下一条指令地址。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">当前指令地址</td>
+</tr>
+<tr>
+<td style="text-align:center">instr_index</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">J型指令的立即数</td>
+</tr>
+<tr>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">I型指令的立即数</td>
+</tr>
+<tr>
+<td style="text-align:center">rs</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">jr指令的寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center">branch</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">是否执行I型指令跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">jump</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">是否执行J型指令跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">jr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">是否执行jr指令跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">Next_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">下一条指令地址</td>
+</tr>
+<tr>
+<td style="text-align:center">PC+4</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">当前指令地址+4，可用于拓展Jal指令</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510977.png" alt></p>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">PC+4</td>
+<td style="text-align:center">当branch、jump、jr组成的control信号为3’b000时,Next_PC输出PC+4</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">I型跳转</td>
+<td style="text-align:center">当branch、jump、jr组成的control信号为3’b100时,Next_PC输出PC_jump</td>
+</tr>
+</tbody>
+</table>
+<h4 id="grf-寄存器堆">GRF 寄存器堆</h4>
+<ol>
+<li><strong>定义</strong>：根据读写信号，对寄存器堆进行读写操作。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">WE</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">读寄存器1地址</td>
+</tr>
+<tr>
+<td style="text-align:center">A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">读寄存器2地址</td>
+</tr>
+<tr>
+<td style="text-align:center">A3</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">写寄存器地址</td>
+</tr>
+<tr>
+<td style="text-align:center">WD</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">写数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RD1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">读寄存器1数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RD2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">读寄存器2数据</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510972.png" alt></p>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位</td>
+<td style="text-align:center">当reset为1时，将所有寄存器置为0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">读</td>
+<td style="text-align:center">当WE为0时，将A1、A2对应的寄存器数据输出到RD1、RD2</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">写</td>
+<td style="text-align:center">当WE为1时，在时钟上升沿将A3对应的寄存器写入WD</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>A1、A2分别读取Rs、Rt寄存器，A3写入RegAddress（根据RegDst选择Rt或Rd），WD写入RegData（根据MemRead选择ALU的运算结果或I型指令的立即数）</p>
+</blockquote>
+<h4 id="alu-算术逻辑单元">ALU 算术逻辑单元</h4>
+<ol>
+<li><strong>定义</strong>：根据控制信号，对输入的两个数进行算术或逻辑运算。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">操作数1</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">操作数2</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Op</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">ALU控制信号</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Res</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">ALU运算结果</td>
+</tr>
+<tr>
+<td style="text-align:center">cmp_equal</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">A、B是否相等</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510968.png" alt></p>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">加法</td>
+<td style="text-align:center">当ALU_Op为3’b000时，ALU_Res输出A+B</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">减法</td>
+<td style="text-align:center">当ALU_Op为3’b001时，ALU_Res输出A-B</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">与</td>
+<td style="text-align:center">当ALU_Op为3’b010时，ALU_Res输出A&amp;B</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">或</td>
+<td style="text-align:center">当ALU_Op为3’b011时，ALU_Res输出A丨B</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">异或</td>
+<td style="text-align:center">当ALU_Op为3’b100时，ALU_Res输出A^B</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">低位补0</td>
+<td style="text-align:center">当ALU_Op为3’b101时，ALU_Res输出B[15:0] + 0<sup>16</sup>（实现lui指令）</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">相等</td>
+<td style="text-align:center">cmp_equal输出A是否等于B</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ext-指令扩展单元">Ext 指令扩展单元</h4>
+<ol>
+<li><strong>定义</strong>：根据控制信号，对输入的16位立即数进行零扩展或符号扩展。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">16位立即数</td>
+</tr>
+<tr>
+<td style="text-align:center">sel</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">扩展选择信号，0为零扩展，1为符号扩展</td>
+</tr>
+<tr>
+<td style="text-align:center">extend</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">扩展后的32位立即数</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">零扩展</td>
+<td style="text-align:center">当sel为0时，extend输出 0<sup>16</sup> + offset[15:0]</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">符号扩展</td>
+<td style="text-align:center">当sel为1时，extend输出 offset[15] ? 1<sup>16</sup> + offset[15:0] : 0<sup>16</sup> + offset[15:0]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="dm-数据存储器">DM 数据存储器</h4>
+<ol>
+<li><strong>定义</strong>：使用RAM实现，根据控制信号，对输入的地址和数据进行读写操作。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">address</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">32位地址</td>
+</tr>
+<tr>
+<td style="text-align:center">WD</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">32位数据</td>
+</tr>
+<tr>
+<td style="text-align:center">WE</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">读/写控制信号，0为读，1为写</td>
+</tr>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510971.png" alt></p>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">读</td>
+<td style="text-align:center">当WE为0时，输出地址对应的32位数据</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">写</td>
+<td style="text-align:center">当WE为1时，将WD写入地址对应的32位数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cu-控制单元">CU 控制单元</h3>
+<ol>
+<li>
+<p><strong>定义</strong>：利用<code>ANDLogic</code>和<code>ORLogic</code>生成控制信号，控制其他模块的行为。</p>
+</li>
+<li>
+<p><strong>端口定义</strong><br>
+控制单元需要读取指令的Op字段和Func字段，识别生成对应指令的控制信号。</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Op</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">instr[31:26]</td>
+</tr>
+<tr>
+<td style="text-align:center">Func</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">instr[5:0]</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDst</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>GRF</code>写地址选择信号，0为Rt，1为Rd</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUSrc</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>ALU</code>源选择信号，0为RD2，1为拓展后的offset</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>GRF</code>写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>DM</code>写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">is_Branch</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">I型跳转指令</td>
+</tr>
+<tr>
+<td style="text-align:center">ExtOp</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">扩展操作选择信号, 0为零拓展，1为符号拓展</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Op</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">三位ALU操作码，3’b000为加法，3’b001为减法，3’b010为与，3’b011为或，3’b100为异或</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510970.png" alt></p>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<ul>
+<li><code>ANDLogic</code>模块
+<ul>
+<li><strong>定义</strong>：根据输入信号，识别对应指令。</li>
+<li><strong>端口定义</strong>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Op</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">instr[31:26]</td>
+</tr>
+<tr>
+<td style="text-align:center">Func</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">instr[5:0]</td>
+</tr>
+<tr>
+<td style="text-align:center">add</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">add指令</td>
+</tr>
+<tr>
+<td style="text-align:center">sub</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">sub指令</td>
+</tr>
+<tr>
+<td style="text-align:center">ori</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">ori指令</td>
+</tr>
+<tr>
+<td style="text-align:center">lw</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">lw指令</td>
+</tr>
+<tr>
+<td style="text-align:center">sw</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">sw指令</td>
+</tr>
+<tr>
+<td style="text-align:center">beq</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">beq指令</td>
+</tr>
+<tr>
+<td style="text-align:center">lui</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">lui指令</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510969.png" alt></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">Op</th>
+<th style="text-align:center">[25:21]</th>
+<th style="text-align:center">[20:16]</th>
+<th style="text-align:center">[15:11]</th>
+<th style="text-align:center">[10:6]</th>
+<th style="text-align:center">[5:0]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">add</td>
+<td style="text-align:center">000000</td>
+<td style="text-align:center">rs</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">rd</td>
+<td style="text-align:center">00000</td>
+<td style="text-align:center">100000</td>
+</tr>
+<tr>
+<td style="text-align:center">sub</td>
+<td style="text-align:center">000000</td>
+<td style="text-align:center">rs</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">rd</td>
+<td style="text-align:center">00000</td>
+<td style="text-align:center">100010</td>
+</tr>
+<tr>
+<td style="text-align:center">ori</td>
+<td style="text-align:center">001101</td>
+<td style="text-align:center">rs</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">immediate</td>
+<td style="text-align:center">immediate</td>
+<td style="text-align:center">immediate</td>
+</tr>
+<tr>
+<td style="text-align:center">lw</td>
+<td style="text-align:center">100011</td>
+<td style="text-align:center">base</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">offset</td>
+</tr>
+<tr>
+<td style="text-align:center">sw</td>
+<td style="text-align:center">101011</td>
+<td style="text-align:center">base</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">offset</td>
+</tr>
+<tr>
+<td style="text-align:center">beq</td>
+<td style="text-align:center">000100</td>
+<td style="text-align:center">rs</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">offset</td>
+</tr>
+<tr>
+<td style="text-align:center">lui</td>
+<td style="text-align:center">001111</td>
+<td style="text-align:center">00000</td>
+<td style="text-align:center">rt</td>
+<td style="text-align:center">immediate</td>
+<td style="text-align:center">immediate</td>
+<td style="text-align:center">immediate</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>ORLogic</code>模块
+<ul>
+<li><strong>定义</strong>：根据输入的对应指令，生成其他模块的操作信号。</li>
+<li><strong>端口定义</strong>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">add</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">add指令</td>
+</tr>
+<tr>
+<td style="text-align:center">sub</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">sub指令</td>
+</tr>
+<tr>
+<td style="text-align:center">ori</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">ori指令</td>
+</tr>
+<tr>
+<td style="text-align:center">lw</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">lw指令</td>
+</tr>
+<tr>
+<td style="text-align:center">sw</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">sw指令</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDst</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>GRF</code>写地址选择信号，0为Rt，1为Rd</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUSrc</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>ALU</code>源选择信号，0为RD2，1为拓展后的offset</td>
+</tr>
+<tr>
+<td style="text-align:center">MemRead</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>GRF</code>数据选择信号，0为ALU_Res，1为内存读取数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>GRF</code>写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>DM</code>写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">is_Branch</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">I型跳转指令</td>
+</tr>
+<tr>
+<td style="text-align:center">ExtOp</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">扩展操作选择信号, 0为零拓展，1为符号拓展</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Op</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">三位ALU操作码，由真值表生成</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510967.png" alt><br>
+- <strong>功能实现</strong>：根据每种指令的对应操作，在输出前将指令信号进行或运算，得到其他模块的操作信号。</p>
+<h2 id="测试方案">测试方案</h2>
+<h2 id="思考题">思考题</h2>
+<ol>
+<li>上面我们介绍了通过 FSM 理解单周期 CPU 的基本方法。请大家指出单周期 CPU 所用到的模块中，哪些发挥状态存储功能，哪些发挥状态转移功能。</li>
+</ol>
+<blockquote>
+<p>GRF、DM实现了状态存储功能，通过寄存器存储当前状态，IFU、Ext、NPC、ALU、CU实现了状态转移功能，利用组合逻辑电路实现状态转移。</p>
+</blockquote>
+<ol start="2">
+<li>现在我们的模块中 IM 使用 ROM， DM 使用 RAM， GRF 使用 Register，这种做法合理吗？ 请给出分析，若有改进意见也请一并给出。</li>
+</ol>
+<blockquote>
+<p>极为合理且正确，IM模块类比于是输入，应当是只读的，DM是内存部分，需要大量存储空间，因此使用RAM，GRF是通用寄存器堆，使用32个寄存器可以提高读写速度。</p>
+</blockquote>
+<ol start="3">
+<li>在上述提示的模块之外，你是否在实际实现时设计了其他的模块？如果是的话，请给出介绍和设计的思路。</li>
+</ol>
+<blockquote>
+<p>添加了NPC模块，用于计PC的值，实现方法见上。</p>
+</blockquote>
+<ol start="4">
+<li>事实上，实现 nop 空指令，我们并不需要将它加入控制信号真值表，为什么？</li>
+</ol>
+<blockquote>
+<p>由于nop并未对其他模块进行操作，因此不需要添加控制信号，只需要保证CU模块对于nop对应的Op和Func没有任何输出，就能保证不对其他模块进行操作。</p>
+</blockquote>
+<ol start="5">
+<li>阅读 Pre 的 <a href="http://cscore.buaa.edu.cn/tutorial/mips/mips-6/mips6-1/">“MIPS 指令集及汇编语言”</a>一节中给出的测试样例，评价其强度（可从各个指令的覆盖情况，单一指令各种行为的覆盖情况等方面分析），并指出具体的不足之处。<br>
+测试样例代码</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ori $a0, $0, 123</span><br><span class="line">ori $a1, $a0, 456</span><br><span class="line">lui $a2, 123            # 符号位为 0</span><br><span class="line">lui $a3, 0xffff         # 符号位为 1</span><br><span class="line">ori $a3, $a3, 0xffff    # $a3 = -1</span><br><span class="line">add $s0, $a0, $a2      # 正正</span><br><span class="line">add $s1, $a0, $a3      # 正负</span><br><span class="line">add $s2, $a3, $a3      # 负负</span><br><span class="line">ori $t0, $0, 0x0000</span><br><span class="line">sw $a0, 0($t0)</span><br><span class="line">sw $a1, 4($t0)</span><br><span class="line">sw $a2, 8($t0)</span><br><span class="line">sw $a3, 12($t0)</span><br><span class="line">sw $s0, 16($t0)</span><br><span class="line">sw $s1, 20($t0)</span><br><span class="line">sw $s2, 24($t0)</span><br><span class="line">lw $a0, 0($t0)</span><br><span class="line">lw $a1, 12($t0)</span><br><span class="line">sw $a0, 28($t0)</span><br><span class="line">sw $a1, 32($t0)</span><br><span class="line">ori $a0, $0, 1</span><br><span class="line">ori $a1, $0, 2</span><br><span class="line">ori $a2, $0, 1</span><br><span class="line">beq $a0, $a1, loop1     # 不相等</span><br><span class="line">beq $a0, $a2, loop2     # 相等</span><br><span class="line">loop1:sw $a0, 36($t0)</span><br><span class="line">loop2:sw $a1, 40($t0)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>显然强度是不够的（不够暴力），在代码数据量和覆盖率方面都有待提高，并没有测试到所有的通用寄存器和边界情况，测试数据也不够全面。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>CO</category>
+        <category>lab</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>CO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>P5-CPU设计文档[BUAA-CO]</title>
+    <url>/2024/11/26/CO-P5-document/</url>
+    <content><![CDATA[<h1 id="p5流水线cpu设计文档">P5流水线CPU设计文档</h1>
+<h2 id="设计整体概述">设计整体概述</h2>
+<ol>
+<li><strong>预计实现指令集</strong>：add、sub、ori、Lui、lw、sw、beq、nop、j、jr、jal</li>
+</ol>
+<ul>
+<li>R型指令：add、sub、ori、jr</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">rs</th>
+<th style="text-align:center">rt</th>
+<th style="text-align:center">rd</th>
+<th style="text-align:center">shamt</th>
+<th style="text-align:center">funct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>I型指令：lui、lw、sw、beq</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">rs</th>
+<th style="text-align:center">rt</th>
+<th style="text-align:center">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">16</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>J型指令：j、jal</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">opcode</th>
+<th style="text-align:center">instr_index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">26</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu</p>
+</blockquote>
+<ol start="3">
+<li>
+<p><strong>实现功能</strong>：实现五级流水线CPU，通过F、D、E、M、W五个阶段实现指令的执行，其中F阶段为取指，D阶段为译码，E阶段为执行，M阶段为访存，W阶段为写回，各阶段均通过流水线寄存器实现流水线操作，通过转发和阻塞机制解决冒险问题。</p>
+</li>
+<li>
+<p><strong>顶层设计图</strong>：<br>
+整体架构参考了PPT上的设计<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202411261112087.png" alt="main"></p>
+</li>
+<li>
+<p><strong>命名格式</strong>：模块命名采用<code>所在级_模块名</code>方式，模块内部信号名采取<code>来源_功能</code>方式命名，顶层信号采用<code>所在级_模块名_信号名</code>方式命名。</p>
+</li>
+</ol>
+<h2 id="数据通路模块设计">数据通路模块设计</h2>
+<h3 id="f级：取指fetch">F级：取指<em>Fetch</em></h3>
+<h4 id="f-ifu-指令单元">F_IFU 指令单元</h4>
+<ol>
+<li><strong>定义</strong>：模块内部包含<code>PC</code>程序计数器、<code>IM</code>指令存储器实现，负责根据PC的值从指令存储器中读取指令输出。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">D_Next_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center"><code>NPC</code>模块输出的下一条指令地址</td>
+</tr>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">stop</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">停机信号</td>
+</tr>
+<tr>
+<td style="text-align:center">F_Instr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">F级的32位指令</td>
+</tr>
+<tr>
+<td style="text-align:center">F_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">输出F级PC值，流入D级寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center">F_PC8</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center"><code>PC</code>加8的值，用于分支延迟槽指令</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">reg</span> [<span class="number">31</span>:<span class="number">0</span>] IM_Reg [<span class="number">0</span>:<span class="number">4095</span>];</span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">    <span class="built_in">$readmemh</span>(<span class="string">&quot;code.txt&quot;</span>, IM_Reg); <span class="comment">// Read the code from the file</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>实现从文件中读取指令的功能<br>
+2. <strong>实现功能</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">同步复位</td>
+<td style="text-align:center">当<code>reset</code>信号为1且处于时钟上升沿时，<code>PC</code>置0x00003000</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">停机</td>
+<td style="text-align:center">当stop信号为1时，<code>PC</code>和指令保持不变</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">取指</td>
+<td style="text-align:center">当stop信号为0时，在clk上升沿得到的下一条指令地址PC，读取指令</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/2024/11/26/CO-P5-document/.%5CP3_image%5CP3_IFUdetail.png" alt></p>
+<blockquote>
+<p><code>PC</code>初始化为0x00003000<br>
+<code>IM</code>取PC[13:2]作为地址，减去0x00003000后读取指令</p>
+</blockquote>
+<h3 id="d级：译码decode">D级：译码<em>decode</em></h3>
+<h4 id="d-reg-d级流水线寄存器">D_REG D级流水线寄存器</h4>
+<ol>
+<li><strong>定义</strong>：用于在时钟上升沿将F级的指令和PC值传递到D级，并在复位重置寄存器值，并在停机信号为1时保持不变</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">stall</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">停机信号</td>
+</tr>
+<tr>
+<td style="text-align:center">F_Instr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">F级的32位指令</td>
+</tr>
+<tr>
+<td style="text-align:center">F_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">F级的PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">F_PC8</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">F级的PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Instr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级的32位指令</td>
+</tr>
+<tr>
+<td style="text-align:center">D_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级的PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">D_PC8</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级的PC+8值</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">同步复位</td>
+<td style="text-align:left">当<code>reset</code>信号为1且处于时钟上升沿时，<code>D_Instr</code>置0，<code>D_PC</code>置<code>PC_Reset</code>，<code>D_PC8</code>置<code>PC_Reset + 4</code></td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">停机</td>
+<td style="text-align:left">当<code>stall</code>信号为1时，保持<code>D_Instr</code>、<code>D_PC</code>和<code>D_PC8</code>的值不变</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left">正常传递</td>
+<td style="text-align:left">当<code>stall</code>信号为0时，在时钟上升沿将<code>F_Instr</code>、<code>F_PC</code>和<code>F_PC8</code>的值传递到<code>D_Instr</code>、<code>D_PC</code>和<code>D_PC8</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="d-npc-指令计算单元">D_NPC 指令计算单元</h4>
+<ol>
+<li><strong>定义</strong>：根据当前PC值、指令类型和条件分支结果，计算下一条指令的PC值。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">F_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">当前指令的PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">Instr_index</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">26</td>
+<td style="text-align:center">跳转指令的目标地址</td>
+</tr>
+<tr>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">分支指令的偏移量</td>
+</tr>
+<tr>
+<td style="text-align:center">rs</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">寄存器rs的值</td>
+</tr>
+<tr>
+<td style="text-align:center">NPCSel</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">下一条指令PC选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">CMPOut</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">比较结果信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Next_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">计算得到的下一条指令的PC值</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">计算分支地址</td>
+<td style="text-align:left">根据当前PC值和偏移量计算分支指令的目标地址</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">计算跳转地址</td>
+<td style="text-align:left">根据当前PC值和指令索引计算跳转指令的目标地址</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left">选择下一条指令PC</td>
+<td style="text-align:left">根据NPCSel信号选择下一条指令的PC值，支持顺序执行、分支、跳转和寄存器跳转</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选择信号</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">数值</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">BranchType</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3’b011</td>
+<td style="text-align:center">B型跳转，与CMPOut共同决定跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JrType</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3’b010</td>
+<td style="text-align:center">JR型跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JumpType</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3’b001</td>
+<td style="text-align:center">J型跳转</td>
+</tr>
+</tbody>
+</table>
+<h4 id="d-ext-指令扩展">D_EXT 指令扩展</h4>
+<ol>
+<li><strong>定义</strong>：根据控制信号，对输入的16位立即数进行零扩展或符号扩展。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">offset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">16位立即数</td>
+</tr>
+<tr>
+<td style="text-align:center">ExtOp</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">扩展选择信号，0为零扩展，1为符号扩展</td>
+</tr>
+<tr>
+<td style="text-align:center">Extend</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">扩展后的32位立即数</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">符号扩展</td>
+<td style="text-align:left">当<code>ExtOp</code>信号为1时，<code>Extend</code>输出符号扩展后的32位立即数</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">零扩展</td>
+<td style="text-align:left">当<code>ExtOp</code>信号为0时，<code>Extend</code>输出零扩展后的32位立即数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="d-cmp-比较器">D_CMP 比较器</h4>
+<ol>
+<li><strong>定义</strong>：根据控制信号，对输入的两个数进行比较，输出比较结果。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">RD1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">读寄存器1数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RD2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">读寄存器2数据</td>
+</tr>
+<tr>
+<td style="text-align:center">CMPOp</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">比较操作选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">CMPOut</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">比较结果输出</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">相等比较</td>
+<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BEQ</code>时，若<code>RD1</code>等于<code>RD2</code>，<code>CMPOut</code>输出1，否则输出0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">不等比较</td>
+<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BNE</code>时，若<code>RD1</code>不等于<code>RD2</code>，<code>CMPOut</code>输出1，否则输出0</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left">小于等于零</td>
+<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BLEZ</code>时，若<code>RD1</code>小于等于0，<code>CMPOut</code>输出1，否则输出0</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:left">大于零</td>
+<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BGTZ</code>时，若<code>RD1</code>大于0，<code>CMPOut</code>输出1，否则输出0</td>
+</tr>
+</tbody>
+</table>
+<h4 id="grf-寄存器堆">GRF 寄存器堆</h4>
+<ol>
+<li><strong>定义</strong>：根据读写信号，对寄存器堆进行读写操作。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">读寄存器1地址</td>
+</tr>
+<tr>
+<td style="text-align:center">A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">读寄存器2地址</td>
+</tr>
+<tr>
+<td style="text-align:center">RegAddr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">写寄存器地址</td>
+</tr>
+<tr>
+<td style="text-align:center">RegData</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">写数据</td>
+</tr>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">当前PC地址，用于输出</td>
+</tr>
+<tr>
+<td style="text-align:center">RD1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">读寄存器1数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RD2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">读寄存器2数据</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (RegWrite) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (RegAddr != <span class="number">0</span>) <span class="keyword">begin</span> <span class="comment">// Register 0 is always 0</span></span><br><span class="line">        GRF_reg[RegAddr] &lt;= RegData;</span><br><span class="line">        <span class="built_in">$display</span>(<span class="string">&quot;@%h: $%d &lt;= %h&quot;</span>, PC, RegAddr, RegData);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>输出寄存器堆中寄存器改变的信息<br>
+3. <strong>实现功能</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位</td>
+<td style="text-align:center">当reset为1时，将所有寄存器置为0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">读</td>
+<td style="text-align:center">当RegWrite为0时，将A1、A2对应的寄存器数据输出到RD1、RD2</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">写</td>
+<td style="text-align:center">当RegWrite为1时，当RegAddr不为0时，在时钟上升沿将RegAddr对应的寄存器写入RegData</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>A1、A2分别读取Rs、Rt寄存器，RegAddress根据RegDst选择Rt或R），RegData根据MemRead选择ALU的运算结果或I型指令的立即数</p>
+</blockquote>
+<ol start="4">
+<li><strong>内部转发</strong><br>
+当<code>RegWrite</code>为1时，若D级读取的寄存器和W级写入的寄存器相同且不为0，则将<code>RegAddr</code>对应的寄存器的值输出到<code>RD1</code>或<code>RD2</code>。</li>
+</ol>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">assign</span> RD1 = </span><br><span class="line">        (A1 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A1]; <span class="comment">// Read the register1</span></span><br><span class="line"><span class="keyword">assign</span> RD2 = </span><br><span class="line">        (A2 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A2]; <span class="comment">// Read the register2</span></span><br></pre></td></tr></table></figure>
+<h3 id="e级：执行execute">E级：执行<em>Execute</em></h3>
+<h4 id="e-reg-e级流水线寄存器">E_REG E级流水线寄存器</h4>
+<ol>
+<li><strong>定义</strong>：存储E级流水线寄存器的数据。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">clr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">清除信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Instr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级指令</td>
+</tr>
+<tr>
+<td style="text-align:center">D_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">D_PC8</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">D_A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">D级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">D_A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">D级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">D_RD1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级寄存器数据1</td>
+</tr>
+<tr>
+<td style="text-align:center">D_RD2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级寄存器数据2</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Rt</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">D级Rt寄存器地址</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Rd</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">D级Rd寄存器地址</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUOp_D</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">D级ALU操作码</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Tnew</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">D级新指令周期</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUBSrcSel_D</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">D级ALU B源选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_D</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">D级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite_D</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">D级内存写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel_D</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">D级寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDstSel_D</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">D级寄存器目标选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Extend</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">D级扩展数据</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Instr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级指令</td>
+</tr>
+<tr>
+<td style="text-align:center">E_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">E_PC8</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">E_RD1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级寄存器数据1</td>
+</tr>
+<tr>
+<td style="text-align:center">E_RD2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级寄存器数据2</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Rt</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级Rt寄存器地址</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Rd</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级Rd寄存器地址</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUOp_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">E级ALU操作码</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Tnew</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">E级新指令周期</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUBSrcSel_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">E级ALU B源选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">E级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">E级内存写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">E级寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDstSel_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">E级寄存器目标选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Extend</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级扩展数据</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">同步复位</td>
+<td style="text-align:left">当<code>reset</code>信号为1或<code>clr</code>信号为1时，所有输出信号清空，对于暂停操作而言相当于插入nop指令</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">正常传递</td>
+<td style="text-align:left">在时钟上升沿，将D级输入信号传递到E级输出信号</td>
+</tr>
+</tbody>
+</table>
+<h4 id="alu-算术逻辑单元">ALU 算术逻辑单元</h4>
+<ol>
+<li><strong>定义</strong>：根据控制信号，对输入的两个数进行算术或逻辑运算。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">输入操作数A</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">输入操作数B</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Op</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">ALU操作码</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Res</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">运算结果</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<p>根据ALU_Op的值，对输入的A和B进行相应的算术或逻辑运算，并将结果输出到ALU_Res。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>ADD</code></td>
+<td style="text-align:center">A + B</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><code>SUB</code></td>
+<td style="text-align:center">A - B</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><code>AND</code></td>
+<td style="text-align:center">A &amp; B</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><code>OR</code></td>
+<td style="text-align:center">A | B</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center"><code>XOR</code></td>
+<td style="text-align:center">A ^ B</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><code>LUI</code></td>
+<td style="text-align:center">加载到高位</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m级：存储memory">M级：存储Memory</h3>
+<h4 id="m-reg-m级流水线寄存器">M_REG M级流水线寄存器</h4>
+<ol>
+<li><strong>定义</strong>：存储M级流水线寄存器的数据。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Instr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级指令</td>
+</tr>
+<tr>
+<td style="text-align:center">E_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">E_PC8</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">E_RegAddr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">E_RD1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级寄存器数据1</td>
+</tr>
+<tr>
+<td style="text-align:center">E_RD2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级寄存器数据2</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite_E</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">E级内存写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_E</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">E级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel_E</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">E级寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALU_Res</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级ALU运算结果</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Tnew</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">E级新指令周期</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALU_Fwd_MUXOut</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">E级ALU转发MUX输出</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Instr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级指令</td>
+</tr>
+<tr>
+<td style="text-align:center">M_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">M_PC8</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">M_A1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">M_A2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">M_RegAddr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">M_RD1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级寄存器数据1</td>
+</tr>
+<tr>
+<td style="text-align:center">M_RD2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级寄存器数据2</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite_M</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">M级内存写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_M</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">M级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel_M</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">M级寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">M_ALU_Res</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级ALU运算结果</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Tnew</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">M级新指令周期</td>
+</tr>
+<tr>
+<td style="text-align:center">M_ALU_Fwd_MUXOut</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级ALU转发MUX输出</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">同步复位</td>
+<td style="text-align:left">当<code>reset</code>信号为1时，所有输出信号清空，对于暂停操作而言相当于插入nop指令</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">正常传递</td>
+<td style="text-align:left">在时钟上升沿，将E级输入信号传递到M级输出信号</td>
+</tr>
+</tbody>
+</table>
+<h4 id="m-dm-数据存储器">M_DM 数据存储器</h4>
+<ol>
+<li><strong>定义</strong>：使用RAM实现，根据控制信号，对输入的地址和数据进行读写操作。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">MemAddr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">32位地址</td>
+</tr>
+<tr>
+<td style="text-align:center">WD</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">32位数据</td>
+</tr>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">同步复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">WE</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">读/写控制信号，0为读，1为写</td>
+</tr>
+<tr>
+<td style="text-align:center">PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">PC地址</td>
+</tr>
+<tr>
+<td style="text-align:center">DM_RD</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">32位数据</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位</td>
+<td style="text-align:center">当reset为1时，将所有数据存储单元置零</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">读</td>
+<td style="text-align:center">当WE为0时，输出地址对应的32位数据DM_RD</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">写</td>
+<td style="text-align:center">当WE为1时，将MemAddr对应地址写入32位数据WD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="w级：写回writeback">W级：写回<em>WriteBack</em></h3>
+<h4 id="w-reg-w级流水线寄存器">W_REG W级流水线寄存器</h4>
+<ol>
+<li><strong>定义</strong>：存储W级流水线寄存器的数据。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Instr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级指令</td>
+</tr>
+<tr>
+<td style="text-align:center">M_PC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">M_PC8</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">M_A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">M_A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">M_RegAddr</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">M_RD1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级寄存器数据1</td>
+</tr>
+<tr>
+<td style="text-align:center">M_RD2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级寄存器数据2</td>
+</tr>
+<tr>
+<td style="text-align:center">M_ALU_Res</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级ALU运算结果</td>
+</tr>
+<tr>
+<td style="text-align:center">M_DM_RD</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">M级数据存储器读数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_M</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">M级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel_M</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">M级寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Tnew</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">M级新指令周期</td>
+</tr>
+<tr>
+<td style="text-align:center">W_Instr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级指令</td>
+</tr>
+<tr>
+<td style="text-align:center">W_PC</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级PC值</td>
+</tr>
+<tr>
+<td style="text-align:center">W_PC8</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级PC+8值</td>
+</tr>
+<tr>
+<td style="text-align:center">W_A1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">W级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">W_A2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">W级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">W_RegAddr</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">W级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">W_RD1</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级寄存器数据1</td>
+</tr>
+<tr>
+<td style="text-align:center">W_RD2</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级寄存器数据2</td>
+</tr>
+<tr>
+<td style="text-align:center">W_ALU_Res</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级ALU运算结果</td>
+</tr>
+<tr>
+<td style="text-align:center">W_DM_RD</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">W级数据存储器读数据</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_W</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">W级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel_W</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">W级寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">W_Tnew</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">W级新指令周期</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">同步复位</td>
+<td style="text-align:left">当<code>reset</code>信号为1时，所有输出信号清空，对于暂停操作而言相当于插入nop指令</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">正常传递</td>
+<td style="text-align:left">在时钟上升沿，将M级输入信号传递到W级输出信号</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mcu-控制单元">MCU 控制单元</h3>
+<ol>
+<li>
+<p><strong>定义</strong><br>
+MCU 控制单元用于生成控制信号，控制其他模块的行为。</p>
+</li>
+<li>
+<p><strong>端口定义</strong></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Op</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">操作码</td>
+</tr>
+<tr>
+<td style="text-align:center">Func</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">功能码</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDstSel</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">寄存器目标选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">ALUBSrcSel</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">ALU_B源选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegDataSel</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">寄存器数据选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_D</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">MemWrite_D</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">内存写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">NPCSel</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">下一条指令PC选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">ExtOp_D</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">扩展操作选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">CMPOp</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">比较操作选择信号</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_Op</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">ALU操作码</td>
+</tr>
+<tr>
+<td style="text-align:center">Tuse_rs</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">rs使用需要周期数</td>
+</tr>
+<tr>
+<td style="text-align:center">Tuse_rt</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">rt使用需要周期数</td>
+</tr>
+<tr>
+<td style="text-align:center">Tnew_D</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">产生数据所用周期数</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">指令译码</td>
+<td style="text-align:left">根据操作码和功能码生成对应的控制信号</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">控制信号生成</td>
+<td style="text-align:left">生成寄存器目标选择信号、ALU B源选择信号、寄存器数据选择信号等</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left">冒险时间生成</td>
+<td style="text-align:left">生成rs和rt的使用时间以及新指令周期</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>
+<p><strong>多路选择器说明</strong></p>
+<ol>
+<li><strong>RegDstSel</strong>：寄存器目标选择信号，用于选择写入寄存器的目标寄存器。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">RaType</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">写回ra寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center">RdType</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">写回rd寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center">RtType</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">写回rt寄存器</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li><strong>ALUBSel</strong>：ALU B源选择信号，用于选择ALU B输入端的源。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">E_ALU_Fwd_MUXOut</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">寄存器值</td>
+</tr>
+<tr>
+<td style="text-align:center">EXT</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">扩展后的立即数</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>RegDataSel</strong>：寄存器数据选择信号，用于选择写入寄存器的数据源。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FromPC</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">来自PC8</td>
+</tr>
+<tr>
+<td style="text-align:center">FromALU</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">来自ALU</td>
+</tr>
+<tr>
+<td style="text-align:center">FromDM</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">来自DM</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="hcu-冒险控制单元">HCU 冒险控制单元</h3>
+<ol>
+<li><strong>定义</strong>：冒险控制单元用于检测流水线中的数据冒险，并生成相应的转发和停顿信号。</li>
+<li><strong>端口定义</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Tuse_rs</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">rs使用需要周期数</td>
+</tr>
+<tr>
+<td style="text-align:center">Tuse_rt</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">rt使用需要周期数</td>
+</tr>
+<tr>
+<td style="text-align:center">Tnew_E</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">E级产生数据需要周期</td>
+</tr>
+<tr>
+<td style="text-align:center">Tnew_M</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">M级产生数据需要周期</td>
+</tr>
+<tr>
+<td style="text-align:center">Tnew_W</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">W级产生数据需要周期</td>
+</tr>
+<tr>
+<td style="text-align:center">D_A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">D级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">D_A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">D级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A1</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器地址1</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">E_A3</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">E级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">M_A2</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器地址2</td>
+</tr>
+<tr>
+<td style="text-align:center">M_A3</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">M级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">W_A3</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">W级寄存器写地址</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_E</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">E级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_M</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">M级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">RegWrite_W</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">W级寄存器写使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">CMP_RD1_Fwd_D</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">比较器RD1转发信号</td>
+</tr>
+<tr>
+<td style="text-align:center">CMP_RD2_Fwd_D</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">比较器RD2转发信号</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_A_Fwd_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">ALU A转发信号</td>
+</tr>
+<tr>
+<td style="text-align:center">ALU_B_Fwd_E</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">ALU B转发信号</td>
+</tr>
+<tr>
+<td style="text-align:center">DM_WD_Fwd_M</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">数据存储器写数据转发信号</td>
+</tr>
+<tr>
+<td style="text-align:center">stall</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">停顿信号</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>实现功能</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">停顿检测</td>
+<td style="text-align:left">根据寄存器地址和使用周期数，检测是否需要停顿</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">转发信号生成</td>
+<td style="text-align:left">生成比较器、ALU和数据存储器的转发信号</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left">停顿信号生成</td>
+<td style="text-align:left">生成流水线停顿信号</td>
+</tr>
+</tbody>
+</table>
+<h4 id="暂停stall">暂停<em>Stall</em></h4>
+<p>使用A-T法判断，当address相同时，若D级的Tuse_rs或Tuse_rt<br>
+比E、M、W级的Tnew小，则说明在D级需要使用寄存器中数据时，E、M、W级相应的寄存器数据还未准备好，需要暂停流水线。</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">E_Stall_Rs = (E_A3 == D_A1) &amp;&amp; (D_A1 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_E &gt; Tuse_rs) &amp;&amp; RegWrite_E;</span><br><span class="line">E_Stall_Rt = (E_A3 == D_A2) &amp;&amp; (D_A2 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_E &gt; Tuse_rt) &amp;&amp; RegWrite_E;</span><br><span class="line">M_Stall_Rs = (M_A3 == D_A1) &amp;&amp; (D_A1 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_M &gt; Tuse_rs) &amp;&amp; RegWrite_M;</span><br><span class="line">M_Stall_Rt = (M_A3 == D_A2) &amp;&amp; (D_A2 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_M &gt; Tuse_rt) &amp;&amp; RegWrite_M;</span><br><span class="line"></span><br><span class="line">stall = E_Stall_Rs || E_Stall_Rt || M_Stall_Rs || M_Stall_Rt;</span><br><span class="line"><span class="comment">//W级不需要判断，因为在GRF中存在内部转发</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="转发foward">转发<em>Foward</em></h4>
+<p>执行暴力转发，使用A-T法判断，当address相同且D级的Tuse_rs或Tuse_rt大于E、M级相应的Tnew时，说明D级需要使用的数据在E、M级中，需要转发。</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">assign</span> CMP_RD1_Fwd_D = </span><br><span class="line">        (D_A1 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">        (E_A3 == D_A1 &amp;&amp; RegWrite_E) ? `FWD_EXE : </span><br><span class="line">        (M_A3 == D_A1 &amp;&amp; RegWrite_M) ? `FWD_MEM : </span><br><span class="line">        (W_A3 == D_A1 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for CMP_RD2, W not included because it&#x27;s forwared in GRF</span></span><br><span class="line"><span class="keyword">assign</span> CMP_RD2_Fwd_D = </span><br><span class="line">    (D_A2 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (E_A3 == D_A2 &amp;&amp; RegWrite_E) ? `FWD_EXE : </span><br><span class="line">    (M_A3 == D_A2 &amp;&amp; RegWrite_M) ? `FWD_MEM : </span><br><span class="line">    (W_A3 == D_A2 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for ALU_A</span></span><br><span class="line"><span class="keyword">assign</span> ALU_A_Fwd_E = </span><br><span class="line">    (E_A1 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (M_A3 == E_A1 &amp;&amp; RegWrite_M) ? `FWD_MEM :</span><br><span class="line">    (W_A3 == E_A1 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for ALU_B</span></span><br><span class="line"><span class="keyword">assign</span> ALU_B_Fwd_E = </span><br><span class="line">    (E_A2 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (M_A3 == E_A2 &amp;&amp; RegWrite_M) ? `FWD_MEM :</span><br><span class="line">    (W_A3 == E_A2 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for DM_WD</span></span><br><span class="line"><span class="keyword">assign</span> DM_WD_Fwd_M = </span><br><span class="line">    (M_A3 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (W_A3 == M_A3 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br></pre></td></tr></table></figure>
+<h3 id="顶层模块">顶层模块</h3>
+<ul>
+<li><strong>定义</strong>：顶层模块，将所有模块连接起来，实现整个CPU的功能。</li>
+<li><strong>端口定义</strong>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">位宽</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>功能实现</strong>：实例化所有模块，定义各模块间的连接，在顶层模块中用<code>?:</code>实现多路选择器。</li>
+</ul>
+<h2 id="测试方案">测试方案</h2>
+<h2 id="第五次思考题">第五次思考题</h2>
+<ol>
+<li>我们使用提前分支判断的方法尽早产生结果来减少因不确定而带来的开销，但实际上这种方法并非总能提高效率，请从流水线冒险的角度思考其原因并给出一个指令序列的例子。</li>
+</ol>
+<blockquote>
+<p>由于分支跳转指令的Tuse为0，因此若对应寄存器在E、M、W级的Tnew大于0，则会导致冒险，必须阻塞流水线，效率反而降低。</p>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">lui $<span class="number">1</span>, <span class="number">100</span></span><br><span class="line">beq $<span class="number">1</span>, $<span class="number">0</span>, label1</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>因为延迟槽的存在，对于 jal 等需要将指令地址写入寄存器的指令，要写回 PC + 8，请思考为什么这样设计？</li>
+</ol>
+<blockquote>
+<p>因为延迟槽的存在，jal等指令在D级才能译码，此时F级的指令地址为PC+4，当写回地址时，若仍按照PC+4，则会跳转到延迟槽中的指令，这显然是不对的，因此只要写回D_PC+8，即跳转指令地址+8，或者是F_PC+4，也是正确的。（由于延迟槽存在，实际上能够保证此时F_PC=D_PC+4）</p>
+</blockquote>
+<ol start="3">
+<li>我们要求所有转发数据都来源于流水寄存器而不能是功能部件（如 DM、ALU），请思考为什么？</li>
+</ol>
+<blockquote>
+<p>因为流水线寄存器中的数据是在上一周期已经计算好的，而在这一周期的时钟上升沿写入，可以保证在下一时钟周期之前稳定输出，而功能部件使用组合逻辑，其输入取决于输入端口的值，而如果在转发供给者功能部件输出端口转发，由于功能部件输出有延迟，可能导致接收者的输入改变的时间点不确定，从而无法保证数据正确性与稳定性。</p>
+</blockquote>
+<ol start="4">
+<li>我们为什么要使用 GPR 内部转发？该如何实现？</li>
+</ol>
+<blockquote>
+<p><s>设计文档里有说明</s> 当W级与D级使用同一个寄存器时，为了避免数据冒险，使用内部转发既可以避免D级取到错误的寄存器值，也可以避免阻塞流水线。实现如下：</p>
+</blockquote>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//GRF内部转发   </span></span><br><span class="line"><span class="keyword">assign</span> RD1 = </span><br><span class="line">    (A1 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A1]; <span class="comment">// Read the register1</span></span><br><span class="line"><span class="keyword">assign</span> RD2 = </span><br><span class="line">    (A2 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A2]; <span class="comment">// Read the register2</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>我们转发时数据的需求者和供给者可能来源于哪些位置？共有哪些转发数据通路？</li>
+</ol>
+<blockquote>
+<p>需求者：D级的CMP(RD1和RD2)，E级的ALU（ALU_A和ALU_B），M级的DM（DM_WD）<br>
+供给者：W级的GRF（RegData），E级的ALU（ALU_Res），M级的DM（DM_RD）<br>
+转发数据通路：GRF内部转发，M级到D级，M级到E级，W级到D级（GRF内部转发），W级到E级，W级到M级</p>
+</blockquote>
+<ol start="6">
+<li>在课上测试时，我们需要你现场实现新的指令，对于这些新的指令，你可能需要在原有的数据通路上做哪些扩展或修改？提示：你可以对指令进行分类，思考每一类指令可能修改或扩展哪些位置。</li>
+</ol>
+<blockquote>
+<p>计算指令：首先处理ALU的运算逻辑，然后在MCU中添加对应的信号处理语句，我一般会用宏定义来处理指令的Op和Func，再选择对应的信号，处理Tnew和Tuse，基本不需要改变数据通路。<br>
+跳转指令：可能是<code>条件跳转+无条件链接</code>，<code>条件跳转+条件链接</code>，对于条件跳转，在CMP中添加对应判断；对于链接，无条件链接直接修改为<code>RaType</code>，条件链接则需要对CMP比较结果进行流水，在对RegDst选择与RegWrite选择时根据CMP结果判断，在MCU中添加对应逻辑。<br>
+访存指令：如果是<code>条件存储</code>，需要到M级才能得到结果，对于转发和暂停需要设置D级的Tnew为3，需要在数据通路中增加一个多路选择器用于选择该信号数据或地址，在MCU中添加以上控制信号逻辑。</p>
+</blockquote>
+<ol start="7">
+<li>简要描述你的译码器架构，并思考该架构的优势以及不足。</li>
+</ol>
+<blockquote>
+<p>采用分布式译码，优点在于增加指令时更为便利，无需流水到每一级，直接增加端口就可以控制；缺点是当指令数量较多时，译码器会变得复杂，且浪费资源。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>CO</category>
+        <category>lab</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>CO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>P4-CPU设计文档[BUAA-CO]</title>
     <url>/2024/11/04/CO-P4-document/</url>
     <content><![CDATA[<h2 id="p4单周期cpu设计文档">P4单周期CPU设计文档</h2>
@@ -1185,976 +4184,6 @@
 <img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041523158.png" alt><br>
 <img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041523154.png" alt><br>
 <img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041523156.png" alt></p>
-]]></content>
-      <categories>
-        <category>学习</category>
-        <category>CO</category>
-        <category>lab</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>CO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>P3-CPU设计文档[BUAA-CO]</title>
-    <url>/2024/11/04/CO-P3-document/</url>
-    <content><![CDATA[<h2 id="p3单周期cpu设计文档">P3单周期CPU设计文档</h2>
-<h3 id="设计整体概述">设计整体概述</h3>
-<ol>
-<li><strong>预计实现指令集</strong>：add、sub、ori、Lui、lw、sw、beq、nop</li>
-</ol>
-<ul>
-<li>R型指令：add、sub、ori</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">opcode</th>
-<th style="text-align:center">rs</th>
-<th style="text-align:center">rt</th>
-<th style="text-align:center">rd</th>
-<th style="text-align:center">shamt</th>
-<th style="text-align:center">funct</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>I型指令：lui、lw、sw、beq</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">opcode</th>
-<th style="text-align:center">rs</th>
-<th style="text-align:center">rt</th>
-<th style="text-align:center">offset</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">16</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>J型指令：暂无</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">opcode</th>
-<th style="text-align:center">instr_inde</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">26</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu</p>
-</blockquote>
-<ol start="3">
-<li><strong>实现功能</strong>：实现单周期CPU，能够执行上述指令集，采用模块化设计，顶层模块包含控制器<code>CU</code>和数据通路模块<code>ALU</code>、<code>IFU</code>、<code>NPC</code>、<code>GRF</code>、<code>DM</code>、<code>Ext</code>共七个子模块，预留了J型指令的<code>NPC</code>接口</li>
-<li><strong>顶层设计图</strong>：<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510976.png" alt></li>
-</ol>
-<h3 id="数据通路模块设计">数据通路模块设计</h3>
-<h4 id="ifu-指令单元">IFU 指令单元</h4>
-<ol>
-<li><strong>定义</strong>：模块内部包含<code>PC</code>程序计数器、<code>IM</code>指令存储器子模块，负责根据PC的值从指令存储器中读取指令，输出到数据总线。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Next_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center"><code>NPC</code>模块输出的下一条指令地址</td>
-</tr>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">stop</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">停机信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RD</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center"><code>IM</code>取得的指令</td>
-</tr>
-<tr>
-<td style="text-align:center">PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center"><code>PC</code>模块输出地址，传入<code>NPC</code>模块用于得到下一条指令地址</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510974.png" alt></p>
-<ol start="2">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位</td>
-<td style="text-align:center">当reset信号为1时，<code>PC</code>置0x00003000</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">停机</td>
-<td style="text-align:center">当stop信号为1时，<code>PC</code>保持不变</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">取指</td>
-<td style="text-align:center">当stop信号为0时，根据<code>PC</code>在clk上升沿得到的下一条指令地址，从<code>IM</code>读取指令</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510975.png" alt></p>
-<blockquote>
-<p><code>PC</code>通过寄存器实现，初始化为0x00003000<br>
-IM`通过ROM实现，取PC[13:2]作为地址，减去0x00003000后读取指令</p>
-</blockquote>
-<h4 id="npc-指令地址生成单元">NPC 指令地址生成单元</h4>
-<ol>
-<li><strong>定义</strong>：根据当前PC地址和控制信号，生成下一条指令地址。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">当前指令地址</td>
-</tr>
-<tr>
-<td style="text-align:center">instr_index</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">J型指令的立即数</td>
-</tr>
-<tr>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">16</td>
-<td style="text-align:center">I型指令的立即数</td>
-</tr>
-<tr>
-<td style="text-align:center">rs</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">jr指令的寄存器</td>
-</tr>
-<tr>
-<td style="text-align:center">branch</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">是否执行I型指令跳转</td>
-</tr>
-<tr>
-<td style="text-align:center">jump</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">是否执行J型指令跳转</td>
-</tr>
-<tr>
-<td style="text-align:center">jr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">是否执行jr指令跳转</td>
-</tr>
-<tr>
-<td style="text-align:center">Next_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">下一条指令地址</td>
-</tr>
-<tr>
-<td style="text-align:center">PC+4</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">当前指令地址+4，可用于拓展Jal指令</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510977.png" alt></p>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">PC+4</td>
-<td style="text-align:center">当branch、jump、jr组成的control信号为3’b000时,Next_PC输出PC+4</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">I型跳转</td>
-<td style="text-align:center">当branch、jump、jr组成的control信号为3’b100时,Next_PC输出PC_jump</td>
-</tr>
-</tbody>
-</table>
-<h4 id="grf-寄存器堆">GRF 寄存器堆</h4>
-<ol>
-<li><strong>定义</strong>：根据读写信号，对寄存器堆进行读写操作。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">WE</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">读寄存器1地址</td>
-</tr>
-<tr>
-<td style="text-align:center">A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">读寄存器2地址</td>
-</tr>
-<tr>
-<td style="text-align:center">A3</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">写寄存器地址</td>
-</tr>
-<tr>
-<td style="text-align:center">WD</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">写数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RD1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">读寄存器1数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RD2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">读寄存器2数据</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510972.png" alt></p>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位</td>
-<td style="text-align:center">当reset为1时，将所有寄存器置为0</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">读</td>
-<td style="text-align:center">当WE为0时，将A1、A2对应的寄存器数据输出到RD1、RD2</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">写</td>
-<td style="text-align:center">当WE为1时，在时钟上升沿将A3对应的寄存器写入WD</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>A1、A2分别读取Rs、Rt寄存器，A3写入RegAddress（根据RegDst选择Rt或Rd），WD写入RegData（根据MemRead选择ALU的运算结果或I型指令的立即数）</p>
-</blockquote>
-<h4 id="alu-算术逻辑单元">ALU 算术逻辑单元</h4>
-<ol>
-<li><strong>定义</strong>：根据控制信号，对输入的两个数进行算术或逻辑运算。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">A</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">操作数1</td>
-</tr>
-<tr>
-<td style="text-align:center">B</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">操作数2</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Op</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">ALU控制信号</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Res</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">ALU运算结果</td>
-</tr>
-<tr>
-<td style="text-align:center">cmp_equal</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">A、B是否相等</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510968.png" alt></p>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">加法</td>
-<td style="text-align:center">当ALU_Op为3’b000时，ALU_Res输出A+B</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">减法</td>
-<td style="text-align:center">当ALU_Op为3’b001时，ALU_Res输出A-B</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">与</td>
-<td style="text-align:center">当ALU_Op为3’b010时，ALU_Res输出A&amp;B</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">或</td>
-<td style="text-align:center">当ALU_Op为3’b011时，ALU_Res输出A丨B</td>
-</tr>
-<tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center">异或</td>
-<td style="text-align:center">当ALU_Op为3’b100时，ALU_Res输出A^B</td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">低位补0</td>
-<td style="text-align:center">当ALU_Op为3’b101时，ALU_Res输出B[15:0] + 0<sup>16</sup>（实现lui指令）</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">相等</td>
-<td style="text-align:center">cmp_equal输出A是否等于B</td>
-</tr>
-</tbody>
-</table>
-<h4 id="ext-指令扩展单元">Ext 指令扩展单元</h4>
-<ol>
-<li><strong>定义</strong>：根据控制信号，对输入的16位立即数进行零扩展或符号扩展。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">16</td>
-<td style="text-align:center">16位立即数</td>
-</tr>
-<tr>
-<td style="text-align:center">sel</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">扩展选择信号，0为零扩展，1为符号扩展</td>
-</tr>
-<tr>
-<td style="text-align:center">extend</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">扩展后的32位立即数</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">零扩展</td>
-<td style="text-align:center">当sel为0时，extend输出 0<sup>16</sup> + offset[15:0]</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">符号扩展</td>
-<td style="text-align:center">当sel为1时，extend输出 offset[15] ? 1<sup>16</sup> + offset[15:0] : 0<sup>16</sup> + offset[15:0]</td>
-</tr>
-</tbody>
-</table>
-<h4 id="dm-数据存储器">DM 数据存储器</h4>
-<ol>
-<li><strong>定义</strong>：使用RAM实现，根据控制信号，对输入的地址和数据进行读写操作。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">address</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">32位地址</td>
-</tr>
-<tr>
-<td style="text-align:center">WD</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">32位数据</td>
-</tr>
-<tr>
-<td style="text-align:center">WE</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">读/写控制信号，0为读，1为写</td>
-</tr>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510971.png" alt></p>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">读</td>
-<td style="text-align:center">当WE为0时，输出地址对应的32位数据</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">写</td>
-<td style="text-align:center">当WE为1时，将WD写入地址对应的32位数据</td>
-</tr>
-</tbody>
-</table>
-<h3 id="cu-控制单元">CU 控制单元</h3>
-<ol>
-<li>
-<p><strong>定义</strong>：利用<code>ANDLogic</code>和<code>ORLogic</code>生成控制信号，控制其他模块的行为。</p>
-</li>
-<li>
-<p><strong>端口定义</strong><br>
-控制单元需要读取指令的Op字段和Func字段，识别生成对应指令的控制信号。</p>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Op</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">instr[31:26]</td>
-</tr>
-<tr>
-<td style="text-align:center">Func</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">instr[5:0]</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDst</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>GRF</code>写地址选择信号，0为Rt，1为Rd</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUSrc</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>ALU</code>源选择信号，0为RD2，1为拓展后的offset</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>GRF</code>写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>DM</code>写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">is_Branch</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">I型跳转指令</td>
-</tr>
-<tr>
-<td style="text-align:center">ExtOp</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">扩展操作选择信号, 0为零拓展，1为符号拓展</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Op</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">三位ALU操作码，3’b000为加法，3’b001为减法，3’b010为与，3’b011为或，3’b100为异或</td>
-</tr>
-</tbody>
-</table>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510970.png" alt></p>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<ul>
-<li><code>ANDLogic</code>模块
-<ul>
-<li><strong>定义</strong>：根据输入信号，识别对应指令。</li>
-<li><strong>端口定义</strong>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Op</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">instr[31:26]</td>
-</tr>
-<tr>
-<td style="text-align:center">Func</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">instr[5:0]</td>
-</tr>
-<tr>
-<td style="text-align:center">add</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">add指令</td>
-</tr>
-<tr>
-<td style="text-align:center">sub</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">sub指令</td>
-</tr>
-<tr>
-<td style="text-align:center">ori</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">ori指令</td>
-</tr>
-<tr>
-<td style="text-align:center">lw</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">lw指令</td>
-</tr>
-<tr>
-<td style="text-align:center">sw</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">sw指令</td>
-</tr>
-<tr>
-<td style="text-align:center">beq</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">beq指令</td>
-</tr>
-<tr>
-<td style="text-align:center">lui</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">lui指令</td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510969.png" alt></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">指令</th>
-<th style="text-align:center">Op</th>
-<th style="text-align:center">[25:21]</th>
-<th style="text-align:center">[20:16]</th>
-<th style="text-align:center">[15:11]</th>
-<th style="text-align:center">[10:6]</th>
-<th style="text-align:center">[5:0]</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">add</td>
-<td style="text-align:center">000000</td>
-<td style="text-align:center">rs</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">rd</td>
-<td style="text-align:center">00000</td>
-<td style="text-align:center">100000</td>
-</tr>
-<tr>
-<td style="text-align:center">sub</td>
-<td style="text-align:center">000000</td>
-<td style="text-align:center">rs</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">rd</td>
-<td style="text-align:center">00000</td>
-<td style="text-align:center">100010</td>
-</tr>
-<tr>
-<td style="text-align:center">ori</td>
-<td style="text-align:center">001101</td>
-<td style="text-align:center">rs</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">immediate</td>
-<td style="text-align:center">immediate</td>
-<td style="text-align:center">immediate</td>
-</tr>
-<tr>
-<td style="text-align:center">lw</td>
-<td style="text-align:center">100011</td>
-<td style="text-align:center">base</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">offset</td>
-</tr>
-<tr>
-<td style="text-align:center">sw</td>
-<td style="text-align:center">101011</td>
-<td style="text-align:center">base</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">offset</td>
-</tr>
-<tr>
-<td style="text-align:center">beq</td>
-<td style="text-align:center">000100</td>
-<td style="text-align:center">rs</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">offset</td>
-</tr>
-<tr>
-<td style="text-align:center">lui</td>
-<td style="text-align:center">001111</td>
-<td style="text-align:center">00000</td>
-<td style="text-align:center">rt</td>
-<td style="text-align:center">immediate</td>
-<td style="text-align:center">immediate</td>
-<td style="text-align:center">immediate</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><code>ORLogic</code>模块
-<ul>
-<li><strong>定义</strong>：根据输入的对应指令，生成其他模块的操作信号。</li>
-<li><strong>端口定义</strong>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">add</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">add指令</td>
-</tr>
-<tr>
-<td style="text-align:center">sub</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">sub指令</td>
-</tr>
-<tr>
-<td style="text-align:center">ori</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">ori指令</td>
-</tr>
-<tr>
-<td style="text-align:center">lw</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">lw指令</td>
-</tr>
-<tr>
-<td style="text-align:center">sw</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">sw指令</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDst</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>GRF</code>写地址选择信号，0为Rt，1为Rd</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUSrc</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>ALU</code>源选择信号，0为RD2，1为拓展后的offset</td>
-</tr>
-<tr>
-<td style="text-align:center">MemRead</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>GRF</code>数据选择信号，0为ALU_Res，1为内存读取数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>GRF</code>写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>DM</code>写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">is_Branch</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">I型跳转指令</td>
-</tr>
-<tr>
-<td style="text-align:center">ExtOp</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">扩展操作选择信号, 0为零拓展，1为符号拓展</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Op</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">三位ALU操作码，由真值表生成</td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202411041510967.png" alt><br>
-- <strong>功能实现</strong>：根据每种指令的对应操作，在输出前将指令信号进行或运算，得到其他模块的操作信号。</p>
-<h2 id="测试方案">测试方案</h2>
-<h2 id="思考题">思考题</h2>
-<ol>
-<li>上面我们介绍了通过 FSM 理解单周期 CPU 的基本方法。请大家指出单周期 CPU 所用到的模块中，哪些发挥状态存储功能，哪些发挥状态转移功能。</li>
-</ol>
-<blockquote>
-<p>GRF、DM实现了状态存储功能，通过寄存器存储当前状态，IFU、Ext、NPC、ALU、CU实现了状态转移功能，利用组合逻辑电路实现状态转移。</p>
-</blockquote>
-<ol start="2">
-<li>现在我们的模块中 IM 使用 ROM， DM 使用 RAM， GRF 使用 Register，这种做法合理吗？ 请给出分析，若有改进意见也请一并给出。</li>
-</ol>
-<blockquote>
-<p>极为合理且正确，IM模块类比于是输入，应当是只读的，DM是内存部分，需要大量存储空间，因此使用RAM，GRF是通用寄存器堆，使用32个寄存器可以提高读写速度。</p>
-</blockquote>
-<ol start="3">
-<li>在上述提示的模块之外，你是否在实际实现时设计了其他的模块？如果是的话，请给出介绍和设计的思路。</li>
-</ol>
-<blockquote>
-<p>添加了NPC模块，用于计PC的值，实现方法见上。</p>
-</blockquote>
-<ol start="4">
-<li>事实上，实现 nop 空指令，我们并不需要将它加入控制信号真值表，为什么？</li>
-</ol>
-<blockquote>
-<p>由于nop并未对其他模块进行操作，因此不需要添加控制信号，只需要保证CU模块对于nop对应的Op和Func没有任何输出，就能保证不对其他模块进行操作。</p>
-</blockquote>
-<ol start="5">
-<li>阅读 Pre 的 <a href="http://cscore.buaa.edu.cn/tutorial/mips/mips-6/mips6-1/">“MIPS 指令集及汇编语言”</a>一节中给出的测试样例，评价其强度（可从各个指令的覆盖情况，单一指令各种行为的覆盖情况等方面分析），并指出具体的不足之处。<br>
-测试样例代码</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ori $a0, $0, 123</span><br><span class="line">ori $a1, $a0, 456</span><br><span class="line">lui $a2, 123            # 符号位为 0</span><br><span class="line">lui $a3, 0xffff         # 符号位为 1</span><br><span class="line">ori $a3, $a3, 0xffff    # $a3 = -1</span><br><span class="line">add $s0, $a0, $a2      # 正正</span><br><span class="line">add $s1, $a0, $a3      # 正负</span><br><span class="line">add $s2, $a3, $a3      # 负负</span><br><span class="line">ori $t0, $0, 0x0000</span><br><span class="line">sw $a0, 0($t0)</span><br><span class="line">sw $a1, 4($t0)</span><br><span class="line">sw $a2, 8($t0)</span><br><span class="line">sw $a3, 12($t0)</span><br><span class="line">sw $s0, 16($t0)</span><br><span class="line">sw $s1, 20($t0)</span><br><span class="line">sw $s2, 24($t0)</span><br><span class="line">lw $a0, 0($t0)</span><br><span class="line">lw $a1, 12($t0)</span><br><span class="line">sw $a0, 28($t0)</span><br><span class="line">sw $a1, 32($t0)</span><br><span class="line">ori $a0, $0, 1</span><br><span class="line">ori $a1, $0, 2</span><br><span class="line">ori $a2, $0, 1</span><br><span class="line">beq $a0, $a1, loop1     # 不相等</span><br><span class="line">beq $a0, $a2, loop2     # 相等</span><br><span class="line">loop1:sw $a0, 36($t0)</span><br><span class="line">loop2:sw $a1, 40($t0)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>显然强度是不够的（不够暴力），在代码数据量和覆盖率方面都有待提高，并没有测试到所有的通用寄存器和边界情况，测试数据也不够全面。</p>
-</blockquote>
 ]]></content>
       <categories>
         <category>学习</category>
@@ -4622,2035 +6651,6 @@ MCU 控制单元用于生成控制信号，控制其他模块的行为。</p>
         <tag>学习</tag>
         <tag>CO</tag>
         <tag>考试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>P5-CPU设计文档[BUAA-CO]</title>
-    <url>/2024/11/26/CO-P5-document/</url>
-    <content><![CDATA[<h1 id="p5流水线cpu设计文档">P5流水线CPU设计文档</h1>
-<h2 id="设计整体概述">设计整体概述</h2>
-<ol>
-<li><strong>预计实现指令集</strong>：add、sub、ori、Lui、lw、sw、beq、nop、j、jr、jal</li>
-</ol>
-<ul>
-<li>R型指令：add、sub、ori、jr</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">opcode</th>
-<th style="text-align:center">rs</th>
-<th style="text-align:center">rt</th>
-<th style="text-align:center">rd</th>
-<th style="text-align:center">shamt</th>
-<th style="text-align:center">funct</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>I型指令：lui、lw、sw、beq</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">opcode</th>
-<th style="text-align:center">rs</th>
-<th style="text-align:center">rt</th>
-<th style="text-align:center">offset</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">16</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>J型指令：j、jal</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">opcode</th>
-<th style="text-align:center">instr_index</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">26</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu</p>
-</blockquote>
-<ol start="3">
-<li>
-<p><strong>实现功能</strong>：实现五级流水线CPU，通过F、D、E、M、W五个阶段实现指令的执行，其中F阶段为取指，D阶段为译码，E阶段为执行，M阶段为访存，W阶段为写回，各阶段均通过流水线寄存器实现流水线操作，通过转发和阻塞机制解决冒险问题。</p>
-</li>
-<li>
-<p><strong>顶层设计图</strong>：<br>
-整体架构参考了PPT上的设计<br>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202411261112087.png" alt="main"></p>
-</li>
-<li>
-<p><strong>命名格式</strong>：模块命名采用<code>所在级_模块名</code>方式，模块内部信号名采取<code>来源_功能</code>方式命名，顶层信号采用<code>所在级_模块名_信号名</code>方式命名。</p>
-</li>
-</ol>
-<h2 id="数据通路模块设计">数据通路模块设计</h2>
-<h3 id="f级：取指fetch">F级：取指<em>Fetch</em></h3>
-<h4 id="f-ifu-指令单元">F_IFU 指令单元</h4>
-<ol>
-<li><strong>定义</strong>：模块内部包含<code>PC</code>程序计数器、<code>IM</code>指令存储器实现，负责根据PC的值从指令存储器中读取指令输出。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">D_Next_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center"><code>NPC</code>模块输出的下一条指令地址</td>
-</tr>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">stop</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">停机信号</td>
-</tr>
-<tr>
-<td style="text-align:center">F_Instr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">F级的32位指令</td>
-</tr>
-<tr>
-<td style="text-align:center">F_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">输出F级PC值，流入D级寄存器</td>
-</tr>
-<tr>
-<td style="text-align:center">F_PC8</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center"><code>PC</code>加8的值，用于分支延迟槽指令</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">reg</span> [<span class="number">31</span>:<span class="number">0</span>] IM_Reg [<span class="number">0</span>:<span class="number">4095</span>];</span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">    <span class="built_in">$readmemh</span>(<span class="string">&quot;code.txt&quot;</span>, IM_Reg); <span class="comment">// Read the code from the file</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>实现从文件中读取指令的功能<br>
-2. <strong>实现功能</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">同步复位</td>
-<td style="text-align:center">当<code>reset</code>信号为1且处于时钟上升沿时，<code>PC</code>置0x00003000</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">停机</td>
-<td style="text-align:center">当stop信号为1时，<code>PC</code>和指令保持不变</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">取指</td>
-<td style="text-align:center">当stop信号为0时，在clk上升沿得到的下一条指令地址PC，读取指令</td>
-</tr>
-</tbody>
-</table>
-<p><img src="/2024/11/26/CO-P5-document/.%5CP3_image%5CP3_IFUdetail.png" alt></p>
-<blockquote>
-<p><code>PC</code>初始化为0x00003000<br>
-<code>IM</code>取PC[13:2]作为地址，减去0x00003000后读取指令</p>
-</blockquote>
-<h3 id="d级：译码decode">D级：译码<em>decode</em></h3>
-<h4 id="d-reg-d级流水线寄存器">D_REG D级流水线寄存器</h4>
-<ol>
-<li><strong>定义</strong>：用于在时钟上升沿将F级的指令和PC值传递到D级，并在复位重置寄存器值，并在停机信号为1时保持不变</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">stall</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">停机信号</td>
-</tr>
-<tr>
-<td style="text-align:center">F_Instr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">F级的32位指令</td>
-</tr>
-<tr>
-<td style="text-align:center">F_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">F级的PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">F_PC8</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">F级的PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Instr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级的32位指令</td>
-</tr>
-<tr>
-<td style="text-align:center">D_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级的PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">D_PC8</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级的PC+8值</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">同步复位</td>
-<td style="text-align:left">当<code>reset</code>信号为1且处于时钟上升沿时，<code>D_Instr</code>置0，<code>D_PC</code>置<code>PC_Reset</code>，<code>D_PC8</code>置<code>PC_Reset + 4</code></td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">停机</td>
-<td style="text-align:left">当<code>stall</code>信号为1时，保持<code>D_Instr</code>、<code>D_PC</code>和<code>D_PC8</code>的值不变</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:left">正常传递</td>
-<td style="text-align:left">当<code>stall</code>信号为0时，在时钟上升沿将<code>F_Instr</code>、<code>F_PC</code>和<code>F_PC8</code>的值传递到<code>D_Instr</code>、<code>D_PC</code>和<code>D_PC8</code></td>
-</tr>
-</tbody>
-</table>
-<h4 id="d-npc-指令计算单元">D_NPC 指令计算单元</h4>
-<ol>
-<li><strong>定义</strong>：根据当前PC值、指令类型和条件分支结果，计算下一条指令的PC值。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">F_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">当前指令的PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">Instr_index</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">26</td>
-<td style="text-align:center">跳转指令的目标地址</td>
-</tr>
-<tr>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">16</td>
-<td style="text-align:center">分支指令的偏移量</td>
-</tr>
-<tr>
-<td style="text-align:center">rs</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">寄存器rs的值</td>
-</tr>
-<tr>
-<td style="text-align:center">NPCSel</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">下一条指令PC选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">CMPOut</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">比较结果信号</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Next_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">计算得到的下一条指令的PC值</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">计算分支地址</td>
-<td style="text-align:left">根据当前PC值和偏移量计算分支指令的目标地址</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">计算跳转地址</td>
-<td style="text-align:left">根据当前PC值和指令索引计算跳转指令的目标地址</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:left">选择下一条指令PC</td>
-<td style="text-align:left">根据NPCSel信号选择下一条指令的PC值，支持顺序执行、分支、跳转和寄存器跳转</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">选择信号</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">数值</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">BranchType</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3’b011</td>
-<td style="text-align:center">B型跳转，与CMPOut共同决定跳转</td>
-</tr>
-<tr>
-<td style="text-align:center">JrType</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3’b010</td>
-<td style="text-align:center">JR型跳转</td>
-</tr>
-<tr>
-<td style="text-align:center">JumpType</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3’b001</td>
-<td style="text-align:center">J型跳转</td>
-</tr>
-</tbody>
-</table>
-<h4 id="d-ext-指令扩展">D_EXT 指令扩展</h4>
-<ol>
-<li><strong>定义</strong>：根据控制信号，对输入的16位立即数进行零扩展或符号扩展。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">offset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">16</td>
-<td style="text-align:center">16位立即数</td>
-</tr>
-<tr>
-<td style="text-align:center">ExtOp</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">扩展选择信号，0为零扩展，1为符号扩展</td>
-</tr>
-<tr>
-<td style="text-align:center">Extend</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">扩展后的32位立即数</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">符号扩展</td>
-<td style="text-align:left">当<code>ExtOp</code>信号为1时，<code>Extend</code>输出符号扩展后的32位立即数</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">零扩展</td>
-<td style="text-align:left">当<code>ExtOp</code>信号为0时，<code>Extend</code>输出零扩展后的32位立即数</td>
-</tr>
-</tbody>
-</table>
-<h4 id="d-cmp-比较器">D_CMP 比较器</h4>
-<ol>
-<li><strong>定义</strong>：根据控制信号，对输入的两个数进行比较，输出比较结果。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">RD1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">读寄存器1数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RD2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">读寄存器2数据</td>
-</tr>
-<tr>
-<td style="text-align:center">CMPOp</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">比较操作选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">CMPOut</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">比较结果输出</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">相等比较</td>
-<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BEQ</code>时，若<code>RD1</code>等于<code>RD2</code>，<code>CMPOut</code>输出1，否则输出0</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">不等比较</td>
-<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BNE</code>时，若<code>RD1</code>不等于<code>RD2</code>，<code>CMPOut</code>输出1，否则输出0</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:left">小于等于零</td>
-<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BLEZ</code>时，若<code>RD1</code>小于等于0，<code>CMPOut</code>输出1，否则输出0</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:left">大于零</td>
-<td style="text-align:left">当<code>CMPOp</code>信号为<code>CMP_BGTZ</code>时，若<code>RD1</code>大于0，<code>CMPOut</code>输出1，否则输出0</td>
-</tr>
-</tbody>
-</table>
-<h4 id="grf-寄存器堆">GRF 寄存器堆</h4>
-<ol>
-<li><strong>定义</strong>：根据读写信号，对寄存器堆进行读写操作。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">读寄存器1地址</td>
-</tr>
-<tr>
-<td style="text-align:center">A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">读寄存器2地址</td>
-</tr>
-<tr>
-<td style="text-align:center">RegAddr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">写寄存器地址</td>
-</tr>
-<tr>
-<td style="text-align:center">RegData</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">写数据</td>
-</tr>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">当前PC地址，用于输出</td>
-</tr>
-<tr>
-<td style="text-align:center">RD1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">读寄存器1数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RD2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">读寄存器2数据</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (RegWrite) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (RegAddr != <span class="number">0</span>) <span class="keyword">begin</span> <span class="comment">// Register 0 is always 0</span></span><br><span class="line">        GRF_reg[RegAddr] &lt;= RegData;</span><br><span class="line">        <span class="built_in">$display</span>(<span class="string">&quot;@%h: $%d &lt;= %h&quot;</span>, PC, RegAddr, RegData);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>输出寄存器堆中寄存器改变的信息<br>
-3. <strong>实现功能</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位</td>
-<td style="text-align:center">当reset为1时，将所有寄存器置为0</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">读</td>
-<td style="text-align:center">当RegWrite为0时，将A1、A2对应的寄存器数据输出到RD1、RD2</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">写</td>
-<td style="text-align:center">当RegWrite为1时，当RegAddr不为0时，在时钟上升沿将RegAddr对应的寄存器写入RegData</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>A1、A2分别读取Rs、Rt寄存器，RegAddress根据RegDst选择Rt或R），RegData根据MemRead选择ALU的运算结果或I型指令的立即数</p>
-</blockquote>
-<ol start="4">
-<li><strong>内部转发</strong><br>
-当<code>RegWrite</code>为1时，若D级读取的寄存器和W级写入的寄存器相同且不为0，则将<code>RegAddr</code>对应的寄存器的值输出到<code>RD1</code>或<code>RD2</code>。</li>
-</ol>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">assign</span> RD1 = </span><br><span class="line">        (A1 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A1]; <span class="comment">// Read the register1</span></span><br><span class="line"><span class="keyword">assign</span> RD2 = </span><br><span class="line">        (A2 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A2]; <span class="comment">// Read the register2</span></span><br></pre></td></tr></table></figure>
-<h3 id="e级：执行execute">E级：执行<em>Execute</em></h3>
-<h4 id="e-reg-e级流水线寄存器">E_REG E级流水线寄存器</h4>
-<ol>
-<li><strong>定义</strong>：存储E级流水线寄存器的数据。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">clr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">清除信号</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Instr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级指令</td>
-</tr>
-<tr>
-<td style="text-align:center">D_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">D_PC8</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">D_A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">D级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">D_A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">D级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">D_RD1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级寄存器数据1</td>
-</tr>
-<tr>
-<td style="text-align:center">D_RD2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级寄存器数据2</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Rt</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">D级Rt寄存器地址</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Rd</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">D级Rd寄存器地址</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUOp_D</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">D级ALU操作码</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Tnew</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">D级新指令周期</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUBSrcSel_D</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">D级ALU B源选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_D</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">D级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite_D</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">D级内存写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel_D</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">D级寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDstSel_D</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">D级寄存器目标选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">D_Extend</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">D级扩展数据</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Instr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级指令</td>
-</tr>
-<tr>
-<td style="text-align:center">E_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">E_PC8</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">E_RD1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级寄存器数据1</td>
-</tr>
-<tr>
-<td style="text-align:center">E_RD2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级寄存器数据2</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Rt</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级Rt寄存器地址</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Rd</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级Rd寄存器地址</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUOp_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">E级ALU操作码</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Tnew</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">E级新指令周期</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUBSrcSel_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">E级ALU B源选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">E级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">E级内存写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">E级寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDstSel_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">E级寄存器目标选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Extend</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级扩展数据</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">同步复位</td>
-<td style="text-align:left">当<code>reset</code>信号为1或<code>clr</code>信号为1时，所有输出信号清空，对于暂停操作而言相当于插入nop指令</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">正常传递</td>
-<td style="text-align:left">在时钟上升沿，将D级输入信号传递到E级输出信号</td>
-</tr>
-</tbody>
-</table>
-<h4 id="alu-算术逻辑单元">ALU 算术逻辑单元</h4>
-<ol>
-<li><strong>定义</strong>：根据控制信号，对输入的两个数进行算术或逻辑运算。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">A</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">输入操作数A</td>
-</tr>
-<tr>
-<td style="text-align:center">B</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">输入操作数B</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Op</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">ALU操作码</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Res</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">运算结果</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<p>根据ALU_Op的值，对输入的A和B进行相应的算术或逻辑运算，并将结果输出到ALU_Res。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>ADD</code></td>
-<td style="text-align:center">A + B</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center"><code>SUB</code></td>
-<td style="text-align:center">A - B</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center"><code>AND</code></td>
-<td style="text-align:center">A &amp; B</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center"><code>OR</code></td>
-<td style="text-align:center">A | B</td>
-</tr>
-<tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center"><code>XOR</code></td>
-<td style="text-align:center">A ^ B</td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center"><code>LUI</code></td>
-<td style="text-align:center">加载到高位</td>
-</tr>
-</tbody>
-</table>
-<h3 id="m级：存储memory">M级：存储Memory</h3>
-<h4 id="m-reg-m级流水线寄存器">M_REG M级流水线寄存器</h4>
-<ol>
-<li><strong>定义</strong>：存储M级流水线寄存器的数据。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Instr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级指令</td>
-</tr>
-<tr>
-<td style="text-align:center">E_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">E_PC8</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">E_RegAddr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">E_RD1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级寄存器数据1</td>
-</tr>
-<tr>
-<td style="text-align:center">E_RD2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级寄存器数据2</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite_E</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">E级内存写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_E</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">E级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel_E</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">E级寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">E_ALU_Res</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级ALU运算结果</td>
-</tr>
-<tr>
-<td style="text-align:center">E_Tnew</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">E级新指令周期</td>
-</tr>
-<tr>
-<td style="text-align:center">E_ALU_Fwd_MUXOut</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">E级ALU转发MUX输出</td>
-</tr>
-<tr>
-<td style="text-align:center">M_Instr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级指令</td>
-</tr>
-<tr>
-<td style="text-align:center">M_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">M_PC8</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">M_A1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">M_A2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">M_RegAddr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">M_RD1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级寄存器数据1</td>
-</tr>
-<tr>
-<td style="text-align:center">M_RD2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级寄存器数据2</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite_M</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">M级内存写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_M</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">M级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel_M</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">M级寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">M_ALU_Res</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级ALU运算结果</td>
-</tr>
-<tr>
-<td style="text-align:center">M_Tnew</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">M级新指令周期</td>
-</tr>
-<tr>
-<td style="text-align:center">M_ALU_Fwd_MUXOut</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级ALU转发MUX输出</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">同步复位</td>
-<td style="text-align:left">当<code>reset</code>信号为1时，所有输出信号清空，对于暂停操作而言相当于插入nop指令</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">正常传递</td>
-<td style="text-align:left">在时钟上升沿，将E级输入信号传递到M级输出信号</td>
-</tr>
-</tbody>
-</table>
-<h4 id="m-dm-数据存储器">M_DM 数据存储器</h4>
-<ol>
-<li><strong>定义</strong>：使用RAM实现，根据控制信号，对输入的地址和数据进行读写操作。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">MemAddr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">32位地址</td>
-</tr>
-<tr>
-<td style="text-align:center">WD</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">32位数据</td>
-</tr>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">同步复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">WE</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">读/写控制信号，0为读，1为写</td>
-</tr>
-<tr>
-<td style="text-align:center">PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">PC地址</td>
-</tr>
-<tr>
-<td style="text-align:center">DM_RD</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">32位数据</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位</td>
-<td style="text-align:center">当reset为1时，将所有数据存储单元置零</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">读</td>
-<td style="text-align:center">当WE为0时，输出地址对应的32位数据DM_RD</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">写</td>
-<td style="text-align:center">当WE为1时，将MemAddr对应地址写入32位数据WD</td>
-</tr>
-</tbody>
-</table>
-<h3 id="w级：写回writeback">W级：写回<em>WriteBack</em></h3>
-<h4 id="w-reg-w级流水线寄存器">W_REG W级流水线寄存器</h4>
-<ol>
-<li><strong>定义</strong>：存储W级流水线寄存器的数据。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-<tr>
-<td style="text-align:center">M_Instr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级指令</td>
-</tr>
-<tr>
-<td style="text-align:center">M_PC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">M_PC8</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">M_A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">M_A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">M_RegAddr</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">M_RD1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级寄存器数据1</td>
-</tr>
-<tr>
-<td style="text-align:center">M_RD2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级寄存器数据2</td>
-</tr>
-<tr>
-<td style="text-align:center">M_ALU_Res</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级ALU运算结果</td>
-</tr>
-<tr>
-<td style="text-align:center">M_DM_RD</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">M级数据存储器读数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_M</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">M级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel_M</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">M级寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">M_Tnew</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">M级新指令周期</td>
-</tr>
-<tr>
-<td style="text-align:center">W_Instr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级指令</td>
-</tr>
-<tr>
-<td style="text-align:center">W_PC</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级PC值</td>
-</tr>
-<tr>
-<td style="text-align:center">W_PC8</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级PC+8值</td>
-</tr>
-<tr>
-<td style="text-align:center">W_A1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">W级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">W_A2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">W级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">W_RegAddr</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">W级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">W_RD1</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级寄存器数据1</td>
-</tr>
-<tr>
-<td style="text-align:center">W_RD2</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级寄存器数据2</td>
-</tr>
-<tr>
-<td style="text-align:center">W_ALU_Res</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级ALU运算结果</td>
-</tr>
-<tr>
-<td style="text-align:center">W_DM_RD</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">W级数据存储器读数据</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_W</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">W级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel_W</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">W级寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">W_Tnew</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">W级新指令周期</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">同步复位</td>
-<td style="text-align:left">当<code>reset</code>信号为1时，所有输出信号清空，对于暂停操作而言相当于插入nop指令</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">正常传递</td>
-<td style="text-align:left">在时钟上升沿，将M级输入信号传递到W级输出信号</td>
-</tr>
-</tbody>
-</table>
-<h3 id="mcu-控制单元">MCU 控制单元</h3>
-<ol>
-<li>
-<p><strong>定义</strong><br>
-MCU 控制单元用于生成控制信号，控制其他模块的行为。</p>
-</li>
-<li>
-<p><strong>端口定义</strong></p>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Op</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">操作码</td>
-</tr>
-<tr>
-<td style="text-align:center">Func</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">功能码</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDstSel</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">寄存器目标选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">ALUBSrcSel</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">ALU_B源选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegDataSel</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">寄存器数据选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_D</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">MemWrite_D</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">内存写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">NPCSel</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">下一条指令PC选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">ExtOp_D</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">扩展操作选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">CMPOp</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">比较操作选择信号</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_Op</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">ALU操作码</td>
-</tr>
-<tr>
-<td style="text-align:center">Tuse_rs</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">rs使用需要周期数</td>
-</tr>
-<tr>
-<td style="text-align:center">Tuse_rt</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">rt使用需要周期数</td>
-</tr>
-<tr>
-<td style="text-align:center">Tnew_D</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">产生数据所用周期数</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">指令译码</td>
-<td style="text-align:left">根据操作码和功能码生成对应的控制信号</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">控制信号生成</td>
-<td style="text-align:left">生成寄存器目标选择信号、ALU B源选择信号、寄存器数据选择信号等</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:left">冒险时间生成</td>
-<td style="text-align:left">生成rs和rt的使用时间以及新指令周期</td>
-</tr>
-</tbody>
-</table>
-<ol start="4">
-<li>
-<p><strong>多路选择器说明</strong></p>
-<ol>
-<li><strong>RegDstSel</strong>：寄存器目标选择信号，用于选择写入寄存器的目标寄存器。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">RaType</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">写回ra寄存器</td>
-</tr>
-<tr>
-<td style="text-align:center">RdType</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">写回rd寄存器</td>
-</tr>
-<tr>
-<td style="text-align:center">RtType</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">写回rt寄存器</td>
-</tr>
-</tbody>
-</table>
-<ol start="2">
-<li><strong>ALUBSel</strong>：ALU B源选择信号，用于选择ALU B输入端的源。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">E_ALU_Fwd_MUXOut</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">寄存器值</td>
-</tr>
-<tr>
-<td style="text-align:center">EXT</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">扩展后的立即数</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>RegDataSel</strong>：寄存器数据选择信号，用于选择写入寄存器的数据源。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">FromPC</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">来自PC8</td>
-</tr>
-<tr>
-<td style="text-align:center">FromALU</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">来自ALU</td>
-</tr>
-<tr>
-<td style="text-align:center">FromDM</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">32</td>
-<td style="text-align:center">来自DM</td>
-</tr>
-</tbody>
-</table>
-</li>
-</ol>
-<h3 id="hcu-冒险控制单元">HCU 冒险控制单元</h3>
-<ol>
-<li><strong>定义</strong>：冒险控制单元用于检测流水线中的数据冒险，并生成相应的转发和停顿信号。</li>
-<li><strong>端口定义</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Tuse_rs</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">rs使用需要周期数</td>
-</tr>
-<tr>
-<td style="text-align:center">Tuse_rt</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">rt使用需要周期数</td>
-</tr>
-<tr>
-<td style="text-align:center">Tnew_E</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">E级产生数据需要周期</td>
-</tr>
-<tr>
-<td style="text-align:center">Tnew_M</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">M级产生数据需要周期</td>
-</tr>
-<tr>
-<td style="text-align:center">Tnew_W</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">W级产生数据需要周期</td>
-</tr>
-<tr>
-<td style="text-align:center">D_A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">D级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">D_A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">D级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A1</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器地址1</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">E_A3</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">E级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">M_A2</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器地址2</td>
-</tr>
-<tr>
-<td style="text-align:center">M_A3</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">M级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">W_A3</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">W级寄存器写地址</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_E</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">E级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_M</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">M级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">RegWrite_W</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">W级寄存器写使能信号</td>
-</tr>
-<tr>
-<td style="text-align:center">CMP_RD1_Fwd_D</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">比较器RD1转发信号</td>
-</tr>
-<tr>
-<td style="text-align:center">CMP_RD2_Fwd_D</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">比较器RD2转发信号</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_A_Fwd_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">ALU A转发信号</td>
-</tr>
-<tr>
-<td style="text-align:center">ALU_B_Fwd_E</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">ALU B转发信号</td>
-</tr>
-<tr>
-<td style="text-align:center">DM_WD_Fwd_M</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">数据存储器写数据转发信号</td>
-</tr>
-<tr>
-<td style="text-align:center">stall</td>
-<td style="text-align:center">O</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">停顿信号</td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li><strong>实现功能</strong></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:left">功能</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:left">停顿检测</td>
-<td style="text-align:left">根据寄存器地址和使用周期数，检测是否需要停顿</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:left">转发信号生成</td>
-<td style="text-align:left">生成比较器、ALU和数据存储器的转发信号</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:left">停顿信号生成</td>
-<td style="text-align:left">生成流水线停顿信号</td>
-</tr>
-</tbody>
-</table>
-<h4 id="暂停stall">暂停<em>Stall</em></h4>
-<p>使用A-T法判断，当address相同时，若D级的Tuse_rs或Tuse_rt<br>
-比E、M、W级的Tnew小，则说明在D级需要使用寄存器中数据时，E、M、W级相应的寄存器数据还未准备好，需要暂停流水线。</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">E_Stall_Rs = (E_A3 == D_A1) &amp;&amp; (D_A1 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_E &gt; Tuse_rs) &amp;&amp; RegWrite_E;</span><br><span class="line">E_Stall_Rt = (E_A3 == D_A2) &amp;&amp; (D_A2 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_E &gt; Tuse_rt) &amp;&amp; RegWrite_E;</span><br><span class="line">M_Stall_Rs = (M_A3 == D_A1) &amp;&amp; (D_A1 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_M &gt; Tuse_rs) &amp;&amp; RegWrite_M;</span><br><span class="line">M_Stall_Rt = (M_A3 == D_A2) &amp;&amp; (D_A2 != <span class="number">5&#x27;b0</span>) &amp;&amp; (Tnew_M &gt; Tuse_rt) &amp;&amp; RegWrite_M;</span><br><span class="line"></span><br><span class="line">stall = E_Stall_Rs || E_Stall_Rt || M_Stall_Rs || M_Stall_Rt;</span><br><span class="line"><span class="comment">//W级不需要判断，因为在GRF中存在内部转发</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="转发foward">转发<em>Foward</em></h4>
-<p>执行暴力转发，使用A-T法判断，当address相同且D级的Tuse_rs或Tuse_rt大于E、M级相应的Tnew时，说明D级需要使用的数据在E、M级中，需要转发。</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">assign</span> CMP_RD1_Fwd_D = </span><br><span class="line">        (D_A1 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">        (E_A3 == D_A1 &amp;&amp; RegWrite_E) ? `FWD_EXE : </span><br><span class="line">        (M_A3 == D_A1 &amp;&amp; RegWrite_M) ? `FWD_MEM : </span><br><span class="line">        (W_A3 == D_A1 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for CMP_RD2, W not included because it&#x27;s forwared in GRF</span></span><br><span class="line"><span class="keyword">assign</span> CMP_RD2_Fwd_D = </span><br><span class="line">    (D_A2 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (E_A3 == D_A2 &amp;&amp; RegWrite_E) ? `FWD_EXE : </span><br><span class="line">    (M_A3 == D_A2 &amp;&amp; RegWrite_M) ? `FWD_MEM : </span><br><span class="line">    (W_A3 == D_A2 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for ALU_A</span></span><br><span class="line"><span class="keyword">assign</span> ALU_A_Fwd_E = </span><br><span class="line">    (E_A1 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (M_A3 == E_A1 &amp;&amp; RegWrite_M) ? `FWD_MEM :</span><br><span class="line">    (W_A3 == E_A1 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for ALU_B</span></span><br><span class="line"><span class="keyword">assign</span> ALU_B_Fwd_E = </span><br><span class="line">    (E_A2 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (M_A3 == E_A2 &amp;&amp; RegWrite_M) ? `FWD_MEM :</span><br><span class="line">    (W_A3 == E_A2 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Forwarding logic for DM_WD</span></span><br><span class="line"><span class="keyword">assign</span> DM_WD_Fwd_M = </span><br><span class="line">    (M_A3 == <span class="number">5&#x27;b0</span>) ? `FWD_GRF : </span><br><span class="line">    (W_A3 == M_A3 &amp;&amp; RegWrite_W) ? `FWD_WB : `FWD_GRF;</span><br></pre></td></tr></table></figure>
-<h3 id="顶层模块">顶层模块</h3>
-<ul>
-<li><strong>定义</strong>：顶层模块，将所有模块连接起来，实现整个CPU的功能。</li>
-<li><strong>端口定义</strong>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">信号名</th>
-<th style="text-align:center">方向</th>
-<th style="text-align:center">位宽</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">clk</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">时钟信号</td>
-</tr>
-<tr>
-<td style="text-align:center">reset</td>
-<td style="text-align:center">I</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">复位信号</td>
-</tr>
-</tbody>
-</table>
-</li>
-<li><strong>功能实现</strong>：实例化所有模块，定义各模块间的连接，在顶层模块中用<code>?:</code>实现多路选择器。</li>
-</ul>
-<h2 id="测试方案">测试方案</h2>
-<h2 id="第五次思考题">第五次思考题</h2>
-<ol>
-<li>我们使用提前分支判断的方法尽早产生结果来减少因不确定而带来的开销，但实际上这种方法并非总能提高效率，请从流水线冒险的角度思考其原因并给出一个指令序列的例子。</li>
-</ol>
-<blockquote>
-<p>由于分支跳转指令的Tuse为0，因此若对应寄存器在E、M、W级的Tnew大于0，则会导致冒险，必须阻塞流水线，效率反而降低。</p>
-</blockquote>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">lui $<span class="number">1</span>, <span class="number">100</span></span><br><span class="line">beq $<span class="number">1</span>, $<span class="number">0</span>, label1</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>因为延迟槽的存在，对于 jal 等需要将指令地址写入寄存器的指令，要写回 PC + 8，请思考为什么这样设计？</li>
-</ol>
-<blockquote>
-<p>因为延迟槽的存在，jal等指令在D级才能译码，此时F级的指令地址为PC+4，当写回地址时，若仍按照PC+4，则会跳转到延迟槽中的指令，这显然是不对的，因此只要写回D_PC+8，即跳转指令地址+8，或者是F_PC+4，也是正确的。（由于延迟槽存在，实际上能够保证此时F_PC=D_PC+4）</p>
-</blockquote>
-<ol start="3">
-<li>我们要求所有转发数据都来源于流水寄存器而不能是功能部件（如 DM、ALU），请思考为什么？</li>
-</ol>
-<blockquote>
-<p>因为流水线寄存器中的数据是在上一周期已经计算好的，而在这一周期的时钟上升沿写入，可以保证在下一时钟周期之前稳定输出，而功能部件使用组合逻辑，其输入取决于输入端口的值，而如果在转发供给者功能部件输出端口转发，由于功能部件输出有延迟，可能导致接收者的输入改变的时间点不确定，从而无法保证数据正确性与稳定性。</p>
-</blockquote>
-<ol start="4">
-<li>我们为什么要使用 GPR 内部转发？该如何实现？</li>
-</ol>
-<blockquote>
-<p><s>设计文档里有说明</s> 当W级与D级使用同一个寄存器时，为了避免数据冒险，使用内部转发既可以避免D级取到错误的寄存器值，也可以避免阻塞流水线。实现如下：</p>
-</blockquote>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//GRF内部转发   </span></span><br><span class="line"><span class="keyword">assign</span> RD1 = </span><br><span class="line">    (A1 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A1]; <span class="comment">// Read the register1</span></span><br><span class="line"><span class="keyword">assign</span> RD2 = </span><br><span class="line">    (A2 == RegAddr &amp;&amp; RegWrite &amp;&amp; RegAddr != <span class="number">0</span>) ? RegData : GRF_reg[A2]; <span class="comment">// Read the register2</span></span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>我们转发时数据的需求者和供给者可能来源于哪些位置？共有哪些转发数据通路？</li>
-</ol>
-<blockquote>
-<p>需求者：D级的CMP(RD1和RD2)，E级的ALU（ALU_A和ALU_B），M级的DM（DM_WD）<br>
-供给者：W级的GRF（RegData），E级的ALU（ALU_Res），M级的DM（DM_RD）<br>
-转发数据通路：GRF内部转发，M级到D级，M级到E级，W级到D级（GRF内部转发），W级到E级，W级到M级</p>
-</blockquote>
-<ol start="6">
-<li>在课上测试时，我们需要你现场实现新的指令，对于这些新的指令，你可能需要在原有的数据通路上做哪些扩展或修改？提示：你可以对指令进行分类，思考每一类指令可能修改或扩展哪些位置。</li>
-</ol>
-<blockquote>
-<p>计算指令：首先处理ALU的运算逻辑，然后在MCU中添加对应的信号处理语句，我一般会用宏定义来处理指令的Op和Func，再选择对应的信号，处理Tnew和Tuse，基本不需要改变数据通路。<br>
-跳转指令：可能是<code>条件跳转+无条件链接</code>，<code>条件跳转+条件链接</code>，对于条件跳转，在CMP中添加对应判断；对于链接，无条件链接直接修改为<code>RaType</code>，条件链接则需要对CMP比较结果进行流水，在对RegDst选择与RegWrite选择时根据CMP结果判断，在MCU中添加对应逻辑。<br>
-访存指令：如果是<code>条件存储</code>，需要到M级才能得到结果，对于转发和暂停需要设置D级的Tnew为3，需要在数据通路中增加一个多路选择器用于选择该信号数据或地址，在MCU中添加以上控制信号逻辑。</p>
-</blockquote>
-<ol start="7">
-<li>简要描述你的译码器架构，并思考该架构的优势以及不足。</li>
-</ol>
-<blockquote>
-<p>采用分布式译码，优点在于增加指令时更为便利，无需流水到每一级，直接增加端口就可以控制；缺点是当指令数量较多时，译码器会变得复杂，且浪费资源。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>学习</category>
-        <category>CO</category>
-        <category>lab</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>CO</tag>
       </tags>
   </entry>
   <entry>
@@ -10805,6 +10805,45 @@ R是自反的（反自反、对称、反对称、传递）当且仅当R<sup>-1</
       </tags>
   </entry>
   <entry>
+    <title>test</title>
+    <url>/2024/05/15/test/</url>
+    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
+<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
+<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
+</h3>]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第一篇博客！</title>
+    <url>/2024/03/13/theFirstBlog/</url>
+    <content><![CDATA[<h1 id="for-the-first-time">For the first time</h1>
+<p>鼓掌鼓掌<br>
+今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
+特此纪念</p>
+]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell学习笔记</title>
     <url>/2024/03/14/shelllearning/</url>
     <content><![CDATA[<h2 id="shell">shell</h2>
@@ -10915,45 +10954,6 @@ R是自反的（反自反、对称、反对称、传递）当且仅当R<sup>-1</
         <tag>学习</tag>
         <tag>教程</tag>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2024/05/15/test/</url>
-    <content><![CDATA[<h3>这里是一个测试图片能否正常显示的博客
-<p><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="测试"></p>
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
-<img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255290.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255289.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
-<img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg">
-</h3>]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第一篇博客！</title>
-    <url>/2024/03/13/theFirstBlog/</url>
-    <content><![CDATA[<h1 id="for-the-first-time">For the first time</h1>
-<p>鼓掌鼓掌<br>
-今天参考<a href="https://onlyar.site/2024/01/11/hexo-guide-1/">一个学长的博客</a>利用<strong>hexo</strong>和<strong>github</strong>在本地部署了<em>theUHO’sBlog</em><br>
-特此纪念</p>
-]]></content>
-      <categories>
-        <category>测试</category>
-      </categories>
-      <tags>
-        <tag>测试</tag>
-        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
