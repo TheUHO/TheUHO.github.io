@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://theuho.site/2024/10/23/ComputerConstructionNote5/</loc>
+    
+    <lastmod>2024-12-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://theuho.site/2024/12/11/COexamP7/</loc>
     
     <lastmod>2024-12-11</lastmod>
@@ -41,15 +50,6 @@
     <loc>https://theuho.site/2024/11/26/CO-P5-document/</loc>
     
     <lastmod>2024-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://theuho.site/2024/10/23/ComputerConstructionNote5/</loc>
-    
-    <lastmod>2024-11-07</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -386,14 +386,14 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/%E6%B5%8B%E8%AF%95/</loc>
+    <loc>https://theuho.site/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2024-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/%E9%9A%8F%E7%AC%94/</loc>
+    <loc>https://theuho.site/tags/%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2024-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -451,13 +451,6 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/CO/%E7%90%86%E8%AE%BA%E8%AF%BE/</loc>
-    <lastmod>2024-12-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/CO/lab/</loc>
     <lastmod>2024-12-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -480,6 +473,13 @@
   
   <url>
     <loc>https://theuho.site/categories/%E6%B5%8B%E8%AF%95/</loc>
+    <lastmod>2024-12-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/CO/%E7%90%86%E8%AE%BA%E8%AF%BE/</loc>
     <lastmod>2024-12-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
