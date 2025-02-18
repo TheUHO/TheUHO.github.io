@@ -7887,7 +7887,7 @@ blockquote.pullquote.right {
     align-items: flex-start;
     flex-direction: column;
     width: 50%;
-    min-height: 450px;
+    min-height: 100px;
   }
   
   .author-content-item.skills .skills-style-group {
@@ -7953,8 +7953,8 @@ blockquote.pullquote.right {
   }
   .author-content-item.skills .skill-icon {
     width: 32px;
-    height: 16px;
-    border-radius: 16px;
+    height: 32px;
+    border-radius: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
