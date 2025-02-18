@@ -7953,8 +7953,8 @@ blockquote.pullquote.right {
   }
   .author-content-item.skills .skill-icon {
     width: 32px;
-    height: 32px;
-    border-radius: 32px;
+    height: 16px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
