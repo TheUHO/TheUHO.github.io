@@ -1,20 +1,27 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>theUHO</title><meta name="author" content="theUHO"><meta name="copyright" content="theUHO"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="description" content="CS学习生活记录">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>theUHO</title><meta name="author" content="theUHO"><meta name="copyright" content="theUHO"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="description" content="CS学习生活记录">
 <meta property="og:type" content="website">
 <meta property="og:title" content="theUHO">
 <meta property="og:url" content="https://theuho.site/index.html">
 <meta property="og:site_name" content="theUHO">
 <meta property="og:description" content="CS学习生活记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="og:image" content="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg">
 <meta property="article:author" content="theUHO">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://theuho.site/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+<meta name="twitter:image" content="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://theuho.site/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//hm.baidu.com"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?81ddc5fad2a887e9007f6fd620995ffc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
   root: '/',
   algolia: undefined,
-  localSearch: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
   translate: undefined,
   noticeOutdate: undefined,
-  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
   copy: {
     success: '复制成功',
     error: '复制错误',
@@ -22,9 +29,9 @@
   },
   relativeDate: {
     homepage: false,
-    post: false
+    post: true
   },
-  runtime: '',
+  runtime: '天',
   dateSuffix: {
     just: '刚刚',
     min: '分钟前',
@@ -39,21 +46,21 @@
     js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
     buttonText: '加载更多'
   },
-  isPhotoFigcaption: false,
+  isPhotoFigcaption: true,
   islazyload: false,
   isAnchor: false,
   percent: {
     toc: true,
-    rightside: false,
+    rightside: true,
   },
-  autoDarkmode: false
+  autoDarkmode: true
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: 'theUHO',
   isPost: false,
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2025-03-30 23:57:06'
+  postUpdate: '2025-03-31 00:06:22'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -127,14 +134,33 @@
       win.activateLightMode = () => {
         document.documentElement.setAttribute('data-theme', 'light')
         if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
         }
       }
       const t = saveToLocal.get('theme')
     
-        if (t === 'dark') activateDarkMode()
-        else if (t === 'light') activateLightMode()
-      
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 19
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
       const asideStatus = saveToLocal.get('aside-status')
       if (asideStatus !== undefined) {
         if (asideStatus === 'hide') {
@@ -150,23 +176,14 @@
         }
       }
       detectApple()
-    })(window)</script><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><span class="site-name">theUHO</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">theUHO</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025第一单元总结博客 [BUAA-OO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]">2025第一单元总结博客 [BUAA-OO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-19T00:07:39.000Z" title="发表于 2025-03-19 08:07:39">2025-03-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/">OO</a></span></div><div class="content">本文将从笔者自身的角度出发，总结2025年北航面向对象课程第一单元作业(HW1, HW2)的程序设计思路和架构搭建，呈现我在完成一个支持加、减、乘、乘方、三角函数、递推函数、普通函数、求导功能的科学计算器过程中所遇到的问题、思考以及解决方案。
+    })(window)</script><link rel="stylesheet" href="/css/modify.css"><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet"></head><body><!-- #web_bg--><div id="web_bg" style="background:url(http://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">theUHO</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="http://github.com/TheUHO" target="_blank" title="Github"><i class="fab fa-github" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:wuyubuchenhong@buaa.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025第一单元总结博客 [BUAA-OO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]">2025第一单元总结博客 [BUAA-OO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-19T00:07:39.000Z" title="发表于 2025-03-19 08:07:39">2025-03-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/">OO</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OO/">OO</a></span></div><div class="content">本文将从笔者自身的角度出发，总结2025年北航面向对象课程第一单元作业(HW1, HW2)的程序设计思路和架构搭建，呈现我在完成一个支持加、减、乘、乘方、三角函数、递推函数、普通函数、求导功能的科学计算器过程中所遇到的问题、思考以及解决方案。
 
 一、架构分析
 1.1 项目架构概览
-本项目采用面向对象的思想，将化简表达式的总功能划分为了表达式解析部分和合并化简部分，前者对应了Lexer、Paser、FuncManager类，后者对应了Expr、Term、Factor等类，通过对递归下降与正则表达式的结合运用，较好地实现了对表达式的解析与合并化简。
-1.2 UML类图
-
-1.3 架构设计
-(1) 函数处理与词法分析
-
-FuncManager类：负责处理自定义函数定义与解析，通过HashMap存储函数名、形参与函数表达式，对传入内部的input字符串通过正则表达式进行匹配，并展开递推表达式与普通函数，降低解析表达式时处理函数调用的复杂度。
-Lexer类：负责对传入的字符串进行词法分析，将表达式字符串分割为一个个的Token，处理连续符号与数字合并，完成储存，方便后续的解析。
-
-(2) 表达式 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="lab0 实验报告 [BUAA-OS]"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]">lab0 实验报告 [BUAA-OS]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-10T12:54:25.000Z" title="发表于 2025-03-10 20:54:25">2025-03-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OS/">OS</a></span></div><div class="content">Part1. 思考题
+本项目采用面向对象的思想，将化简表达式的总功能划分为了表达式解析部分和合并化简部分，前者对应了Lexer、Paser、 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="lab0 实验报告 [BUAA-OS]"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]">lab0 实验报告 [BUAA-OS]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-10T12:54:25.000Z" title="发表于 2025-03-10 20:54:25">2025-03-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OS/">OS</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OS/">OS</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Linux/">Linux</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/vim/">vim</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a></span></div><div class="content">Part1. 思考题
 Thinking 0.1 Git相关
 执行以下命令
-12345678910111213141516171819202122232425262728cd ~/learnGit # 已初始化的git仓库touch README.txtgit status &gt; Untracked.txt# 显示 README.txt 是一个未被跟踪的文件 # 2. 执行 git add README.txtecho "This is the README file for learnGit." &gt; README.txtgit add README.txtgit status &gt; Stage.txt# 显示 README.txt 是一个已暂存的文件，Untracked.txt 是一个未被跟踪的文件# 3. 提交 README.txt 文件git commit -m "23373446"# 4. 对比 Untracked.txt 和 Stage.txt 的结果cat Untracked.txtcat Stage.txt# Untra ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OS-Linux 学习备忘[BUAA-OS]"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]">OS-Linux 学习备忘[BUAA-OS]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-02-22T09:45:00.000Z" title="发表于 2025-02-22 17:45:00">2025-02-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OS/">OS</a></span></div><div class="content">Linux 假期预习备忘
+12345678910111213141516171819202122232425262728cd ~/learnGit # 已初始化的git仓库touch README.txtgit status &gt; Untracked.txt# 显示 README.txt 是一个未被跟踪的文件 # 2. 执行 git add RE ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OS-Linux 学习备忘[BUAA-OS]"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]">OS-Linux 学习备忘[BUAA-OS]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-02-22T09:45:00.000Z" title="发表于 2025-02-22 17:45:00">2025-02-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OS/">OS</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%87%AA%E5%AD%98/">自存</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OS/">OS</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Linux/">Linux</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/vim/">vim</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a></span></div><div class="content">Linux 假期预习备忘
 Hello, Linux!
 
 什么是 Linux？
@@ -180,39 +197,11 @@ Linux 发行版包括 Ubuntu、Debian 等，本教程使用 Ubuntu 22.04.1 LTS�
 
 CLI Shell 概念
 
-CLI（Command Line Interface）：命令行界面，通过命令行与操作系统交互。
-Shell 是操作系统的外壳，用于访问操作系统服务，分为 CLI Shell 和 GUI Shell。
-
-
-为什么使用 CLI Shell？
-
-节约资源：在资源有限的设备上，运行 GUI Shell 会增加系统负担。
-高效自动化操作：CLI Shell 可以通过脚本实现复杂操作。
-精准操作：命令行操作可以精确控制，便于复现和传播。
-
-
-
-Linux 基础操作
-
-命令格式
-
-命令名 [选项] [参数] …
-
-
-目录操作
-
-cd：切换目录。
-ls：列出目录内容。
-mkdir：创建新目录。
-rmdir：删除空目录。
-pwd：显示当前目录的绝 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7课上题目回忆和思路分享[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]">P7课上题目回忆和思路分享[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-12-11T10:11:57.000Z" title="发表于 2024-12-11 18:11:57">2024-12-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="content">简要概述
+CLI（Command Line I ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7课上题目回忆和思路分享[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]">P7课上题目回忆和思路分享[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-12-11T10:11:57.000Z" title="发表于 2024-12-11 18:11:57">2024-12-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CO/">CO</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%80%83%E8%AF%95/">考试</a></span></div><div class="content">简要概述
 P7上机共5题，前四题均为课下强测，分别为功能强测、转发阻塞强测、异常强测和中断强测，保证课下实现功能没有问题即可通过，最后一题是课上新指令题，可能是新指令或异常处理（第一次是withdraw指令，涉及利用CP0中新增寄存器以实现撤销操作，具体内容可参考Lazyfish的博客）
 T5 Watch Exception(第二次)
 题目描述
-新增异常Watch，分为IMWatch和DMWatch，异常码均为5'd23，要求在CP0中新增2个32位18、19号寄存器WatchLo和WatchHi，均可通过mtc0和mfc0读写。WatchLo中高16位存放IM地址，低16位中存储DM地址，WatchHi[0]用于全局监视使能的控制，Watch[1]用于store类型指令监视使能的控制，WatchHi[2]用于load类型指令监视使能的控制，WatchHi[3]用于指令PC值监视使能的控制。
-
-IMWatchIM异常：当指令PC值与WatchLo中高16位做32位0拓展后相等时，若全局监视使能和PC值监视使能均打开，则触发IMWatch异常。
-DMWatchDM异常：当store指令的 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]">P7-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-12-11T10:08:53.000Z" title="发表于 2024-12-11 18:08:53">2024-12-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="content">P7流水线CPU设计文档
+新增异常Watch，分为IMWatch和DMWatc ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]">P7-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-12-11T10:08:53.000Z" title="发表于 2024-12-11 18:08:53">2024-12-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CO/">CO</a></span></div><div class="content">P7流水线CPU设计文档
 设计整体概述
 
 预计实现指令集：
@@ -222,43 +211,7 @@ lw、lh、lhu、lb、lbu、sw、sh、sb、
 mult、multu、div、divu、mfhi、mflo、mthi、mtlo、
 beq、bne、nop、j、jr、jal、jalr、
 mfc0、mtc0、eret、syscall
-实际MIPS微系统支持指令与课下要求实现一致。
-
-
-R型指令：add、sub、and、or、nor、xor、slt、sltu、
-
-
-
-
-opcode
-rs
-rt
-rd
-shamt
-funct
-
-
-
-
-6
-5
-5
-5
-5
-6
-
-
-
-
-
-I型指令：lui、ori、andi、addi、lw、lh、lhu、lb、lbu、sw、sh、sb、beq、bne、
-| opcode |  rs   |  rt   | offset |
-| :----: | :—: | :—: | :----: |
-|   6    |   5   |   5   |   16   |
-
-
-J型指令：j、jal
-| opcode ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/11/26/CO-P6-document/" title="P6-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P6-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/26/CO-P6-document/" title="P6-CPU设计文档[BUAA-CO]">P6-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-26T03:14:53.000Z" title="发表于 2024-11-26 11:14:53">2024-11-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="content">P6流水线CPU设计文档
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/26/CO-P6-document/" title="P6-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P6-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/26/CO-P6-document/" title="P6-CPU设计文档[BUAA-CO]">P6-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-26T03:14:53.000Z" title="发表于 2024-11-26 11:14:53">2024-11-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CO/">CO</a></span></div><div class="content">P6流水线CPU设计文档
 设计整体概述
 
 预计实现指令集：
@@ -269,73 +222,7 @@ mult、multu、div、divu、mfhi、mflo、mthi、mtlo、
 beq、bne、nop、j、jr、jal、jalr
 
 
-R型指令：add、sub、and、or、nor、xor、slt、sltu、
-
-
-
-
-opcode
-rs
-rt
-rd
-shamt
-funct
-
-
-
-
-6
-5
-5
-5
-5
-6
-
-
-
-
-I型指令：lui、ori、andi、addi、lw、lh、lhu、lb、lbu、sw、sh、sb、beq、bne、
-
-
-
-
-opcode
-rs
-rt
-offset
-
-
-
-
-6
-5
-5
-16
-
-
-
-
-J型指令：j、jal
-
-
-
-
-opcode
-instr_index
-
-
-
-
-6
-26
-
-
-
-
-乘除器操作指令：mult、multu、div、divu、mfhi、mflo、mthi、mtlo
-
-
-其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/26/CO-P5-document/" title="P5-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P5-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/26/CO-P5-document/" title="P5-CPU设计文档[BUAA-CO]">P5-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-26T03:09:59.000Z" title="发表于 2024-11-26 11:09:59">2024-11-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="content">P5流水线CPU设计文档
+R型指令：add、sub、and、or、no ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/26/CO-P5-document/" title="P5-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P5-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/26/CO-P5-document/" title="P5-CPU设计文档[BUAA-CO]">P5-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-26T03:09:59.000Z" title="发表于 2024-11-26 11:09:59">2024-11-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CO/">CO</a></span></div><div class="content">P5流水线CPU设计文档
 设计整体概述
 
 预计实现指令集：add、sub、ori、Lui、lw、sw、beq、nop、j、jr、jal
@@ -385,71 +272,8 @@ offset
 16
 
 
-
-
-J型指令：j、jal
-
-
-
-
-opcode
-instr_index
-
-
-
-
-6
-26
-
-
-
-
-其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu
-
-
-
-实现功能：实现五级流水线CPU，通过F、D、E、M、W五个阶段实现指令的执行，其中F阶段为取指，D阶段为译码，E阶段为执行，M阶段为访存，W阶段为写回，各阶段均通过流水线寄存器实现流水线操作，通过转发和阻塞机制解决冒险问题。
-
-
-顶层设计图：
-整体架构参考了PPT上的设计
-
-
-
-命名格式：模块命名采用所在级_模块名方式，模块内部信号名采取来源_功能方式命名，顶层信号采用所在级_模块名_信号名方式 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/11/05/OOPreSummary/" title="OOPre2024课程总结[BUAA-OOPre]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202411052057448.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OOPre2024课程总结[BUAA-OOPre]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/05/OOPreSummary/" title="OOPre2024课程总结[BUAA-OOPre]">OOPre2024课程总结[BUAA-OOPre]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-05T12:54:35.000Z" title="发表于 2024-11-05 20:54:35">2024-11-05</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/">OO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/%E5%85%88%E5%AF%BC/">先导</a></span></div><div class="content">游戏背景
-在这个架空的魔法世界中，玩家将扮演一位冒险者，探索一个充满挑战和机遇的魔法大陆。玩家需要管理自己的资源（放入背包或仓库），包括药水瓶、装备，并可以用碎片兑换福利。在收集装备、药水瓶和福利碎片，雇佣冒险者的过程中，玩家将增强自己的实力，并通过普通攻击或者递归攻击击败其他冒险者。被雇佣的冒险者将会在雇主减少某种程度的体力值时给予援助。在冒险的最后，冒险者们将进入“秘境工厂”打败守门怪物，寻找宝藏。
-架构设计
-最终架构
-经过多次迭代开发，已经能够完整实现游戏功能，并具有较为清晰的架构设计。
-
-核心游戏接口和类
-
-
-
-类/接口
-功能
-
-
-
-
-Adventurer
-代表游戏中的冒险者，包含属性如ID、名称、体力、攻击力、防御力等
-
-
-Item
-基类，代表所有物品，包括药水瓶Bottle和装备Equipment，包含属性有ID、名称、CE、是否被携带等
-
-
-Bottle
-药水瓶基类，具体子类包括HpBottle（体力药水）、AtkBottle（攻击药水）、DefBottle（防御药水）
-
-
-Equipment
-装备类，包括装备类型、耐久度等属性
-
-
-Guard
-守卫接口，定义了战斗逻辑， ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/04/CO-P4-document/" title="P4-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P4-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/04/CO-P4-document/" title="P4-CPU设计文档[BUAA-CO]">P4-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-04T07:15:49.000Z" title="发表于 2024-11-04 15:15:49">2024-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="content">P4单周期CPU设计文档
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/05/OOPreSummary/" title="OOPre2024课程总结[BUAA-OOPre]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202411052057448.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OOPre2024课程总结[BUAA-OOPre]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/05/OOPreSummary/" title="OOPre2024课程总结[BUAA-OOPre]">OOPre2024课程总结[BUAA-OOPre]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-05T12:54:35.000Z" title="发表于 2024-11-05 20:54:35">2024-11-05</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/">OO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/%E5%85%88%E5%AF%BC/">先导</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OO/">OO</a></span></div><div class="content">游戏背景
+在这个架空的魔法世界中，玩家将扮演一位冒险者，探索一个充满挑战和机遇的魔法大陆。玩家需要管理自己的资源（放入背包或仓库），包括药水瓶、装备，并可以用碎片兑换福利。在收集装备、药水瓶和福利碎片，雇佣冒险者的过程中，玩家将增强自己的实力，并通过普通攻击或者递归攻击击败其他冒险者。被雇佣的冒险者将会在雇主减少某种程度的体力值时给予援助。在冒险的最后，冒险者们将进入“秘境工厂”打败守门怪物，寻找 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/04/CO-P4-document/" title="P4-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P4-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/04/CO-P4-document/" title="P4-CPU设计文档[BUAA-CO]">P4-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-04T07:15:49.000Z" title="发表于 2024-11-04 15:15:49">2024-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CO/">CO</a></span></div><div class="content">P4单周期CPU设计文档
 设计整体概述
 
 预计实现指令集：add、sub、ori、Lui、lw、sw、beq、nop、j、jr、jal、jalr
@@ -493,56 +317,7 @@ offset
 
 
 
-6
-5
-5
-16
-
-
-
-
-J型指令：j、jal
-
-
-
-
-opcode
-instr_index
-
-
-
-
-6
-26
-
-
-
-
-其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu
-
-
-实现功能：实现单周期CPU，能够执行上述指令集，采用模块化设计，顶层模块包含控制器CU和数据通路模块ALU、IFU、NPC、GRF、DM、Ext共七个子模块
-顶层设计图：
-
-
-数据通路模块设计
-IFU 指令单元
-
-定义：模块内部包含PC程序计数器、IM指令存储器实现，负责根据PC的值从指令存储器中读取指令输出。
-端口定义
-
-
-
-
-信号名
-方向
-位宽
-说明
-
-
-
-
-Next_PC ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/11/04/CO-P3-document/" title="P3-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P3-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/04/CO-P3-document/" title="P3-CPU设计文档[BUAA-CO]">P3-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-04T07:08:09.000Z" title="发表于 2024-11-04 15:08:09">2024-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span></div><div class="content">P3单周期CPU设计文档
+6 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/04/CO-P3-document/" title="P3-CPU设计文档[BUAA-CO]"><img class="post-bg" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P3-CPU设计文档[BUAA-CO]"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/04/CO-P3-document/" title="P3-CPU设计文档[BUAA-CO]">P3-CPU设计文档[BUAA-CO]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-04T07:08:09.000Z" title="发表于 2024-11-04 15:08:09">2024-11-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/">lab</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CO/">CO</a></span></div><div class="content">P3单周期CPU设计文档
 设计整体概述
 
 预计实现指令集：add、sub、ori、Lui、lw、sw、beq、nop
@@ -597,47 +372,7 @@ offset
 J型指令：暂无
 
 
-
-
-opcode
-instr_inde
-
-
-
-
-6
-26
-
-
-
-
-其中，nop指令为空指令，不执行任何操作，add、sub不考虑溢出，故实际执行addu和subu
-
-
-实现功能：实现单周期CPU，能够执行上述指令集，采用模块化设计，顶层模块包含控制器CU和数据通路模块ALU、IFU、NPC、GRF、DM、Ext共七个子模块，预留了J型指令的NPC接口
-顶层设计图：
-
-
-数据通路模块设计
-IFU 指令单元
-
-定义：模块内部包含PC程序计数器、IM指令存储器子模块，负责根据PC的值从指令存储器中读取指令，输出到数据总线。
-端口定义
-
-
-
-
-信号名
-方向
-位宽
-说明
-
-
-
-
-Next_PC
-I
-32 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">theUHO</div><div class="author-info__description">CS学习生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025第一单元总结博客 [BUAA-OO]"></a><div class="content"><a class="title" href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]">2025第一单元总结博客 [BUAA-OO]</a><time datetime="2025-03-19T00:07:39.000Z" title="发表于 2025-03-19 08:07:39">2025-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="lab0 实验报告 [BUAA-OS]"></a><div class="content"><a class="title" href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]">lab0 实验报告 [BUAA-OS]</a><time datetime="2025-03-10T12:54:25.000Z" title="发表于 2025-03-10 20:54:25">2025-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OS-Linux 学习备忘[BUAA-OS]"></a><div class="content"><a class="title" href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]">OS-Linux 学习备忘[BUAA-OS]</a><time datetime="2025-02-22T09:45:00.000Z" title="发表于 2025-02-22 17:45:00">2025-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7课上题目回忆和思路分享[BUAA-CO]"></a><div class="content"><a class="title" href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]">P7课上题目回忆和思路分享[BUAA-CO]</a><time datetime="2024-12-11T10:11:57.000Z" title="发表于 2024-12-11 18:11:57">2024-12-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7-CPU设计文档[BUAA-CO]"></a><div class="content"><a class="title" href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]">P7-CPU设计文档[BUAA-CO]</a><time datetime="2024-12-11T10:08:53.000Z" title="发表于 2024-12-11 18:08:53">2024-12-11</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+ ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="this.onerror=null;this.src='/img/bochii2.gif'" alt="avatar"></div><div class="author-info__name">theUHO</div><div class="author-info__description">CS学习生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/TheUHO"><i class="fab fa-github"></i><span>Follow Me On Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="http://github.com/TheUHO" target="_blank" title="Github"><i class="fab fa-github" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:wuyubuchenhong@buaa.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">早上中午晚上好！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255293.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025第一单元总结博客 [BUAA-OO]"></a><div class="content"><a class="title" href="/2025/03/19/OO-Unit1/" title="2025第一单元总结博客 [BUAA-OO]">2025第一单元总结博客 [BUAA-OO]</a><time datetime="2025-03-19T00:07:39.000Z" title="发表于 2025-03-19 08:07:39">2025-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="lab0 实验报告 [BUAA-OS]"></a><div class="content"><a class="title" href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]">lab0 实验报告 [BUAA-OS]</a><time datetime="2025-03-10T12:54:25.000Z" title="发表于 2025-03-10 20:54:25">2025-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OS-Linux 学习备忘[BUAA-OS]"></a><div class="content"><a class="title" href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]">OS-Linux 学习备忘[BUAA-OS]</a><time datetime="2025-02-22T09:45:00.000Z" title="发表于 2025-02-22 17:45:00">2025-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7课上题目回忆和思路分享[BUAA-CO]"></a><div class="content"><a class="title" href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]">P7课上题目回忆和思路分享[BUAA-CO]</a><time datetime="2024-12-11T10:11:57.000Z" title="发表于 2024-12-11 18:11:57">2024-12-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="P7-CPU设计文档[BUAA-CO]"></a><div class="content"><a class="title" href="/2024/12/11/CO-P7-document/" title="P7-CPU设计文档[BUAA-CO]">P7-CPU设计文档[BUAA-CO]</a><time datetime="2024-12-11T10:08:53.000Z" title="发表于 2024-12-11 18:08:53">2024-12-11</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
@@ -645,5 +380,118 @@ I
             </div>
             <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><span class="card-category-list-name">博客</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">学习</span><span class="card-category-list-count">26</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/CO/"><span class="card-category-list-name">CO</span><span class="card-category-list-count">12</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/CO/lab/"><span class="card-category-list-name">lab</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/CO/%E7%90%86%E8%AE%BA%E8%AF%BE/"><span class="card-category-list-name">理论课</span><span class="card-category-list-count">5</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/OO/"><span class="card-category-list-name">OO</span><span class="card-category-list-count">4</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/OO/%E5%85%88%E5%AF%BC/"><span class="card-category-list-name">先导</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/OS/"><span class="card-category-list-name">OS</span><span class="card-category-list-count">2</span></a></li></ul></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/vim/" style="font-size: 1.23em; color: #999ea6">vim</a> <a href="/tags/%E7%BD%91%E7%AB%99/" style="font-size: 1.1em; color: #999">网站</a> <a href="/tags/Markdown/" style="font-size: 1.1em; color: #999">Markdown</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1.1em; color: #999">随笔</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1.3em; color: #99a1ac">工具</a> <a href="/tags/CO/" style="font-size: 1.37em; color: #99a4b2">CO</a> <a href="/tags/Linux/" style="font-size: 1.17em; color: #999c9f">Linux</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/tags/%E8%80%83%E8%AF%95/" style="font-size: 1.17em; color: #999c9f">考试</a> <a href="/tags/vscode/" style="font-size: 1.17em; color: #999c9f">vscode</a> <a href="/tags/OO/" style="font-size: 1.3em; color: #99a1ac">OO</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="font-size: 1.1em; color: #999">编辑器</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 1.43em; color: #99a6b9">笔记</a> <a href="/tags/%E8%87%AA%E5%AD%98/" style="font-size: 1.37em; color: #99a4b2">自存</a> <a href="/tags/%E7%A6%BB%E6%95%A3/" style="font-size: 1.3em; color: #99a1ac">离散</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/hexo/" style="font-size: 1.1em; color: #999">hexo</a> <a href="/tags/OS/" style="font-size: 1.17em; color: #999c9f">OS</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 1.5em; color: #99a9bf">学习</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.3em; color: #99a1ac">教程</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 1.17em; color: #999c9f">测试</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
-    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/03/"><span class="card-archive-list-date">三月 2025</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">九月 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">29</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastpushdate="2025-03-30T15:57:06.021Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2020 - 2025 By theUHO</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 1.5em; color: #99a9bf">学习</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/OO/" style="font-size: 1.3em; color: #99a1ac">OO</a> <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="font-size: 1.1em; color: #999">编辑器</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 1.43em; color: #99a6b9">笔记</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/Linux/" style="font-size: 1.17em; color: #999c9f">Linux</a> <a href="/tags/OS/" style="font-size: 1.17em; color: #999c9f">OS</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1.3em; color: #99a1ac">工具</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1.1em; color: #999">随笔</a> <a href="/tags/vscode/" style="font-size: 1.17em; color: #999c9f">vscode</a> <a href="/tags/%E8%87%AA%E5%AD%98/" style="font-size: 1.37em; color: #99a4b2">自存</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.3em; color: #99a1ac">教程</a> <a href="/tags/%E8%80%83%E8%AF%95/" style="font-size: 1.17em; color: #999c9f">考试</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 1.17em; color: #999c9f">测试</a> <a href="/tags/Markdown/" style="font-size: 1.1em; color: #999">Markdown</a> <a href="/tags/%E7%A6%BB%E6%95%A3/" style="font-size: 1.3em; color: #99a1ac">离散</a> <a href="/tags/CO/" style="font-size: 1.37em; color: #99a4b2">CO</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">博客</a> <a href="/tags/%E7%BD%91%E7%AB%99/" style="font-size: 1.1em; color: #999">网站</a> <a href="/tags/hexo/" style="font-size: 1.1em; color: #999">hexo</a> <a href="/tags/vim/" style="font-size: 1.23em; color: #999ea6">vim</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/03/"><span class="card-archive-list-date">三月 2025</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">九月 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">29</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishdate="2024-03-12T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">85.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastpushdate="2025-03-30T16:06:21.870Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2024 - 2025 By theUHO</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, nice to see you here visiting my <a href="https://theuho.site/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>window.typedJSFn = {
+  init: (str) => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: (subtitleType) => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        getScript('https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["49%在凝望过往，51%在向未来张望"])
+  } else {
+    document.getElementById("subtitle").textContent = "49%在凝望过往，51%在向未来张望"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["link[rel=\"canonical\"]","meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
