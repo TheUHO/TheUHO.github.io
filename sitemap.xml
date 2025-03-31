@@ -13,7 +13,7 @@
   <url>
     <loc>https://theuho.site/2025/03/19/OO-Unit1/</loc>
     
-    <lastmod>2025-03-19</lastmod>
+    <lastmod>2025-03-31</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -385,6 +385,13 @@
   </url>
   
   <url>
+    <loc>https://theuho.site/tags/OO/</loc>
+    <lastmod>2025-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://theuho.site/tags/OS/</loc>
     <lastmod>2025-03-31</lastmod>
     <changefreq>weekly</changefreq>
@@ -407,13 +414,6 @@
   
   <url>
     <loc>https://theuho.site/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2025-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://theuho.site/tags/OO/</loc>
     <lastmod>2025-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -499,14 +499,14 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/OS/</loc>
+    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/OO/</loc>
     <lastmod>2025-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/OO/</loc>
+    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/OS/</loc>
     <lastmod>2025-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
