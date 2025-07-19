@@ -7452,6 +7452,10 @@ blockquote.pullquote.right {
       box-shadow: none!important;
     }
 
+    [data-theme="dark"] .layout>div:first-child:not(.recent-posts) {
+      background: #121212; /* 黑暗模式下的背景色 */
+    }
+    
     .author-content-item .card-content .banner-button-group .banner-button-text {
       display: none;
     }
