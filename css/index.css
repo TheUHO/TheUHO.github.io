@@ -6747,7 +6747,7 @@ blockquote.pullquote.right {
   }
   
   .author-content-item.map {
-    background: url(https://gitee.com/TheUHO/blog/raw/master/images/202411271710035.png) no-repeat center !important;
+    background: url(../../../img/map.png) no-repeat center !important;
     min-height: 160px;
     max-height: 400px;
     position: relative;
@@ -6758,7 +6758,7 @@ blockquote.pullquote.right {
     transition: 1s ease-in-out;
   }
   [data-theme="dark"] .author-content-item.map {
-    background: url(./img/map.png) no-repeat center;
+    background: url(../../../img/map.png) no-repeat center;
     background-size: 100%;
   }
   
@@ -7455,7 +7455,7 @@ blockquote.pullquote.right {
     [data-theme="dark"] .layout>div:first-child:not(.recent-posts) {
       background: #121212; /* 黑暗模式下的背景色 */
     }
-    
+
     .author-content-item .card-content .banner-button-group .banner-button-text {
       display: none;
     }
