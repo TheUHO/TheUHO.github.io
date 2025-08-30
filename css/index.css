@@ -6387,40 +6387,6 @@ blockquote.pullquote.right {
 .read-mode #article-container .note .note-icon {
   color: var(--font-color);
 }
-/* 卡片化美化 */
-.card-section {
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.08);
-  margin-bottom: 2.5rem;
-  padding: 2.2rem 2.5rem 2rem 2.5rem;
-  transition: box-shadow 0.3s;
-  border: 1px solid #e6f0fa;
-}
-[data-theme='dark'] .card-section {
-  background: #23272f;
-  border: 1px solid #2a2d34;
-}
-.card-section:hover {
-  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.16);
-}
-.author-content-row {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-}
-.card-avatar {
-  margin: 0 auto 2rem auto;
-  box-shadow: 0 2px 16px 0 rgba(0,191,255,0.08);
-  background: linear-gradient(135deg, #e0f7fa 0%, #f3fbff 100%);
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 #gitcalendar {
     margin: 0 auto;
     border-radius: 24px;
@@ -6431,18 +6397,18 @@ blockquote.pullquote.right {
     padding: 1rem 2rem;
     overflow: hidden;
   }
-
+  
   #page:has(#about-page) {
     border: 0;
     box-shadow: none !important;
     padding: 0 !important;
     background: transparent !important;
   }
-
+  
   #page:has(#about-page) .page-title {
     display: none;
   }
-
+  
   .page:has(#about-page) #footer-wrap {
     opacity: 1;
     overflow: visible;
@@ -6450,11 +6416,11 @@ blockquote.pullquote.right {
     min-height: 16px;
     color: #666;
   }
-
+  
   #web_bg ~ .page:has(#about-page) {
     background: transparent;
   }
-
+  
   #about-page .author-box {
     position: relative;
   }
@@ -6471,7 +6437,7 @@ blockquote.pullquote.right {
     width: 180px;
     height: 180px;
   }
-
+  
   #about-page .author-box .image-dot {
     width: 45px;
     height: 45px;
@@ -6483,7 +6449,7 @@ blockquote.pullquote.right {
     left: 50%;
     transform: translate(35px, 45px);
   }
-
+  
   .author-content {
     display: flex;
     flex-wrap: wrap;
@@ -6491,7 +6457,7 @@ blockquote.pullquote.right {
     width: 100%;
     margin-top: 1rem;
   }
-
+  
   .author-info {
   display: flex;
   flex-direction: column;
@@ -6512,7 +6478,7 @@ blockquote.pullquote.right {
   font-size: 24px; /* 设置字体大小 */
   color: #494949; /* 设置字体颜色 */
 }
-
+  
   #about-page .myInfoAndSayHello {
     display: flex;
     flex-direction: column;
@@ -6523,7 +6489,7 @@ blockquote.pullquote.right {
     animation: gradient 15s ease infinite;
     width: 59%;
   }
-
+  
   .author-content-item {
     width: 49%;
     border-radius: 24px;
@@ -6534,14 +6500,14 @@ blockquote.pullquote.right {
     padding: 1rem 2rem;
     overflow: hidden;
   }
-
+  
   #about-page .myInfoAndSayHello .title1 {
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
     margin: 0.5rem 0;
   }
-
+  
   #about-page .myInfoAndSayHello .title2 {
     font-size: 36px;
     font-weight: 700;
@@ -6552,12 +6518,12 @@ blockquote.pullquote.right {
     word-break: keep-all;
     white-space: nowrap;
   }
-
+  
   #about-page .myInfoAndSayHello .title1 {
     opacity: 0.8;
     line-height: 1.3;
   }
-
+  
   .author-content-item.aboutsiteTips {
     display: flex;
     justify-content: center;
@@ -6565,7 +6531,7 @@ blockquote.pullquote.right {
     flex-direction: column;
     width: 39%;
   }
-
+  
   .aboutsiteTips h2 {
     margin-right: auto;
     font-size: 36px;
@@ -6575,7 +6541,7 @@ blockquote.pullquote.right {
     color: var(--font-color);
     margin-top: 0;
   }
-
+  
   .aboutsiteTips .mask {
     height: 36px;
     position: relative;
@@ -6647,7 +6613,7 @@ blockquote.pullquote.right {
     flex-direction: column;
     padding: 1rem 2rem;
   }
-
+  
   .author-content-item .card-content .author-content-item-title {
     margin-bottom: 0.5rem;
   }
@@ -6685,7 +6651,7 @@ blockquote.pullquote.right {
     width: 50%;
     margin-bottom: 0.5rem;
   }
-
+  
   .post-tips {
     color: #858585;
     font-size: 14px;
@@ -6723,7 +6689,7 @@ blockquote.pullquote.right {
   #about-page .author-content-item .card-content .banner-button-group .banner-button i {
     font-size: 1.5rem;
   }
-
+  
   .author-content-item .card-content .banner-button-group .banner-button:hover {
     background: #00d4ff;
     color: #fff;
@@ -6733,7 +6699,7 @@ blockquote.pullquote.right {
     position: relative;
     width: 59%;
   }
-
+  
   .author-content-item.personalities .image {
     position: absolute;
     right: 30px;
@@ -6779,7 +6745,7 @@ blockquote.pullquote.right {
     font-weight: 700;
     line-height: 1.1;
   }
-
+  
   .author-content-item.map {
     background: url(../../../img/map.png) no-repeat center !important;
     min-height: 160px;
@@ -6795,11 +6761,11 @@ blockquote.pullquote.right {
     background: url(../../../img/map.png) no-repeat center;
     background-size: 100%;
   }
-
+  
   .author-content-item.single {
     width: 100%;
   }
-
+  
   .author-content-item.map .map-title {
     position: absolute;
     bottom: 0;
@@ -6858,17 +6824,17 @@ blockquote.pullquote.right {
     width: 49%;
     justify-content: space-between;
   }
-
+  
   .post-tips a:hover {
     color: #7395eb !important;
     background: none !important;
   }
-
+  
   .author-content-item.single.reward .reward-list-updateDate {
     color: #858585;
     font-size: 14px;
   }
-
+  
   .author-content-item.single.reward .post-reward {
     position: absolute;
     margin-top: 0px;
@@ -6947,7 +6913,7 @@ blockquote.pullquote.right {
       rotate(calc(var(--coin-rotation-multiplier) * 1deg));
     z-index: 10;
   }
-
+  
   .coin {
     --front-y-multiplier: 0;
     --back-y-multiplier: 0;
@@ -6969,7 +6935,7 @@ blockquote.pullquote.right {
     width: 3.5rem;
     z-index: 3;
   }
-
+  
   .coin__back {
     background: radial-gradient(circle at 50% 50%, transparent 50%, rgba(115, 124, 153, 0.4) 54%, #c2cadf 54%),
       radial-gradient(circle at 50% 40%, #fcfaf9 23%, transparent 23%), radial-gradient(circle at 50% 100%, #fcfaf9 35%, transparent
@@ -7121,7 +7087,7 @@ blockquote.pullquote.right {
     top: 0;
     left: 0;
   }
-
+  
   .author-content-item.comic-content {
     width: 39%;
     background: url(/about/potter.jpg) no-repeat top;
@@ -7139,14 +7105,14 @@ blockquote.pullquote.right {
     top: 0;
     left: 0;
   }
-
+  
   .author-content-item.like-technology {
     background: url(/about/it.webp) no-repeat;
     background-size: cover;
     min-height: 230px;
     color: #fff;
   }
-
+  
   .author-content-item.like-music {
     background: url(/about/marshmello.jpg) no-repeat top;
     background-size: cover;
@@ -7154,13 +7120,13 @@ blockquote.pullquote.right {
     color: #fff;
     overflow: hidden;
   }
-
+  
   .author-content-item .card-content .banner-button-group {
     position: absolute;
     bottom: 1.5rem;
     right: 2rem;
   }
-
+  
   .author-content-item.like-music::after {
     box-shadow: 0 -69px 203px 11px #453e38 inset;
     position: absolute;
@@ -7170,7 +7136,7 @@ blockquote.pullquote.right {
     top: 0;
     left: 0;
   }
-
+  
   @media screen and (max-width: 768px) {
     #gitcalendar {
       display: none;
@@ -7255,15 +7221,15 @@ blockquote.pullquote.right {
       width: 90px;
     }
   }
-
+  
   @media screen and (min-width: 768px) and (max-width: 896px) {
     .author-content-item.like-music .content-bottom .tips {
       display: none;
     }
   }
-
+  
   /* 赞赏的css */
-
+  
   .reward-list-all {
     display: flex;
     flex-wrap: wrap;
@@ -7273,7 +7239,7 @@ blockquote.pullquote.right {
     margin-left: -0.25rem;
     margin-right: -0.25rem;
   }
-
+  
   .reward-list-item {
     padding: 1rem;
     border-radius: 12px;
@@ -7282,20 +7248,20 @@ blockquote.pullquote.right {
     margin: 0 0.25rem 0.5rem 0.25rem;
     box-shadow: #3f5ed8 0 0 0 0.2rem;
   }
-
+  
   .reward-list-item .reward-list-item-name {
     font-size: 1rem;
     font-weight: 700;
     line-height: 1;
     margin-bottom: 0.5rem;
   }
-
+  
   .reward-list-item .reward-list-bottom-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
+  
   .reward-list-item .reward-list-item-money {
     padding: 4px;
     background: var(--font-color);
@@ -7306,7 +7272,7 @@ blockquote.pullquote.right {
     margin-right: 4px;
     white-space: nowrap;
   }
-
+  
   .reward-list-item .reward-list-item-time {
     font-size: 12px;
     color: #453e38;
@@ -8045,70 +8011,6 @@ blockquote.pullquote.right {
     -ms-transform: translateY(-100%);
     transform: translateY(-100%);
   }
-
-.skills-style-group {
-  position: relative;
-  background: #9bc8fb;
-  border-radius: 18px;
-  box-shadow: 0 2px 8px 0 rgba(0,191,255,0.04);
-  padding: 1.2rem 0.5rem 1.2rem 0.5rem;
-}
-.tags-group-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #333;
-  font-size: 38px;
-  font-weight: 700;
-  background: #fff;
-  border: 2px solid #00d4ff;
-  box-shadow: 0 2px 8px 0 rgba(0,191,255,0.06);
-  width: 80px;
-  height: 80px;
-  border-radius: 18px;
-  margin: 0 10px 10px 0;
-  transition: transform 0.18s, box-shadow 0.18s;
-}
-.tags-group-icon:hover {
-  transform: scale(1.08) rotate(-2deg);
-  box-shadow: 0 6px 24px 0 #00d4ff33;
-  z-index: 2;
-}
-.tags-group-icon img {
-  width: 60%;
-  margin: 0 auto !important;
-}
-.tags-group-icon-pair {
-  margin-left: 0.2rem;
-  margin-bottom: 0.2rem;
-}
-/* 美化技能区块 */
-.skills-style-group {
-  position: relative;
-  background: linear-gradient(135deg, #e0f7fa 0%, #f3fbff 100%);
-  border-radius: 24px;
-  box-shadow: 0 2px 16px 0 rgba(0,191,255,0.08);
-  padding: 1.5rem 1rem;
-}
-.tags-group-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 66px;
-  font-weight: 700;
-  box-shadow: #027edd 0 0 0 1px;
-  width: 120px;
-  height: 120px;
-  border-radius: 30px;
-  background: linear-gradient(135deg, #00d4ff 0%, #57b6e6 100%);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.tags-group-icon:hover {
-  transform: scale(1.08) rotate(-3deg);
-  box-shadow: 0 4px 24px 0 rgba(0,191,255,0.18);
-  z-index: 2;
-}
 .author-content-item.skills {
     display: flex;
     justify-content: center;
@@ -8117,11 +8019,11 @@ blockquote.pullquote.right {
     width: 50%;
     min-height: 100px;
   }
-
+  
   .author-content-item.skills .skills-style-group {
     position: relative;
   }
-
+  
   .author-content-item.skills .tags-group-all {
     display: flex;
     transform: rotate(0);
@@ -8197,7 +8099,7 @@ blockquote.pullquote.right {
     margin-right: 10px;
     margin-top: 10px;
   }
-
+  
   @keyframes rowup {
     0% {
       transform: translateX(0);
