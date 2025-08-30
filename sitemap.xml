@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2025/06/27/OS-lab6/</loc>
+    <loc>https://theuho.site/2024/10/10/Object-orientedProgrammingPreNote/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -137,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/10/10/Object-orientedProgrammingPreNote/</loc>
+    <loc>https://theuho.site/2025/06/27/OS-lab6/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2025/06/27/OS-lab3/</loc>
+    <loc>https://theuho.site/2025/06/27/OS-lab4/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -164,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2025/06/27/OS-lab4/</loc>
+    <loc>https://theuho.site/2025/06/27/OS-lab3/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -191,15 +191,6 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2025/04/02/OS-lab1/</loc>
-    
-    <lastmod>2025-08-11</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://theuho.site/2025/03/10/OS-lab0/</loc>
     
     <lastmod>2025-08-11</lastmod>
@@ -209,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2025/06/23/OO-Unit3/</loc>
+    <loc>https://theuho.site/2025/04/02/OS-lab1/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -219,6 +210,15 @@
   
   <url>
     <loc>https://theuho.site/2025/06/23/OO-Unit4/</loc>
+    
+    <lastmod>2025-08-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://theuho.site/2025/06/23/OO-Unit3/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -263,7 +263,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/09/25/DiscreteMathmaticsNote3/</loc>
+    <loc>https://theuho.site/2024/09/19/DiscreteMathmaticsNote2/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -272,7 +272,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/09/19/DiscreteMathmaticsNote2/</loc>
+    <loc>https://theuho.site/2024/09/25/DiscreteMathmaticsNote3/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -344,7 +344,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/10/15/COexamsP1/</loc>
+    <loc>https://theuho.site/2024/12/11/COexamP7/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -353,7 +353,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/12/11/COexamP7/</loc>
+    <loc>https://theuho.site/2024/10/15/COexamsP1/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -371,7 +371,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/11/26/CO-P5-document/</loc>
+    <loc>https://theuho.site/2024/11/04/CO-P4-document/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -380,7 +380,7 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/2024/11/04/CO-P4-document/</loc>
+    <loc>https://theuho.site/2024/11/26/CO-P5-document/</loc>
     
     <lastmod>2025-08-11</lastmod>
     
@@ -456,6 +456,13 @@
   </url>
   
   <url>
+    <loc>https://theuho.site/tags/%E8%80%83%E8%AF%95/</loc>
+    <lastmod>2025-08-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://theuho.site/tags/%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -470,13 +477,6 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/%E8%80%83%E8%AF%95/</loc>
-    <lastmod>2025-08-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://theuho.site/tags/%E7%A6%BB%E6%95%A3/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -484,14 +484,14 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/OO/</loc>
+    <loc>https://theuho.site/tags/ML/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/ML/</loc>
+    <loc>https://theuho.site/tags/OO/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -554,14 +554,14 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/%E7%BC%96%E8%BE%91%E5%99%A8/</loc>
+    <loc>https://theuho.site/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://theuho.site/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
+    <loc>https://theuho.site/tags/%E7%BC%96%E8%BE%91%E5%99%A8/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -612,14 +612,14 @@
   </url>
   
   <url>
-    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/OO/</loc>
+    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/ML/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/ML/</loc>
+    <loc>https://theuho.site/categories/%E5%AD%A6%E4%B9%A0/OO/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

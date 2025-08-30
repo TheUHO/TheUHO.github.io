@@ -6710,7 +6710,7 @@ blockquote.pullquote.right {
       flex-direction: column;
       width: 49%;
       min-height: 120px;
-      max-height: 320px;
+      max-height: 180px;
       overflow-y: auto;
       margin-bottom: 0.5rem;
     }
@@ -6876,7 +6876,7 @@ blockquote.pullquote.right {
     border-radius: 2.25rem;
     .author-content-item.careers {
       min-height: 120px;
-      max-height: 260px;
+      max-height: 180px;
       overflow-y: auto;
       margin-bottom: 0.5rem;
     }
