@@ -6387,6 +6387,69 @@ blockquote.pullquote.right {
 .read-mode #article-container .note .note-icon {
   color: var(--font-color);
 }
+/* 教育经历横向进度条样式 */
+.edu-progress-bar-wrap {
+  width: 100%;
+  margin: 18px 0 0 0;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+.edu-progress-bar {
+  position: relative;
+  width: 100%;
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+.edu-progress-bg {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #222;
+  border-radius: 6px;
+  box-shadow: 0 1.5px 6px 0 rgba(0,0,0,0.18);
+}
+.edu-progress-fg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #ff2d55, #ffb300 60%, #00e0ff 100%);
+  border-radius: 6px;
+  z-index: 1;
+  transition: width 0.8s cubic-bezier(.4,2,.6,1);
+}
+.edu-progress-node {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background: #222;
+  border-radius: 12px;
+  padding: 2px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  z-index: 2;
+  user-select: none;
+}
+.edu-progress-node-start {
+  left: 0;
+  background: #ff2d55;
+}
+.edu-progress-node-end {
+  right: 0;
+  background: #00e0ff;
+}
+.edu-progress-node-current {
+  background: #ffb300;
+  color: #222;
+  min-width: 44px;
+  text-align: center;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 4px rgba(255,179,0,0.15);
+  transition: left 0.8s cubic-bezier(.4,2,.6,1);
+}
 /* 人生箴言手写体与渐变色 */
 .handwriting-gradient {
   font-family: 'Pacifico', 'Comic Sans MS', cursive, '微软雅黑', sans-serif;
@@ -6710,7 +6773,7 @@ blockquote.pullquote.right {
       flex-direction: column;
       width: 49%;
       min-height: 120px;
-      max-height: 180px;
+      max-height: 240px;
       overflow-y: auto;
       margin-bottom: 0.5rem;
     }
@@ -6876,7 +6939,7 @@ blockquote.pullquote.right {
     border-radius: 2.25rem;
     .author-content-item.careers {
       min-height: 120px;
-      max-height: 180px;
+      max-height: 240px;
       overflow-y: auto;
       margin-bottom: 0.5rem;
     }
@@ -7744,7 +7807,8 @@ blockquote.pullquote.right {
   }
 
 .author-content-item.careers {
-    min-height: 400px;
+    min-height: 240px;
+    max-height: 240px;
   }
   .author-content-item.careers .careers-group {
     margin-top: 12px;
@@ -8048,6 +8112,7 @@ blockquote.pullquote.right {
     flex-direction: column;
     width: 49%;
     min-height: 100px;
+    max-height: 280px;
   }
 
   .author-content-item.skills .skills-style-group {
@@ -8080,9 +8145,9 @@ blockquote.pullquote.right {
     font-size: 66px;
     font-weight: 700;
     box-shadow: #027edd 0 0 0 1px;
-    width: 120px;
-    height: 120px;
-    border-radius: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
   }
   .tags-group-icon img {
     width: 60%;
@@ -8090,7 +8155,7 @@ blockquote.pullquote.right {
   }
   .tags-group-icon-pair .tags-group-icon:nth-child(even) {
     margin-top: 1rem;
-    transform: translate(-60px);
+    transform: translate(-30px);
   }
   .author-content-item.skills .skills-list {
     display: flex;
