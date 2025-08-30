@@ -6414,8 +6414,8 @@ blockquote.pullquote.right {
   left: 0;
   top: 0;
   height: 8px;
-  background: linear-gradient(90deg, #ff2d55, #ffb300 60%, #00e0ff 100%);
-  border-radius: 6px;
+  background: linear-gradient(90deg, #ff2d55 0%, #ffb300 100%);
+  border-radius: 0px;
   z-index: 1;
   transition: width 0.8s cubic-bezier(.4,2,.6,1);
 }
@@ -6439,7 +6439,7 @@ blockquote.pullquote.right {
 }
 .edu-progress-node-end {
   right: 0;
-  background: #00e0ff;
+  background: #0055ff;
 }
 .edu-progress-node-current {
   background: #ffb300;
@@ -6579,12 +6579,19 @@ blockquote.pullquote.right {
   .author-content-item {
     width: 49%;
     border-radius: 24px;
-    background: #9bc8fb;
+    background: linear-gradient(135deg, #e3f0ff 0%, #b3d8ff 100%);
     border: #3f5ed8;
     box-shadow: 0 0 10px 0 #3f5ed8;
     position: relative;
     padding: 1rem 2rem;
     overflow: hidden;
+  }
+
+  /*黑暗模式为深蓝灰渐变*/
+  [data-theme="dark"] .author-content-item {
+    background: linear-gradient(135deg, #232946 0%, #121826 100%);
+    border: #3f5ed85a;
+    box-shadow: 0 0 10px 0 #1218266a;
   }
 
   #about-page .myInfoAndSayHello .title1 {
@@ -8118,7 +8125,7 @@ blockquote.pullquote.right {
   .author-content-item.skills .skills-style-group {
     position: relative;
     width: 100%;
-    background: #9bc8fb;
+    background: transparent;
     box-shadow: none !important;
   }
 
