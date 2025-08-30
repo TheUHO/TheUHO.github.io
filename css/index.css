@@ -8119,7 +8119,7 @@ blockquote.pullquote.right {
     align-items: flex-start;
     flex-direction: column;
     width: 49%;
-    min-height: 100px;
+    min-height: 280px;
     max-height: 280px;
   }
 
