@@ -1,0 +1,4 @@
+.loading-img {
+    background: url(../img/load.webp) no-repeat center center;
+    background-size: cover;
+  }
