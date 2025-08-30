@@ -8019,17 +8019,18 @@ blockquote.pullquote.right {
     width: 50%;
     min-height: 100px;
   }
-  
+
   .author-content-item.skills .skills-style-group {
     position: relative;
   }
-  
+
   .author-content-item.skills .tags-group-all {
     display: flex;
     transform: rotate(0);
     transition: 0.3s;
   }
   .author-content-item.skills .tags-group-wrapper {
+    background: transparent;
     margin-top: 40px;
     display: flex;
     flex-wrap: nowrap;
@@ -8099,7 +8100,7 @@ blockquote.pullquote.right {
     margin-right: 10px;
     margin-top: 10px;
   }
-  
+
   @keyframes rowup {
     0% {
       transform: translateX(0);
