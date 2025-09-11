@@ -6945,7 +6945,7 @@ blockquote.pullquote.right {
     border: 0;
     border-radius: 2.25rem;
     .author-content-item.careers {
-      min-height: 120px;
+      min-height: 280px;
       max-height: 280px;
       overflow-y: auto;
       margin-bottom: 0.5rem;
