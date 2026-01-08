@@ -22,14 +22,14 @@
   background: transparent !important;
 }
 
-/* 侧边栏分类树竖线 */
-#aside-content .card-categories ul.card-category-list-child {
+/* 侧边栏分类 tree 竖线 */
+#aside-content .card-categories ul.card-category-list.child {
   border-left: 2px solid rgba(73, 177, 245, 0.2);
   margin-left: 10px !important;
   padding-left: 10px !important;
 }
 
-[data-theme='dark'] #aside-content .card-categories ul.card-category-list-child {
+[data-theme='dark'] #aside-content .card-categories ul.card-category-list.child {
   border-left: 2px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -42,7 +42,7 @@
   align-items: center;
   margin: 4px 6px 4px 0 !important;
   padding: 2px 0 2px 10px !important;
-  font-size: 13px !important;
+  font-size: 12px !important;
   border: none !important;
   overflow: hidden;
   height: 26px;
@@ -74,7 +74,7 @@
 /* 教育进度条样式 */
 .edu-progress-bar-wrap {
   margin-top: 24px;
-  padding: 10px 5px;
+  padding: 15px 30px; /* 增加左右内边距，防止日期溢出卡片 */
 }
 .edu-progress-bg {
   position: relative;
@@ -91,10 +91,11 @@
 }
 .edu-progress-node {
   position: absolute;
-  top: 16px;
+  top: 18px;
   transform: translateX(-50%);
   font-size: 12px;
   color: #99a9bf;
+  white-space: nowrap; /* 确保年份不换行 */
 }
 .edu-progress-node-start { left: 0%; }
 .edu-progress-node-end { left: 100%; }
