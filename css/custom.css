@@ -5,7 +5,7 @@
 #page-header {
   background: transparent !important;
 }
-  
+
 /* 白天模式遮罩透明 */
 #footer::before {
   background: transparent !important;
@@ -13,11 +13,61 @@
 #page-header::before {
   background: transparent !important;
 }
-  
+
 /* 夜间模式遮罩透明 */
 [data-theme="dark"] #footer::before {
   background: transparent !important;
 }
 [data-theme="dark"] #page-header::before {
   background: transparent !important;
+}
+
+#aside-content .card-categories ul.card-category-list-child {
+  border-left: 2px solid rgba(68, 68, 68, 0.1);
+  margin-left: 12px !important;
+  padding-left: 12px !important;
+}
+
+#aside-content .card-tag-cloud a {
+  background: #007bff !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center;
+  margin: 4px 6px 4px 0 !important;
+  padding: 2px 0 2px 10px !important;
+  font-size: 14px !important;
+  border: none !important;
+  overflow: hidden;
+  height: 28px;
+  line-height: 1;
+  transition: all 0.2s;
+}
+
+#aside-content .card-tag-cloud a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+#aside-content .card-tag-cloud a sup {
+  background: #f1f3f8 !important;
+  color: #49b1f5 !important;
+  height: 100%;
+  margin-left: 8px;
+  padding: 0 8px !important;
+  display: flex !important;
+  align-items: center;
+  top: 0 !important;
+  position: relative !important;
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+[data-theme='dark'] #aside-content .card-tag-cloud a sup {
+  background: #121212 !important;
+  color: #e3e3e3 !important;
+}
+
+[data-theme='dark'] #aside-content .card-categories ul.card-category-list-child {
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
 }
