@@ -22,36 +22,44 @@
   background: transparent !important;
 }
 
+/* 侧边栏分类树竖线 */
 #aside-content .card-categories ul.card-category-list-child {
-  border-left: 2px solid rgba(68, 68, 68, 0.1);
-  margin-left: 12px !important;
-  padding-left: 12px !important;
+  border-left: 2px solid rgba(73, 177, 245, 0.2);
+  margin-left: 10px !important;
+  padding-left: 10px !important;
 }
 
+[data-theme='dark'] #aside-content .card-categories ul.card-category-list-child {
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 侧边栏标签蓝底白字风格 */
 #aside-content .card-tag-cloud a {
-  background: #007bff !important;
+  background: #49b1f5 !important;
   color: #fff !important;
   border-radius: 6px !important;
   display: inline-flex !important;
   align-items: center;
   margin: 4px 6px 4px 0 !important;
   padding: 2px 0 2px 10px !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   border: none !important;
   overflow: hidden;
-  height: 28px;
-  line-height: 1;
-  transition: all 0.2s;
+  height: 26px;
+  line-height: normal;
+  transition: all 0.3s;
 }
 
 #aside-content .card-tag-cloud a:hover {
+  background: #1f91e3 !important;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
+/* 标签后的数字气泡 */
 #aside-content .card-tag-cloud a sup {
-  background: #f1f3f8 !important;
-  color: #49b1f5 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
   height: 100%;
   margin-left: 8px;
   padding: 0 8px !important;
@@ -59,15 +67,76 @@
   align-items: center;
   top: 0 !important;
   position: relative !important;
-  font-size: 12px !important;
-  font-weight: 700;
+  font-size: 11px !important;
+  font-weight: 500;
 }
 
-[data-theme='dark'] #aside-content .card-tag-cloud a sup {
-  background: #121212 !important;
-  color: #e3e3e3 !important;
+/* 教育进度条样式 */
+.edu-progress-bar-wrap {
+  margin-top: 24px;
+  padding: 10px 5px;
+}
+.edu-progress-bg {
+  position: relative;
+  height: 8px;
+  background: #f0f2f5;
+  border-radius: 10px;
+}
+.edu-progress-fg {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+.edu-progress-node {
+  position: absolute;
+  top: 16px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #99a9bf;
+}
+.edu-progress-node-start { left: 0%; }
+.edu-progress-node-end { left: 100%; }
+.edu-progress-node-current {
+  top: -28px;
+  background: #4facfe;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.edu-progress-node-current::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #4facfe;
 }
 
-[data-theme='dark'] #aside-content .card-categories ul.card-category-list-child {
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
+[data-theme='dark'] .edu-progress-bg { background: #333; }
+[data-theme='dark'] .edu-progress-node { color: #888; }
+
+/* 标签页与分类页一致性 */
+.tag-cloud-list a, .category-list-link {
+  padding: 2px 10px !important;
+  border-radius: 6px !important;
+  background: #f1f3f8 !important;
+  margin: 5px !important;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.tag-cloud-list a:hover, .category-list-link:hover {
+  background: #49b1f5 !important;
+  color: #fff !important;
+}
+
+[data-theme='dark'] .tag-cloud-list a, [data-theme='dark'] .category-list-link {
+  background: #2c2c2c !important;
+  color: #ccc !important;
 }
