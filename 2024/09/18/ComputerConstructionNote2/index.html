@@ -1,0 +1,617 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理笔记(2) | theUHO</title><meta name="author" content="theUHO"><meta name="copyright" content="theUHO"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /><meta name="description" content="逻辑门电路 晶体管和MOS管  半导体：导电能力介于导体和绝缘体之间的物体称为半导体。P型半导体，N型半导体，多子，少子 PN结：将P型和N型半导体制作在一起，形成PN结 PN结正向偏置：P型半导体接正极，N型半导体接负极，形成正向偏置 PN结反向偏置：P型半导体接负极，N型半导体接正极，形成反向偏置 晶体二极管：一个PN结，记作D 二极管单向导电性：受外加电压极性控制的开关特性 正向导通：正向电">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理笔记(2)">
+<meta property="og:url" content="https://theuho.site/2024/09/18/ComputerConstructionNote2/index.html">
+<meta property="og:site_name" content="theUHO">
+<meta property="og:description" content="逻辑门电路 晶体管和MOS管  半导体：导电能力介于导体和绝缘体之间的物体称为半导体。P型半导体，N型半导体，多子，少子 PN结：将P型和N型半导体制作在一起，形成PN结 PN结正向偏置：P型半导体接正极，N型半导体接负极，形成正向偏置 PN结反向偏置：P型半导体接负极，N型半导体接正极，形成反向偏置 晶体二极管：一个PN结，记作D 二极管单向导电性：受外加电压极性控制的开关特性 正向导通：正向电">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg">
+<meta property="article:published_time" content="2024-09-18T02:45:15.000Z">
+<meta property="article:modified_time" content="2026-01-15T09:39:22.165Z">
+<meta property="article:author" content="theUHO">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="CO">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="自存">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://theuho.site/2024/09/18/ComputerConstructionNote2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?81ddc5fad2a887e9007f6fd620995ffc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理笔记(2)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 17:39:22'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 19
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/loading-img.css"><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg" style="background:url('/img/index_img.jpg') no-repeat center / cover; background-attachment: fixed;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"/><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理笔记(2)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-18T02:45:15.000Z" title="发表于 2024-09-18 10:45:15">2024-09-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T09:39:22.165Z" title="更新于 2026-01-15 17:39:22">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/">CO</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/CO/%E7%90%86%E8%AE%BA%E8%AF%BE/">理论课</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理笔记(2)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="逻辑门电路">逻辑门电路</h3>
+<h4 id="晶体管和mos管">晶体管和MOS管</h4>
+<ul>
+<li>半导体：导电能力介于导体和绝缘体之间的物体称为半导体。P型半导体，N型半导体，多子，少子</li>
+<li>PN结：将P型和N型半导体制作在一起，形成PN结</li>
+<li>PN结正向偏置：P型半导体接正极，N型半导体接负极，形成正向偏置</li>
+<li>PN结反向偏置：P型半导体接负极，N型半导体接正极，形成反向偏置</li>
+<li>晶体二极管：一个PN结，记作D<br>
+二极管单向导电性：受外加电压极性控制的开关特性<br>
+正向导通：正向电压大于开启电压<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">V_D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，二极管导通。一旦导通，则 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mi>D</mi></msub><mo>=</mo><msub><mi>V</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">U_D=V_D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 不变。因此，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">V_D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>称为钳位电压或正向压降.<br>
+反向截止：：二极管外加反向电压或电压小于开启电压<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">V_D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ，二极管截止。二极管截止，电流<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>D</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">I_D=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span><br>
+击穿：二极管两端外加反向电压超过一个阈值(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>Z</mi></msub></mrow><annotation encoding="application/x-tex">V_Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">Z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)时，二极管会被击穿，此时二极管失去单向导电性，压降是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>Z</mi></msub></mrow><annotation encoding="application/x-tex">V_Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">Z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
+<li>晶体三极管：两个PN结，记作Q<br>
+NPN型：由两层N型半导体中间夹一层P型半导体<br>
+PNP型： 由两层P型半导体中间夹一层N型半导体</li>
+</ul>
+<p>晶体三极管的稳态开关<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409110828826.png" alt></p>
+<ul>
+<li>晶体三极管的开关特性
+<ul>
+<li>在模拟电路中，晶体三极管主要作为线性放大元件和非线<br>
+性元件</li>
+<li>在数字电路中，晶体三极管主要作为开关元件。通常采用晶体管共发射极电路，放大能力强，也即控制能力强，只要在输入端加上两种不同幅值的信号，就可控制晶体管的<br>
+导通或截止。</li>
+<li>作为开关电路，晶体三极管主要工作在截止区和饱和区。</li>
+<li>三极管的稳态开关特性是指三极管稳定在截止和饱和导通两种状态下的特性。</li>
+</ul>
+</li>
+<li>MOS管(金属氧化物半导体场效应管)<br>
+MOS管属于单极型集成电路，只有一种载流子（自由电子或空穴）参与导电。<br>
+MOS管分为NMOS管和PMOS管两种类型，<br>
+MOS管还分增强型（如栅极与衬底间不加电压时，栅极下面没有沟道存在）和耗尽型（如栅极与衬底间不加电压时，栅极下面已有沟道存在）
+<ol>
+<li>NMOS管<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409110835399.png" alt></li>
+<li>PMOS管<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409110836556.png" alt></li>
+</ol>
+</li>
+</ul>
+<h4 id="逻辑门电路实现">逻辑门电路实现</h4>
+<ul>
+<li>门电路：由晶体管和电阻、电容等元件组成的电路，能实现某种逻辑关系的电路，是数字电路的基本逻辑单元电路。
+<ul>
+<li>分立元件门、集成门</li>
+</ul>
+</li>
+<li>与门电路(二极管实现)<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409110851309.png" alt></li>
+</ul>
+<blockquote>
+<p>工作原理：<br>
+当 A、B为高电平（高电平额定值<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>H</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{iH}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 为3.0V）时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">D_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">D_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>均导通，则输出位高电平（Y = 3.0+0.7 = 3.7V）<br>
+当 A、B为低电平（低电平额定值<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>L</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{iL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为0.3V）时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">D_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">D_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>均导通，由于二极管导通后钳位电压为0.7V，则输出Y=0.3+0.7=1.0V<br>
+当A为低电平、B为高电平时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">D_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>优先导通，输出Y=0.3+0.7=1.0V，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">D_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>被反偏截止</p>
+</blockquote>
+<ul>
+<li>或门电路(二极管实现)<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409110858254.png" alt></li>
+</ul>
+<blockquote>
+<p>工作原理：<br>
+当A、B为低电平0.3V时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">D_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">D_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>均导通，由于二极管导通后的钳位电压为0.7V，则输出Y=0.3-0.7= -0.4V。<br>
+当A为0.3V、B为3     .0V时， D2优先导通，则输出Y=3.0-0.7= 2.3V；由于A只有0.3V ，则D1被反偏截止。<br>
+当A、B均为高电平3.0V时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">D_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">D_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>导通，则输出Y=3-0.7=2.3V。</p>
+</blockquote>
+<ul>
+<li>非门电路(三极管实现)</li>
+<li>非门电路(CMOS实现)</li>
+<li>或非门电路(CMOS实现)</li>
+<li>与非门电路(CMOS实现)</li>
+<li>与非门电路(TTL实现)</li>
+</ul>
+<p>门电路的外特性</p>
+<h3 id="基本组合逻辑部件设计">基本组合逻辑部件设计</h3>
+<h4 id="组合逻辑设计概述">组合逻辑设计概述</h4>
+<ul>
+<li>数字电路分类:组合逻辑电路、时序逻辑电路</li>
+<li>组合逻辑电路:将逻辑门以一定的方式组合在一起，使其具有一定逻辑功能的数字电路。</li>
+</ul>
+<blockquote>
+<p>是一种无记忆电路——任一时刻的输出信号仅取决于该时刻的输入信号，而与信号作用前电路原来所处的状态无关。<br>
+特点:由逻辑门电路组成、没有反馈电路和储存电路、当时的输出信号仅取决于当时的输入信号、无记忆功能</p>
+</blockquote>
+<ul>
+<li>
+<p>组合逻辑电路的不同表示方法<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>逻辑图</mtext><mo>⟶</mo><mtext>表达式</mtext><mo>⟶</mo><mtext>真值表</mtext><mo>⟶</mo><mtext>电路功能</mtext></mrow><annotation encoding="application/x-tex">逻辑图\longrightarrow 表达式\longrightarrow 真值表\longrightarrow 电路功能</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6943em;vertical-align:-0.011em;"></span><span class="mord cjk_fallback">逻辑图</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟶</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6943em;vertical-align:-0.011em;"></span><span class="mord cjk_fallback">表达式</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟶</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6943em;vertical-align:-0.011em;"></span><span class="mord cjk_fallback">真值表</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟶</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">电路功能</span></span></span></span></p>
+</li>
+<li>
+<p>组合逻辑电路设计方法<br>
+根据功能要求，采用某种设计方法，得到满足功能要求、且最简单的组合逻辑电路</p>
+<ol>
+<li>逻辑抽象：确定输入、输出变量，列出真值表</li>
+<li>写出逻辑表达式：根据真值表写出标准表达式（并进行化简）</li>
+<li>绘逻辑图：根据最简逻辑函数表达式画出原理图。</li>
+<li>HDL编程：如用case语句、if-else语句，assign语句</li>
+</ol>
+</li>
+<li>
+<p>组合逻辑的手工设计方法</p>
+</li>
+<li>
+<p>组合逻辑的自动设计方法<br>
+基于HDL和EDA工具的组合逻辑电路设计方法</p>
+<ol>
+<li>确定输入、输出变量，列出真值表(复杂系统也可<br>
+不写出真值表，而直接用HDL的系统级描述方式)</li>
+<li>写出逻辑表达式：根据真值表写出标准表达式（并进行化简）</li>
+<li>HDL编程：如用case语句、if-else语句，assign语句</li>
+</ol>
+</li>
+</ul>
+<h4 id="运算器单元电路">运算器单元电路</h4>
+<ul>
+<li>
+<p>加法运算电路<br>
+半加器、全加器、多位加法器、减法运算电路</p>
+</li>
+<li>
+<p>溢出<br>
+运算结果超出计数系统所能表示的范围</p>
+<ul>
+<li>如果符号位相同的两数相加，所得结果的符号位与之相反，结果溢出</li>
+<li>如果符号位相异的两数相减，所得结果的符号位与减数相同，结果溢出</li>
+<li>其他情况，不会产生溢出</li>
+<li>有符号数运算，出现溢出表示结果是错误的</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>溢出的判断：采用双符号位，“00”表示正，“11”表示负，如果运算结果符号位出现“01”或“10”表示出现溢出</p>
+</blockquote>
+<ul>
+<li>
+<p>乘法运算电路：阵列乘法器<br>
+基本思路：利用若干全加器，完全由硬件直接计算乘法结果<br>
+实现电路：<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180815962.png" alt></p>
+</li>
+<li>
+<p>数值比较器<br>
+一种关系运算电路，对两个二进制数进行比较得出大于、小于、等于的的结果</p>
+<ul>
+<li>1位比较器：利用真值表输出</li>
+<li>4位比较器(7485芯片)<br>
+规则：从高位开始比较，高位不等时，数值的大小由高位决定；若高位相等，则再比较低位，数值的大小由低位比较结果决定。<br>
+<strong>4位比较器的使用与拓展</strong><br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180827629.png" alt></li>
+</ul>
+</li>
+<li>
+<p>1位ALU<br>
+可执行1位与、或、或非、与非、加、减运算<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180833770.png" alt></p>
+</li>
+<li>
+<p>32位ALU<br>
+加法器可采用串行进位，也可采用先行进位<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180846047.png" alt><br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180846343.png" alt></p>
+</li>
+</ul>
+<h4 id="编码器-译码器">编码器/译码器</h4>
+<h5 id="编码器">编码器</h5>
+<p>编码：为区分一系列不同事物，对其中的每个事物用一组二进制代码表示，编码器是实现编码功能的数字电路</p>
+<ul>
+<li>
+<p>二进制编码器<br>
+2<sup>n</sup>线-n编码器：用n位二进制代码，对2<sup>n</sup>个信号进行编码的电路。</p>
+<ul>
+<li>输入： 2<sup>n</sup>个信号</li>
+<li>输出： n位二进制代码</li>
+<li>任意一时刻只能对其中一个信号进行编码，即只允许其中一个输入信号有效(高电平或低电平)，而其余信号无效，否则输入将出现混乱。</li>
+</ul>
+</li>
+<li>
+<p>8线-3线编码器(高电平输入有效)<br>
+个输入信号：Y0，Y1，…，Y7。任何时刻最多只有其中一个信号为1（高电平），其余均为0（低电平）。<br>
+3位输出编码：C，B，A。<br>
+当Y0=1时，CBA=000；Y1=1时，CBA=001；Y2=1时，CBA=010，以此类推。<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180904983.png" alt></p>
+</li>
+</ul>
+<p><strong>8线-3线编码器（高电平输入有效）的Verilog HDL设计</strong><br>
+方法一：根据8线-3线编码器的功能列出真值表，由真值表推出输出的逻辑表达式，然后用assign语句建模（算法级描述）</p>
+<figure class="highlight v"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> encoder8_3(Y0,Y1,Y2,Y3,Y4,Y5,Y6,Y7, C,B,A);</span><br><span class="line">    <span class="keyword">input</span> Y0,Y1,Y2,Y3,Y4,Y5,Y6,Y7;</span><br><span class="line">    <span class="keyword">output</span> C,B,A;</span><br><span class="line">    <span class="keyword">assign</span> C =! (!Y4&amp;&amp;!Y5&amp;&amp;!Y6&amp;&amp;!Y7);</span><br><span class="line">    <span class="keyword">assign</span> B =! (!Y2&amp;&amp;!Y3&amp;&amp;!Y6&amp;&amp;!Y7);</span><br><span class="line">    <span class="keyword">assign</span> A =! (!Y1&amp;&amp;!Y3&amp;&amp;!Y5&amp;&amp;!Y7);</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>方法二：根据逻辑功能定 义，采用case语句直接描述，设计过程更简单</p>
+<figure class="highlight v"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> encoder8_3(Y0,Y1,Y2,Y3,Y4,Y5,Y6,Y7, C,B,A);</span><br><span class="line">    <span class="keyword">input</span> Y0, Y1, Y2, Y3, Y4, Y5, Y6, Y7;</span><br><span class="line">    <span class="keyword">reg</span> C, B, A;</span><br><span class="line">    <span class="keyword">always</span></span><br><span class="line">    <span class="keyword">case</span> (&#123;Y0,Y1,Y2,Y3,Y4,Y5,Y6,Y7&#125;)</span><br><span class="line">        <span class="number">&#x27;b10000000</span> : &#123;C,B,A&#125; = <span class="number">0</span>; <span class="number">&#x27;b01000000</span> : &#123;C,B,A&#125; = <span class="number">1</span>;</span><br><span class="line">        <span class="number">&#x27;b00100000</span> : &#123;C,B,A&#125; = <span class="number">2</span>; <span class="number">&#x27;b00010000</span> : &#123;C,B,A&#125; = <span class="number">3</span>;</span><br><span class="line">        <span class="number">&#x27;b00001000</span> : &#123;C,B,A&#125; = <span class="number">4</span>; <span class="number">&#x27;b00000100</span> : &#123;C,B,A&#125; = <span class="number">5</span>;</span><br><span class="line">        <span class="number">&#x27;b00000010</span> : &#123;C,B,A&#125; = <span class="number">6</span>; <span class="number">&#x27;b00000001</span> : &#123;C,B,A&#125; = <span class="number">7</span>;</span><br><span class="line">        <span class="keyword">default</span> : &#123;C,B,A&#125; = <span class="number">3&#x27;bx</span>;</span><br><span class="line">    <span class="keyword">endcase</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>8421BCD编码器<br>
+用4位二进制，对10个十进制数字进行编码</p>
+</li>
+<li>
+<p>优先编码器</p>
+<ul>
+<li>克服二进制编码器仅允许1个输入信号有限的局限，允许两个以上输入信号同时有效；</li>
+<li>对所有输入信号进行优先级别排序，任何时刻只对优先级最高的输入信号编码，对优先级别低的输入信号则不响应，以保证编码器可靠工作。</li>
+<li>优点：当有两个或两个以上的输入有效时，输出不会发生混乱。广泛应用于计算机的优先中断系统、键盘编码系统中。</li>
+</ul>
+</li>
+</ul>
+<p><strong>优先编码器–74147（低电平输入有效）的Verilog HDL</strong></p>
+<figure class="highlight v"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Module</span><br><span class="line">CT74147(IN0,IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8,IN9,YN0,YN1,YN2,YN3);</span><br><span class="line">    <span class="keyword">input</span> IN0,IN1,IN2,IN3, IN4, IN5,IN6,IN7,IN8,IN9;</span><br><span class="line">    <span class="keyword">output</span> YN0,YN1,YN2,YN3;</span><br><span class="line">    <span class="keyword">reg</span> YN0,YN1,YN2,YN3;</span><br><span class="line">    <span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] Y; <span class="comment">//中间变量</span></span><br><span class="line"><span class="keyword">always</span> @(IN0 <span class="keyword">or</span> IN1 <span class="keyword">or</span> IN2 <span class="keyword">or</span> IN3 <span class="keyword">or</span> IN4 <span class="keyword">or</span> IN5 <span class="keyword">or</span> IN6 <span class="keyword">or</span> IN7 <span class="keyword">or</span> IN8 <span class="keyword">or</span> IN9)</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (IN9 == <span class="number">1&#x27;b0</span>) Y = <span class="number">4&#x27;b0110</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (IN8 == <span class="number">1&#x27;b0</span>) Y = <span class="number">4&#x27;b0111</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (IN7 == <span class="number">1&#x27;b0</span>) Y = <span class="number">4&#x27;b1000</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (IN6 == <span class="number">1&#x27;b0</span>) Y = <span class="number">4&#x27;b1001</span>;</span><br><span class="line">        ……..</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (IN1 == <span class="number">1&#x27;b0</span>) Y = <span class="number">4&#x27;b1110</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (IN0 == <span class="number">1&#x27;b0</span>) Y = <span class="number">4&#x27;b1111</span>;</span><br><span class="line">        YN0 = Y[<span class="number">0</span>];</span><br><span class="line">        YN1 = Y[<span class="number">1</span>];</span><br><span class="line">        YN2 = Y[<span class="number">2</span>];</span><br><span class="line">        YN3 = Y[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<h5 id="译码器">译码器</h5>
+<p>将二进制代码所表示的信息翻译成对应高低电平信号输出的<br>
+过程称为译码，译码是编码的反操作。实现译码功能的电路称为译码器（Decoder）<br>
+变量译码器（二进制译码器）、码制变换译码器、显示译码器</p>
+<ul>
+<li>
+<p>二进制译码器<br>
+将每个输入二进制代码，译成对应的一根输出线上的高电平（或低电平）信号。因此称为n线-2<sup>n</sup>线译码器</p>
+</li>
+<li>
+<p>3线-8线译码器（74138）<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409180924265.png" alt></p>
+</li>
+<li>
+<p>BCD译码器<br>
+码制变换译码器：将输入的二进制代码转换成对应的其他码制输出的译码器。<br>
+BCD译码器（4-10线译码器）：4位8421码转换成十进制数的电路。用于驱动十进制数码显示管、指示灯等</p>
+<ul>
+<li>完全译码BCD译码器、不完全译码BCD译码器</li>
+</ul>
+</li>
+<li>
+<p>显示译码器<br>
+用于驱动数码显示器，是一种将二进制代码表示的数字、文字、符号用人们习惯的形式直观显示出来的电路<br>
+译码器-&gt;驱动器-&gt;显示器</p>
+</li>
+</ul>
+<h4 id="多路选择器">多路选择器</h4>
+<p>数据选择器：从一组输入数据选出其中一个作为数据输出的电路，又称多路选择器（Multiplexer，多路器）</p>
+<blockquote>
+<p>以“与或非”门或以“与或”门为主体，在选择控制信号的作用下，能从多路平行输入数据中任选一路数据作为输出</p>
+</blockquote>
+<ul>
+<li>8选1多路选择器（74151）<br>
+<strong>功能一</strong>：8选1数据选择器。D7-D0为数据输入端，A2A1A0为选择控制端，使能控制输入EN为低电平时有效。<br>
+<strong>功能二</strong>：多功能运算电路。 D7-D0为控制输入端。
+<ol>
+<li>通过D7~D0取不同的值，从输入变量A2 、A1、A0的各个最小项中选取某几个最小项的或输出，实现不同的运算电路。</li>
+<li>有2<sup>8</sup>=256种功能，包含3变量的各种最小项表达式，可实现任意组合逻辑电路的设计。<br>
+例如：<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202409181013847.png" alt></li>
+</ol>
+</li>
+</ul>
+<p><strong>多路选择器（74151的Verilog HDL设计）</strong></p>
+<figure class="highlight v"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> CT74151(A2,A1,A0,STN,D7,D6,D5,D4,D3,D2,D1,D0,Y,WN);</span><br><span class="line">    <span class="keyword">input</span> A2,A1,A0,STN;</span><br><span class="line">    <span class="keyword">input</span> D7,D6,D5,D4,D3,D2,D1,D0;</span><br><span class="line">    <span class="keyword">output</span> Y,WN;</span><br><span class="line">    <span class="keyword">reg</span> Y,WN;</span><br><span class="line"><span class="keyword">always</span></span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (STN == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (&#123;A2,A1,A0&#125;)</span><br><span class="line">            <span class="number">3&#x27;b000</span> : Y = D0;</span><br><span class="line">            <span class="number">3&#x27;b001</span> : Y = D1;</span><br><span class="line">            <span class="number">3&#x27;b010</span> : Y = D2;</span><br><span class="line">            <span class="number">3&#x27;b011</span> : Y = D3;</span><br><span class="line">            <span class="number">3&#x27;b100</span> : Y = D4;</span><br><span class="line">            <span class="number">3&#x27;b101</span> : Y = D5;</span><br><span class="line">            <span class="number">3&#x27;b110</span> : Y = D6;</span><br><span class="line">            <span class="number">3&#x27;b111</span> : Y = D7;</span><br><span class="line">        <span class="keyword">endcase</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> Y = <span class="number">1&#x27;b0</span>;</span><br><span class="line">    WN = ~Y;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<h4 id="组合逻辑电路的竞争冒险">组合逻辑电路的竞争冒险</h4>
+<h5 id="竞争冒险现象">竞争冒险现象</h5>
+<ul>
+<li>竞争：在组合逻辑电路中，某个输入变量通过两条或两条以上的途径传到输出端，由于每条途径延迟时间不同，到达输出门的时间就有先有后，这种现象称为竞争。</li>
+<li>冒险：门电路因输入端的竞争，而导致输出端产生不正常的尖峰干扰冒险信号（毛刺）的现象，称为冒险。</li>
+</ul>
+<blockquote>
+<p>竞争冒险的原因：门电路的延时。信号在器件内部通过连线和逻辑单元时，都有一定的延时。延时的大小与连线的长短和逻辑单元的数目有关，同时还受器件的制造工艺、工作电压、温度等条件的影响。信号的<strong>高低电平转换</strong>也需要一定的过渡时间。</p>
+</blockquote>
+<h5 id="竞争冒险的判断">竞争冒险的判断</h5>
+<ol>
+<li>代数法：<br>
+逻辑函数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span>中，若某个变量（假定为A）同时以原变量和反变量形式存在，逻辑函数在一定条件下（其它变量取特定的值1或0）可以简化为可以简化为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo>+</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">F = A + \overline A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span> 或<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo separator="true">⋅</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">F=A·\overline A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord mathnormal">A</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>的形式，则该逻辑电路存在冒险。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo>+</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">F = A + \overline A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>存在“0”冒险，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo separator="true">⋅</mo><mover accent="true"><mi>A</mi><mo stretchy="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">F=A·\overline A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;"></span><span class="mord mathnormal">A</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span></span></span></span>存在“1”冒险。</li>
+</ol>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409181021995.png" alt></p>
+<ol start="2">
+<li>卡诺图法<br>
+在逻辑函数的卡诺图中，函数的每个与项对应卡诺图上的一个卡诺圈，若两个卡诺圈相切，相切处将存在冒险。</li>
+</ol>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409181036446.png" alt></p>
+<h5 id="竞争冒险的消除">竞争冒险的消除</h5>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409181036070.png" alt></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://theuho.site">theUHO</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://theuho.site/2024/09/18/ComputerConstructionNote2/">https://theuho.site/2024/09/18/ComputerConstructionNote2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://theuho.site" target="_blank">theUHO</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><a class="post-meta__tags" href="/tags/CO/">CO</a><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%AD%98/">自存</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/TheUHO/blog/raw/master/images/202409111007686.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/17/DiscreteMathematicsNote/" title="离散数学II笔记"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">离散数学II笔记</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/19/DiscreteMathmaticsNote2/" title="离散数学II笔记(2)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007687.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">离散数学II笔记(2)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/09/11/ComputerConstructionNote/" title="计算机组成原理笔记"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007685.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-11</div><div class="title">计算机组成原理笔记</div></div></a></div><div><a href="/2024/09/25/ComputerConstructionNote3/" title="计算机组成原理笔记(3)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-25</div><div class="title">计算机组成原理笔记(3)</div></div></a></div><div><a href="/2024/10/23/ComputerConstructionNote5/" title="计算机组成原理笔记(5)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-23</div><div class="title">计算机组成原理笔记(5)</div></div></a></div><div><a href="/2024/10/09/ComputerConstructionNote4/" title="计算机组成原理笔记(4)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-09</div><div class="title">计算机组成原理笔记(4)</div></div></a></div><div><a href="/2024/09/17/DiscreteMathematicsNote/" title="离散数学II笔记"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-18</div><div class="title">离散数学II笔记</div></div></a></div><div><a href="/2024/09/19/DiscreteMathmaticsNote2/" title="离散数学II笔记(2)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007687.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-19</div><div class="title">离散数学II笔记(2)</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="this.onerror=null;this.src='/img/bochii2.gif'" alt="avatar"/></div><div class="author-info__name">theUHO</div><div class="author-info__description">CS学习生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/TheUHO"><i class="fab fa-github"></i><span>Follow Me On Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="http://github.com/TheUHO" target="_blank" title="Github"><i class="fab fa-github" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:wuyubuchenhong@buaa.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">早上中午晚上好！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E9%97%A8%E7%94%B5%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">逻辑门电路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%B6%E4%BD%93%E7%AE%A1%E5%92%8Cmos%E7%AE%A1"><span class="toc-number">1.1.</span> <span class="toc-text">晶体管和MOS管</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E9%97%A8%E7%94%B5%E8%B7%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">逻辑门电路实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E9%83%A8%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">基本组合逻辑部件设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E8%AE%BE%E8%AE%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">组合逻辑设计概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E5%99%A8%E5%8D%95%E5%85%83%E7%94%B5%E8%B7%AF"><span class="toc-number">2.2.</span> <span class="toc-text">运算器单元电路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8-%E8%AF%91%E7%A0%81%E5%99%A8"><span class="toc-number">2.3.</span> <span class="toc-text">编码器&#x2F;译码器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">2.3.1.</span> <span class="toc-text">编码器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%91%E7%A0%81%E5%99%A8"><span class="toc-number">2.3.2.</span> <span class="toc-text">译码器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.4.</span> <span class="toc-text">多路选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E7%9A%84%E7%AB%9E%E4%BA%89%E5%86%92%E9%99%A9"><span class="toc-number">2.5.</span> <span class="toc-text">组合逻辑电路的竞争冒险</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%9E%E4%BA%89%E5%86%92%E9%99%A9%E7%8E%B0%E8%B1%A1"><span class="toc-number">2.5.1.</span> <span class="toc-text">竞争冒险现象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%9E%E4%BA%89%E5%86%92%E9%99%A9%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">2.5.2.</span> <span class="toc-text">竞争冒险的判断</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%9E%E4%BA%89%E5%86%92%E9%99%A9%E7%9A%84%E6%B6%88%E9%99%A4"><span class="toc-number">2.5.3.</span> <span class="toc-text">竞争冒险的消除</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2026年算法设计与分析期末回忆版[BUAA-算法]"/></a><div class="content"><a class="title" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]">2026年算法设计与分析期末回忆版[BUAA-算法]</a><time datetime="2026-01-15T08:42:13.000Z" title="发表于 2026-01-15 16:42:13">2026-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VLA模型技术代码调研学习 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]">VLA模型技术代码调研学习 [VLA]</a><time datetime="2025-08-30T14:09:05.000Z" title="发表于 2025-08-30 22:09:05">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]">OpenVLA，pi_0，pi_0-fast论文精读 [VLA]</a><time datetime="2025-08-30T14:07:00.000Z" title="发表于 2025-08-30 22:07:00">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025年春本科生机器学习期末回忆版[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]">2025年春本科生机器学习期末回忆版[BUAA-ML]</a><time datetime="2025-08-11T10:54:18.000Z" title="发表于 2025-08-11 18:54:18">2025-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="北航2025机器学习期末复习[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]">北航2025机器学习期末复习[BUAA-ML]</a><time datetime="2025-08-11T08:48:24.000Z" title="发表于 2025-08-11 16:48:24">2025-08-11</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By theUHO</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, nice to see you here visiting my <a href = "https://theuho.site/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'TheUHO/TheUHO.github.io',
+      'data-repo-id': 'R_kgDOLfzltQ',
+      'data-category-id': 'DIC_kwDOLfzltc4ChDRb',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["link[rel=\"canonical\"]","meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

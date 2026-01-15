@@ -1,0 +1,593 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>2025第一单元总结博客 [BUAA-OO] | theUHO</title><meta name="author" content="theUHO"><meta name="copyright" content="theUHO"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /><meta name="description" content="本文将从笔者自身的角度出发，总结2025年北航面向对象课程第一单元作业(HW1, HW2)的程序设计思路和架构搭建，呈现我在完成一个支持加、减、乘、乘方、三角函数、递推函数、普通函数、求导功能的科学计算器过程中所遇到的问题、思考以及解决方案。  一、架构分析 1.1 项目架构概览 本项目采用面向对象的思想，将化简表达式的总功能划分为了表达式解析部分和合并化简部分，前者对应了Lexer、Paser、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2025第一单元总结博客 [BUAA-OO]">
+<meta property="og:url" content="https://theuho.site/2025/03/19/OO-Unit1/index.html">
+<meta property="og:site_name" content="theUHO">
+<meta property="og:description" content="本文将从笔者自身的角度出发，总结2025年北航面向对象课程第一单元作业(HW1, HW2)的程序设计思路和架构搭建，呈现我在完成一个支持加、减、乘、乘方、三角函数、递推函数、普通函数、求导功能的科学计算器过程中所遇到的问题、思考以及解决方案。  一、架构分析 1.1 项目架构概览 本项目采用面向对象的思想，将化简表达式的总功能划分为了表达式解析部分和合并化简部分，前者对应了Lexer、Paser、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg">
+<meta property="article:published_time" content="2025-03-19T00:07:39.000Z">
+<meta property="article:modified_time" content="2026-01-15T09:39:22.166Z">
+<meta property="article:author" content="theUHO">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="OO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://theuho.site/2025/03/19/OO-Unit1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?81ddc5fad2a887e9007f6fd620995ffc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '2025第一单元总结博客 [BUAA-OO]',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 17:39:22'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 19
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/loading-img.css"><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg" style="background:url('/img/index_img.jpg') no-repeat center / cover; background-attachment: fixed;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"/><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">2025第一单元总结博客 [BUAA-OO]</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-19T00:07:39.000Z" title="发表于 2025-03-19 08:07:39">2025-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T09:39:22.166Z" title="更新于 2026-01-15 17:39:22">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/OO/">OO</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>25分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="2025第一单元总结博客 [BUAA-OO]"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文将从笔者自身的角度出发，总结2025年北航面向对象课程第一单元作业(HW1, HW2)的程序设计思路和架构搭建，呈现我在完成一个支持加、减、乘、乘方、三角函数、递推函数、普通函数、求导功能的<strong>科学计算器</strong>过程中所遇到的问题、思考以及解决方案。</p>
+<hr>
+<h3 id="一-架构分析">一、架构分析</h3>
+<h4 id="1-1-项目架构概览">1.1 项目架构概览</h4>
+<p>本项目采用面向对象的思想，将化简表达式的总功能划分为了表达式解析部分和合并化简部分，前者对应了<code>Lexer</code>、<code>Paser</code>、<code>FuncManager</code>类，后者对应了<code>Expr</code>、<code>Term</code>、<code>Factor</code>等类，通过对递归下降与正则表达式的结合运用，较好地实现了对表达式的解析与合并化简。</p>
+<h4 id="1-2-uml类图">1.2 UML类图</h4>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191523149.png" alt="class"></p>
+<h4 id="1-3-架构设计">1.3 架构设计</h4>
+<h5 id="1-函数处理与词法分析">(1) 函数处理与词法分析</h5>
+<ul>
+<li><code>FuncManager</code>类：负责处理自定义函数定义与解析，通过HashMap存储函数名、形参与函数表达式，对传入内部的input字符串通过<strong>正则表达式</strong>进行匹配，并展开递推表达式与普通函数，降低解析表达式时处理函数调用的复杂度。</li>
+<li><code>Lexer</code>类：负责对传入的字符串进行词法分析，将表达式字符串分割为一个个的<code>Token</code>，处理连续符号与数字合并，完成储存，方便后续的解析。</li>
+</ul>
+<h5 id="2-表达式解析">(2) 表达式解析</h5>
+<ul>
+<li>通过递归下降法构建了表达式解析器，通过<code>paserExpr</code>、<code>paserTerm</code>、<code>paserFactor</code>等方法，将表达式字符串解析为<code>Expr</code>、<code>Term</code>、<code>Factor</code>对象，构建表达式树。</li>
+<li><code>Expr</code>、<code>Term</code>、<code>Factor</code>类：分别对应表达式、项、因子，内部用ArrayList存储，方便后续的合并化简操作。</li>
+<li>利用<code>Factor</code>接口实现多种因子的统一处理，包括<code>NumFactor</code>、<code>PowFactor</code>、<code>FuncFactor</code>、<code>ExprFactor</code>、<code>SinFactor</code>、<code>CosFactor</code>、<code>DerivativeFactor</code>等，分别对应数字、幂、函数、表达式、正弦、余弦、求导因子。</li>
+</ul>
+<h5 id="3-表达式合并化简">(3) 表达式合并化简</h5>
+<ul>
+<li>通过定义单项式类<code>Mono</code>与多项式类<code>Poly</code>，将表达式树中的<code>Expr</code>、<code>Term</code>、<code>Factor</code>对象合并为多项式对象，并对其进行合并同类项、化简操作。</li>
+<li><code>Mono</code>类：最终解析得到的基本单元</li>
+</ul>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>M</mi><mi>o</mi><mi>n</mi><mi>o</mi><mo>=</mo><mi>c</mi><mi>o</mi><mi>e</mi><mo>⋅</mo><msup><mi>X</mi><mrow><mi>e</mi><mi>x</mi><mi>p</mi></mrow></msup><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></munderover><mi>s</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>P</mi><mi>o</mi><mi>l</mi><msub><mi>y</mi><mi>i</mi></msub><msup><mo stretchy="false">)</mo><mrow><mi>e</mi><mi>x</mi><msub><mi>p</mi><mi>i</mi></msub></mrow></msup><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></munderover><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false">(</mo><mi>P</mi><mi>o</mi><mi>l</mi><msub><mi>y</mi><mi>j</mi></msub><msup><mo stretchy="false">)</mo><mrow><mi>e</mi><mi>x</mi><msub><mi>p</mi><mi>j</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">Mono=coe \cdot X^{exp} \prod ^{n}_{i=0}sin(Poly_i)^{exp_i}\prod ^{n}_{j=0}cos(Poly_j)^{exp_j}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">coe</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:3.0652em;vertical-align:-1.4138em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7144em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6514em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∏</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">in</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7144em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6514em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∏</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.4138em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7144em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<ul>
+<li><code>Poly</code>类：多项式，内部用HashMap存储单项式，在add、mul等方法中实现合并同类项操作。</li>
+</ul>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mi>o</mi><mi>l</mi><mi>y</mi><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></munderover><mi>c</mi><mi>o</mi><msub><mi>e</mi><mi>i</mi></msub><mo>⋅</mo><mi>M</mi><mi>o</mi><mi>n</mi><msub><mi>o</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">Poly=\sum_{i=0}^{n}coe_i \cdot Mono_i
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.9291em;vertical-align:-1.2777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6514em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">co</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord"><span class="mord mathnormal">o</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<h5 id="4-统计分析">(4) 统计分析</h5>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191523148.png" alt="lines"><br>
+可以发现，<code>FuncManager</code>类的代码行数最多，原因在于该类需要处理自定义函数的定义与调用，需要处理递推表达式与普通函数，代码量相对较大。并且，笔者在该类中预先对函数进行了部分展开化简（替换定义过的函数、存储递推函数表达式<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">{</mo><mn>0</mn><mo stretchy="false">}</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>f</mi><mo stretchy="false">{</mo><mn>5</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">f\{0\}..f\{5\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">{</span><span class="mord">0</span><span class="mclose">}</span><span class="mord">..</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">{</span><span class="mord">5</span><span class="mclose">}</span></span></span></span>），这虽然不符合递归思想，但大大降低了后续解析表达式的复杂度与成本消耗，提高了解析效率。</p>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191525569.png" alt="class"><br>
+可以发现，类复杂度分布不均，部分核心类承担了较多的复杂逻辑，而一些辅助类或数据类则相对简单。<code>FuncManager</code>、<code>Lexer</code>、<code>Mono</code>、<code>Parser</code>等类的WMC值较高，尤其是<code>Mono</code>类的WMC值高达45，这是因为在<code>toString</code>方法中，需要将多项式对象转换为字符串，而该类中包含了较多的逻辑判断与字符串拼接操作。</p>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191525742.png" alt="method"><br>
+<code>Lexer.handleSpecialCharacters()</code>方法复杂度超标的原因是笔者在该方法中实现了对特殊字符的处理，包含了太多if-else判断，导致代码行数与复杂度较高。<code>Mono.toString()</code>和<code>Mono.buildTrigExpr()</code>方法则由于处理基本单元的特判，具有较多的逻辑判断与字符串拼接操作。<code>FuncManager.expandFunction()</code>在递归展开函数时，需要处理递推函数的定义，调用了过多的辅助方法，导致代码行数与复杂度较高。</p>
+<p>整个表达式化简项目围绕表达式的解析、因子的封装、多项式的运算与求导展开，各类因子（NumFactor, SinFactor, CosFactor 等）各自聚焦在特定的数学运算逻辑，内聚度相对较好。Parser, Lexer, FuncManager 等在解析层各司其职，但实现细节中个别方法（如 <code>expandFunction</code>、<code>handleSpecialCharacters</code>等）过于复杂，可能需要笔者进一步优化。</p>
+<h3 id="二-迭代设计">二、迭代设计</h3>
+<h4 id="2-1-第一次作业">2.1 第一次作业</h4>
+<h5 id="1-需求分析">(1) 需求分析</h5>
+<p>第一次作业是对于面向对象与层次化设计的初步尝试，通过实现一个简单的表达式化简程序，来理解面向对象编程的<strong>思维方法</strong>与<strong>设计原则</strong>。具体需求如下：</p>
+<ul>
+<li>实现一个表达式化简程序，能够解析并化简输入的表达式。</li>
+<li>表达式由若干个项用加减运算连接。</li>
+<li>项由若干个因子用乘法运算连接。</li>
+<li>因子可以是常数、幂函数、表达式因子。</li>
+<li>输出不包含括号的表达式。</li>
+</ul>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191526315.png" alt="hw1_lines"></p>
+<h5 id="2-设计思路">(2) 设计思路</h5>
+<p>通过先导课第七次作业的训练，笔者对于递归下降的解析方法有了一定的了解，而在重温OOpre中的表达式树构建方法并参考了往年博客后，构建了如下架构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">|-- MainClass</span><br><span class="line">|</span><br><span class="line">|-- Lexer</span><br><span class="line">|-- Token</span><br><span class="line">|-- Parser</span><br><span class="line">|</span><br><span class="line">|-- Expr</span><br><span class="line">|-- Term</span><br><span class="line">|-- Factor</span><br><span class="line">|-- NumFactor</span><br><span class="line">|-- PowFactor</span><br><span class="line">|-- ExprFactor</span><br><span class="line">|</span><br><span class="line">|-- Mono</span><br><span class="line">|-- Poly</span><br></pre></td></tr></table></figure>
+<p>其中，<code>Lexer</code>负责词法分析，将输入字符串解析为<code>Token</code>序列；<code>Parser</code>负责语法解析，<code>Expr</code>, <code>Term</code>, <code>Factor</code>, <code>NumFactor</code>, <code>PowFactor</code>, <code>ExprFactor</code>分别对应表达式、项、因子、常数因子、幂因子、表达式因子；<code>Mono</code>, <code>Poly</code>分别对应单项式与多项式。<br>
+程序通过递归下降解析表达式，将解析结果封装成<code>Expr</code>、<code>Term</code>、<code>Factor</code>等对象，再调用<code>Expr.toPoly</code>、<code>Term.toPoly</code>、<code>Factor.toPoly</code>方法递归展开化简为<code>Poly</code>、<code>Mono</code>对象，最后调用<code>Poly.toString</code>、<code>Mono.toString</code>方法生成字符串。</p>
+<h5 id="3-设计实现">(3) 设计实现</h5>
+<ul>
+<li><strong>词法分析Lexer</strong>
+<ul>
+<li><code>Lexer</code>类负责词法分析，将输入字符串解析为基本语法单元<code>Token</code>。</li>
+<li><code>nextToken</code>方法从输入字符串中读取下一个<code>Token</code>，并更新当前读取位置。</li>
+<li>第一次作业中，<code>Lexer</code>类仅支持解析数字、变量、加号、减号、乘号、左括号、右括号、幂运算符等基本语法单元。</li>
+<li>通过switch-case语句，根据当前读取位置语法单元类型。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Token.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Token</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Type</span> &#123;</span><br><span class="line">        ADD, SUB, MUL, LPAREN, RPAREN, NUM, VAR, POW</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Type type;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String content;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in Lexer.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">Lexer</span><span class="params">(String input)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">while</span> (...) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (currentChar) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27; &#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;\t&#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;(&#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;)&#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">if</span> (isDigit) &#123;</span><br><span class="line">                    ...</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123; <span class="comment">// unexpected characters</span></span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>语法解析Parser</strong>
+<ul>
+<li><code>Parser</code>类负责语法分析，将<code>Token</code>序列解析为<code>Expr</code>对象。</li>
+<li><code>parse</code>方法从<code>Lexer</code>中读取<code>Token</code>序列，并解析为<code>Expr</code>对象。</li>
+<li><code>parseExpr</code>、<code>parseTerm</code>、<code>parseFactor</code>方法分别解析表达式、项、因子。</li>
+<li><code>parseExpr</code>方法调用<code>parseTerm</code>方法解析项，并将<code>Expr</code>对象的符号传给<code>Term</code>，在此情况下，<code>term</code>之间是加法运算。</li>
+<li><code>parseTerm</code>方法调用<code>parseFactor</code>方法解析因子，因子的符号单独解析，<code>factor</code>之间是乘法运算。</li>
+<li><code>parseFactor</code>方法解析因子，根据因子类型调用不同的解析方法<code>parseNum</code>、<code>parsePower</code>、<code>parseExprFactor</code>。</li>
+<li><code>parseSign</code>辅助方法解析符号，结果传入对象中。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Parser.java</span></span><br><span class="line"><span class="keyword">public</span> BigInteger <span class="title function_">parseSign</span><span class="params">(BigInteger sign)</span> &#123;</span><br><span class="line">    <span class="comment">// sign是外层传入的符号</span></span><br><span class="line">    <span class="keyword">if</span> (SUB) &#123;</span><br><span class="line">        <span class="comment">// 移动指针</span></span><br><span class="line">        <span class="keyword">return</span> sign.negate();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ADD) &#123;</span><br><span class="line">        <span class="comment">// 移动指针</span></span><br><span class="line">        <span class="keyword">return</span> sign;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 没有符号，不移动指针</span></span><br><span class="line">        <span class="keyword">return</span> sign;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Expr <span class="title function_">parseExpr</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 解析符号</span></span><br><span class="line">    <span class="type">BigInteger</span> <span class="variable">exprSign</span> <span class="operator">=</span> parseSign(BigInteger.ONE);</span><br><span class="line">    <span class="comment">// 解析term</span></span><br><span class="line">    <span class="type">Expr</span> <span class="variable">expr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Expr</span>(); <span class="comment">//expr本身没有符号</span></span><br><span class="line">    expr.addTerm(parseTerm(exprSign));</span><br><span class="line">    <span class="keyword">while</span>(ADD || SUB) &#123;</span><br><span class="line">        <span class="comment">// 解析符号</span></span><br><span class="line">        <span class="type">BigInteger</span> <span class="variable">termSign</span> <span class="operator">=</span> parseSign(BigInteger.ONE);</span><br><span class="line">        <span class="comment">// 解析term</span></span><br><span class="line">        expr.addTerm(parseTerm(termSign));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> expr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Expr <span class="title function_">parseTerm</span><span class="params">(BigInteger sign)</span> &#123;</span><br><span class="line">    <span class="comment">// 解析符号，与外层符号combined</span></span><br><span class="line">    <span class="type">BigInteger</span> <span class="variable">termSign</span> <span class="operator">=</span> parseSign(sign);</span><br><span class="line">    <span class="comment">// 解析factor</span></span><br><span class="line">    <span class="type">Term</span> <span class="variable">term</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Term</span>(termSign);</span><br><span class="line">    term.addFactor(parseFactor());</span><br><span class="line">    <span class="keyword">while</span>(MUL) &#123;</span><br><span class="line">        term.addFactor(parseFactor());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> term;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Factor <span class="title function_">parseFactor</span><span class="params">()</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>表达式展开</strong>
+<ul>
+<li>在<code>Expr</code>、<code>Term</code>、<code>Factor</code>中添加<code>toPoly</code>方法，按照层次结构展开表达式。</li>
+<li><code>Poly</code>由若干个<code>Mono</code>相加而成，每个<code>Mono</code>是一个基本单元。</li>
+<li><code>Mono</code>具有固定形式<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>e</mi><mo>⋅</mo><msup><mi>x</mi><mrow><mi>e</mi><mi>x</mi><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">coe\cdot x^{exp}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">coe</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span></span></span></span>。</li>
+<li>如此实现了表达式解析存储与计算展开功能的分离，既符合了单一职责原则，也方便调试输出。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Expr.java</span></span><br><span class="line"><span class="keyword">public</span> Poly <span class="title function_">toPoly</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Poly</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Poly</span>();</span><br><span class="line">    <span class="keyword">for</span> (Term term : terms) &#123;</span><br><span class="line">        <span class="comment">// 由于符号依附于term，term之间是加法关系</span></span><br><span class="line">        result.addPoly(...);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in Term.java</span></span><br><span class="line"><span class="keyword">public</span> Poly <span class="title function_">toPoly</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Poly</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Poly</span>();</span><br><span class="line">    <span class="keyword">for</span> (Factor factor : factors) &#123;</span><br><span class="line">        <span class="comment">// factor之间是乘法关系</span></span><br><span class="line">        result.multiplyPoly(...);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (sign为负) &#123;</span><br><span class="line">        result.negPoly();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> poly;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// in Factor.java</span></span><br><span class="line"><span class="comment">// Factor是接口，其实现类重写toPoly方法</span></span><br><span class="line"><span class="keyword">public</span> Poly <span class="title function_">toPoly</span><span class="params">()</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Poly内需要实现<code>addPoly</code>、<code>multiplyPoly</code>、<code>negPoly</code>方法，分别对应<code>+</code>、<code>*</code>、取反操作，具体实现同样依照层次化结构，依赖<code>addMono</code>方法实现同类项合并。<br>
+Mono内需要实现<code>multiply</code>方法，实现系数相乘、指数相加。</p>
+</blockquote>
+<ul>
+<li><strong>表达式输出</strong>
+<ul>
+<li>在<code>Poly</code>中添加<code>toString</code>方法，调用<code>Mono.toString</code>，按照层次结构输出表达式</li>
+<li><code>Mono</code>输出时，需要特判情况以优化输出(第一次的性能分还是好拿的)。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>关于输出优化</strong><br>
+主要有两个方向，首先是Poly调用Mono生成的字符串拼接时，将正项放在最前面可以省略<code>+</code>号。其次是在<code>Mono</code>中，如果<code>coe</code>为±1，则省略<code>1</code>；如果<code>exp</code>为0，则省略<code>x</code>，只输出系数；如果<code>exp</code>为1，则省略<code>^1</code>。</p>
+</blockquote>
+<h5 id="4-复杂度分析">(4) 复杂度分析</h5>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191526679.png" alt="hw1_class"><br>
+由于<code>Poly</code>类中循环和特判较多，<code>Lexer</code>类中使用了过多switch-case语句，导致代码复杂度较高，但总体来说，代码结构清晰，符合单一职责原则，每个类只负责一个功能，且每个类的方法也只负责一个功能，符合开闭原则，在后续迭代中，只需要修改解析方法和对应<code>Factor</code>的实现类即可。</p>
+<h4 id="2-2-第二次作业">2.2 第二次作业</h4>
+<h5 id="1-需求分析">(1) 需求分析</h5>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191527781.png" alt="hw2_lines"><br>
+在笔者看来，第二次迭代是本单元跨越难度最大的一次，代码量与架构复杂度都显著上升，引入了新的三角函数因子与自定义递推函数，代码总行数也是来到了近1200行，本次作业的主要需求如下：</p>
+<ul>
+<li><strong>支持嵌套括号</strong>：第一次作业中实现递归下降已经可以支持嵌套括号 <strong>( 慎用正则表达式！)</strong>。</li>
+<li><strong>解析三角函数因子</strong>：允许用户输入三角函数因子<code>sin</code>、<code>cos</code>，最终输出只保留<strong>必要括号</strong>(难点1：无脑加影响性能，不加形式错误)，可以利用三角函数恒等式化简(难点2：化简种类很多，平方和、二倍角、诱导公式等)。</li>
+<li><strong>支持自定义递推函数</strong>：允许用户输入自定义递推函数定义并在表达式中调用，包括初始定义<code>f&#123;0&#125;</code>、<code>f&#123;1&#125;</code>，递推定义<code>f&#123;n&#125;(形参) = 常数*f&#123;n-1&#125;(实参) + 常数*f&#123;n-2&#125;(实参)+表达式</code>，支持在表达式中调用(难点3：如何展开递推定义，如何处理递推定义中的形参与实参，如何降低调用成本<strong>防止TLE</strong>)。</li>
+</ul>
+<h5 id="2-设计思路">(2) 设计思路</h5>
+<ul>
+<li><strong>引入函数管理类</strong>：新增<code>FuncManager</code>类，用于管理自定义递推函数，包括存储函数定义、解析展开函数定义、处理函数调用时的换参等。</li>
+<li><strong>引入函数因子类</strong>：新增<code>FuncFactor</code>类，继承自<code>Factor</code>接口，用于存储函数因子，内部调用<code>FuncManager.callFunc</code>处理函数调用生成对应字符串；调用<code>Parser.parseExpr</code>生成对应<code>Expr</code>对象；重写<code>toPoly</code>方法，调用<code>Expr.toPoly</code>生成对应<code>Poly</code>对象。</li>
+<li><strong>引入三角函数因子</strong>：新增<code>SinFactor</code>、<code>CosFactor</code>类，继承自<code>Factor</code>接口，用于存储三角函数因子，并重写<code>toPoly</code>方法。</li>
+<li><strong>修改基本单元Mono类</strong>：将基本单元修改为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>e</mi><mo>⋅</mo><msup><mi>x</mi><mi>exp</mi><mo>⁡</mo></msup><msubsup><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></msubsup><mi>s</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>P</mi><mi>o</mi><mi>l</mi><msub><mi>y</mi><mi>i</mi></msub><msup><mo stretchy="false">)</mo><mrow><mi>e</mi><mi>x</mi><msub><mi>p</mi><mi>i</mi></msub></mrow></msup><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></msubsup><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false">(</mo><mi>P</mi><mi>o</mi><mi>l</mi><msub><mi>y</mi><mi>j</mi></msub><msup><mo stretchy="false">)</mo><mrow><mi>e</mi><mi>x</mi><msub><mi>p</mi><mi>j</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">coe \cdot x^{\exp} \prod ^{n}_{i=0}sin(Poly_i)^{exp_i}\prod ^{n}_{j=0}cos(Poly_j)^{exp_j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">coe</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2401em;vertical-align:-0.4358em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mtight">e</span><span class="mtight">x</span><span class="mtight">p</span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">in</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4358em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>，新增<code>addSinFactor</code>、<code>addCosFactor</code>方法，用于添加三角函数因子，重写<code>equal</code>与<code>hashCode</code>方法，用于判断<code>Mono</code>对象是否相等。</li>
+<li><strong>修改多项式Poly类</strong>：修改<code>Poly</code>类中对应方法以兼容新的<code>Mono</code>对象。</li>
+</ul>
+<h5 id="3-设计实现">(3) 设计实现</h5>
+<ul>
+<li><strong>FuncManager类</strong>：静态自定义递推函数管理类，功能包括解析存储函数定义、展开递推函数、处理函数调用时的换参等。
+<ul>
+<li>提供<code>FuncDefinition</code>方法用于解析初始定义与递推定义，利用<strong>正则表达式 + 匹配括号栈函数</strong>解析函数名、序号、形参、函数表达式；</li>
+<li>提供<code>expandFunction</code>方法用于展开递推函数，利用<strong>正则 + 递归 + 匹配括号栈函数</strong>解析函数表达式中的函数调用，并递归展开；</li>
+<li>提供<code>callFunc</code>方法用于处理函数调用，利用<strong>正则表达式替换</strong>处理函数表达式中的函数调用；</li>
+<li>提供<code>replaceParams</code>辅助方法用于替换函数表达式中的形参；</li>
+<li>提供<code>findClosingParen</code>与<code>splitParameters</code>辅助方法用于解析递推函数表达式的实参。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in FuncManager.java</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, HashMap&lt;Integer, String&gt;&gt; functions = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); <span class="comment">// 储存函数定义</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, ArrayList&lt;String&gt;&gt; parameters = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); <span class="comment">// 储存函数形参列表</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String, String&gt; recurrences = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); <span class="comment">// 储存递推关系</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">funcDefinition</span><span class="params">(String input)</span> &#123;</span><br><span class="line">    <span class="comment">/* 利用Pattern + Matcher解析初始定义与递推定义</span></span><br><span class="line"><span class="comment">    并存储到functions、parameters、recurrences中</span></span><br><span class="line"><span class="comment">    解析完毕后调用expandFunction展开递推函数的0到5项*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">expandFunction</span><span class="params">(String funcName, <span class="type">int</span> seq, ArrayList&lt;String&gt; factors)</span> &#123;</span><br><span class="line">    <span class="comment">/* 识别递推定义中的&quot;f&#123;n-1&#125;(&quot;和&quot;f&#123;n-2&#125;(&quot;字符串，</span></span><br><span class="line"><span class="comment">    调用辅助函数findClosingParen与splitParameters解析实参，</span></span><br><span class="line"><span class="comment">    递归展开n-1与n-2项，并返回展开后的函数表达式</span></span><br><span class="line"><span class="comment">    拼接后返回展开后的函数表达式并存储到functions中*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">callFunc</span><span class="params">(String name, BigInteger seq, ArrayList&lt;String&gt; factors)</span> &#123;</span><br><span class="line">    <span class="comment">/* 处理函数调用，在functions中查找函数表达式</span></span><br><span class="line"><span class="comment">    调用replaceParams替换函数表达式中的形参，并返回替换后的表达式*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">replaceParams</span><span class="params">(String funcName, String expr, ArrayList&lt;String&gt; factors)</span> &#123;</span><br><span class="line">    <span class="comment">/* 使用正则替换函数表达式中的形参，返回替换后的表达式*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> <span class="title function_">findClosingParen</span><span class="params">(String s, <span class="type">int</span> startIndex)</span> &#123;</span><br><span class="line">    <span class="comment">// 匹配括号栈，找到与startIndex对应的闭合括号索引</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> ArrayList&lt;String&gt; <span class="title function_">splitParameters</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    <span class="comment">// 解析函数表达式中的实参，返回实参数组</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>细节实现</strong><br>
+注意存储函数时将形参x,y替换成u,v等符号，避免在替换过程出现冲突。解析实参时不能直接用正则表达式，因为实参可能包含无限层次的括号，正则无法处理，需要用栈来匹配括号。为了支持后续可能的迭代(如多种递推函数)，我在存储函数表达式时采用了<code>funcName+seq</code>的形式(f对应一个arraylist，存储着每个序号对应的表达式)，这在第三次作业中给我带来了一部分的重构，其实完全将funcName保存为&quot;f{n}&quot;的形式会更简洁，也不需要跨越层次，破坏了面向对象的思想。</p>
+</blockquote>
+<ul>
+<li><strong>新增因子</strong>：本次迭代支持自定义递推函数因子与三角函数因子，笔者增加了三个继承<code>Factor</code>接口的<code>FuncFactor</code>、<code>SinFactor</code>、<code>CosFactor</code>类以实现层次化结构。
+<ul>
+<li><code>FuncFactor</code>类：实现自定义递推函数因子；</li>
+<li><code>SinFactor</code>类：实现三角函数因子sin，重写<code>toPoly</code>方法；</li>
+<li><code>CosFactor</code>类：实现三角函数因子cos，重写<code>toPoly</code>方法。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in FuncFactor.java</span></span><br><span class="line"><span class="keyword">private</span> BigInteger sign;</span><br><span class="line"><span class="keyword">private</span> String funcString; <span class="comment">// 将实参代入函数所得字符串</span></span><br><span class="line"><span class="keyword">private</span> Expr funcExpr; <span class="comment">// 函数表达式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">FuncFactor</span><span class="params">(...)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.sign = sign;</span><br><span class="line">    <span class="built_in">this</span>.funcString = FuncManager.callFunc(...)</span><br><span class="line">    <span class="built_in">this</span>.funcExpr = toExpr();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 将函数字符串转换为表达式</span></span><br><span class="line"><span class="keyword">private</span> Expr <span class="title function_">toExpr</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (sign为负) &#123;</span><br><span class="line">        funcString = <span class="string">&quot;-(&quot;</span> + funcString + <span class="string">&quot;)&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> parser.parseExpr();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Poly <span class="title function_">toPoly</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> funcExpr.toPoly();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in SinFactor.java</span></span><br><span class="line"><span class="keyword">private</span> BigInteger sign;</span><br><span class="line"><span class="keyword">private</span> Factor factor;</span><br><span class="line"><span class="keyword">private</span> BigInteger exponent;</span><br><span class="line">...</span><br><span class="line"><span class="comment">// 重写toPoly()方法</span></span><br><span class="line"><span class="meta">@Override</span> <span class="keyword">public</span> Poly <span class="title function_">toPoly</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Mono</span> <span class="variable">mono</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Mono</span>(...);</span><br><span class="line">    mono.addSinFactor(factor.toPoly(), exponent);</span><br><span class="line">    <span class="type">Poly</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Poly</span>(); <span class="comment">// 创建一个多项式</span></span><br><span class="line">    result.addMono(mono);</span><br><span class="line">    <span class="keyword">return</span> result; <span class="comment">// 返回多项式</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// in CosFactor.java ...</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>修改单项式与多项式类</strong>：</p>
+<ul>
+<li>在<code>Mono</code>类中添加<code>addSinFactor</code>和<code>addCosFactor</code>方法，用于添加三角函数因子，并处理特殊情况(如sin(0)和cos(0)等)；添加<code>normalized</code>方法，返回一个经过归一化处理的单项式，将系数视为1，作为<code>Poly</code>类的<code>Mono</code>哈希表中的键；重写<code>equal</code>和<code>hashCode</code>方法，确保归一化后的单项式可以正确比较与生成哈希码；修改<code>multiply</code>方法与<code>toString</code>方法，以适应三角函数因子的处理；</li>
+<li>在<code>Poly</code>类中添加<code>negateTriFactor</code>方法，判断指数最高项符号是否为负，使三角函数因子内<code>Poly</code>的符号一致，便于合并同类项；重写了<code>equal</code>和<code>hashCode</code>方法，确保归一化后的多项式可以正确比较合并；修改了原先的<code>addMono</code>方法，使其在添加单项式之前先进行归一化处理作为哈希表中的键，修改了<code>toString</code>方法，以适应三角函数因子的处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>修改表达式解析</strong>：</p>
+<ul>
+<li>在<code>Lexer</code>类中增加了对函数、三角因子的识别，添加了对应的token类型；</li>
+<li>在<code>Parser</code>类中添加<code>parseFuncFactor</code>、<code>parseSinFactor</code>、<code>parseCosFactor</code>方法，用于解析自定义函数因子与三角函数因子，返回<code>Factor</code>对象；修改<code>parseFactor</code>方法，支持以上因子解析；</li>
+<li>在<code>MainClass</code>类中，添加对递推函数定义的处理；</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>关于性能优化</strong><br>
+这次作业我只处理了最基本的三角函数特殊值与括号问题，对于三角函数的平方和二倍角等公式并没有处理，因此性能上还有较大优化空间，这也导致我的性能分数并不高，但我在互测中的hack成功次数较多，参见bug分析部分。</p>
+</blockquote>
+<h5 id="4-复杂度分析">(4) 复杂度分析</h5>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191527696.png" alt="hw2_class"><br>
+函数管理类<code>FunctionManager</code>负责管理函数，包括函数的添加、展开、存储、查找、调用等操作，因此其内部方法数量较多且循环调用，依赖较强，因而其复杂度较高，通过静态实现，避免了每次调用时创建对象的开销，提高了效率。<code>Lexer</code>类由于要进行if-else判断，复杂度较高在所难免。<code>Parser</code>类负责解析表达式，由于新增因子后方法较多且需要较多判断语句，因此其复杂度较高。<code>Poly</code>类负责多项式的存储与合并，包含很多循环判断语句，复杂度较高。但整体而言，由于新增因子后方法数量增加，复杂度有所提高，但整体的层次化设计使得代码结构更加清晰，易于维护和扩展。</p>
+<h4 id="2-3-第三次作业">2.3 第三次作业</h4>
+<h5 id="1-需求分析与思路">(1) 需求分析与思路</h5>
+<p><img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191528441.png" alt="hw3"><br>
+要求实现普通自定义函数与求导功能，整体难度较低，主要在于对普通自定义函数的解析与求导因子的处理：</p>
+<ul>
+<li><strong>普通自定义函数</strong>：在静态函数管理类<code>FunctionManager</code>中添加对应方法，用于处理普通自定义函数定义和解析，存储函数名、函数表达式、形参；</li>
+<li><strong>求导因子</strong>：添加<code>DerivativeFactor</code>类，用于处理求导因子，包括求导因子的<code>toPoly</code>方法和<code>toDerivative</code>方法，分别用于将求导因子转换为多项式和求导因子求导；</li>
+<li><strong>求导</strong>：在<code>Expr</code>、<code>Term</code>、<code>Factor</code>类中按照求导公式添加求导方法，分别用于表达式、项、因子的求导，返回求导后的多项式。<br>
+<img src="https://gitee.com/TheUHO/blog/raw/master/images/202503191528530.png" alt="derivative"></li>
+</ul>
+<h5 id="2-设计思路与实现">(2) 设计思路与实现</h5>
+<ul>
+<li><strong>支持普通自定义函数</strong>：普通自定义函数的定义处理与解析可完全类比于递推函数，在<code>FunctionManager</code>类中修改<code>funcDefinition</code>方法，添加对普通自定义函数的定义处理即可，但对于嵌套的普通函数(如<code>h(x)=g(g(x))</code>)，笔者选择在定义之初就将其展开，避免后续调用时出现递归调用的问题，因此新增了<code>expandNormalFunction</code>方法，用于递归展开普通自定义函数，直到其中不再包含普通自定义函数为止；同样在自定义递推函数表达式中，同样可能出现嵌套的普通函数，只要调用该方法即可；</li>
+<li><strong>求导因子</strong>：求导因子处理较为简单，只需新增<code>DerivativeFactor</code>类并添加<code>toPoly</code>和<code>toDerivative</code>方法即可，其中<code>toPoly</code>方法较为简单，只需调用内部表达式<code>expr</code>的<code>toDerivative</code>方法即可，<code>toDerivative</code>方法则较为复杂，需要先将内部的表达式<code>expr</code>求导，然后再<code>toString</code>，重新解析成求导后的表达式<code>expr'</code>，再调用<code>expr'</code>的<code>toDerivative</code>方法。似乎有点绕而且影响性能？笔者于是为每个数据类增加了一个<code>polyCache</code>属性，用于缓存求导后的多项式，避免了重复<code>toPoly</code>(尤其是求导的乘法法则)；</li>
+<li><strong>求导方法</strong>：笔者依然根据递归下降原则，为每个数据类增加了<code>toDerivative</code>方法，用于求导，返回求导后的多项式；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//in Expr.java</span></span><br><span class="line">Poly <span class="title function_">toDerivative</span><span class="params">()</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">for</span> (Term term : terms) &#123;</span><br><span class="line">        <span class="type">Poly</span> <span class="variable">poly</span> <span class="operator">=</span> term.toDerivative();</span><br><span class="line">        ...<span class="comment">//处理加法法则</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// in Term.java</span></span><br><span class="line"><span class="keyword">public</span> Poly <span class="title function_">toDerivative</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; factors.size(); i++) &#123; </span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">            leftPoly = leftPoly.multiplyPoly(...);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; factors.size(); j++) &#123;</span><br><span class="line">        rightPoly = rightPoly.multiplyPoly(...);</span><br><span class="line">        &#125;</span><br><span class="line">        factors.get(i).toDerivative();</span><br><span class="line">        ... <span class="comment">//处理乘法法则</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (sign为负) &#123;</span><br><span class="line">        result.negPoly(...);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// in Factor.java </span></span><br><span class="line"><span class="comment">// 分别利用求导法则求导</span></span><br><span class="line">... </span><br></pre></td></tr></table></figure>
+<h5 id="3-复杂度分析">(3) 复杂度分析</h5>
+<p>本次作业后得到了完整架构，具体分析见开头，此处不再赘述。</p>
+<blockquote>
+<p><strong>关于重构与整体架构</strong><br>
+在三次迭代作业中，我的主体架构在第一次作业中就已确定下来，即使用词法分析和语法解析，将输入的表达式字符串递归解析成表达式、项、因子对象，随后同样遵循递归下降原则，层次化调用<code>toPoly</code>方法，将表达式对象转换成多项式对象。在迭代过程中，我在实现需求时不可避免地对部分代码进行了重构，但主要关注于方法的拓展与兼容性，这也让我的程序没有出现太多由于重构而导致的bug。</p>
+</blockquote>
+<hr>
+<h3 id="三-bug分析">三、Bug分析</h3>
+<h4 id="第一次作业：">第一次作业：</h4>
+<ul>
+<li>笔者在第一次作业的强测和互测中未出现bug，这为后续的迭代作业打下了较好的基础。</li>
+</ul>
+<h4 id="第二次作业：">第二次作业：</h4>
+<ul>
+<li>第二次作业笔者出现了两处bug，均出现在复杂度较高的<code>Mono</code>类中，具体如下：
+<ul>
+<li>第一处是关于<code>sin(0)^0</code>的结果出错，笔者在<code>Mono.addSinFactor</code>方法中，将sin因子添加到基本单元中时，没有首先特判指数为0的情况，导致<code>sin(0)^0</code>由于解析三角函数因子内部的<code>Poly</code>对象为0，根据<code>sin(0)=0</code>使得最终结果为0，而不是1。修复bug时只要在<code>addSinFactor</code>方法中特判指数为0的情况即可(bug所在方法的复杂度并不高)。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addSinFactor</span><span class="params">(Poly factor, BigInteger exponent)</span> &#123;</span><br><span class="line">      &lt;-- bug: 没有特判指数为<span class="number">0</span>直接返回</span><br><span class="line">      <span class="comment">//if (exponent.equals(BigInteger.ZERO)) &#123;</span></span><br><span class="line">      <span class="comment">//    return;// 特判指数为0的情况</span></span><br><span class="line">      <span class="comment">//&#125;</span></span><br><span class="line">      <span class="keyword">if</span> (factor.toString().equals(<span class="string">&quot;0&quot;</span>)) &#123;</span><br><span class="line">          <span class="built_in">this</span>.coefficient = BigInteger.ZERO; </span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (factor.negateTriFactor()) &#123;</span><br><span class="line">          <span class="type">Poly</span> <span class="variable">negFactor</span> <span class="operator">=</span> factor.negPoly(factor);</span><br><span class="line">          ...</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第二处bug出现在<code>Mono.buildTrigExpr</code>方法中，该方法主要用于特判三角函数因子内添加必要括号。笔者在<code>buildTrigExpr</code>方法中，使用了大量if-else判断语句，以实现要求的<strong>三角函数对应的嵌套因子为不带指数的表达式因子时，该表达式因子两侧必要的一层括号</strong>，笔者绘制了分类树，将所有情况分类处理，但仍然由于归一化生成哈希表键值对和条件判断内容不清的问题，出现了会在诸如<code>sin(2*x^2)</code>的情况下，少输出一层括号，导致了强测两个点正确性的丢失以及互测时多个hack()。该方法的圈复杂度为25，由于涉及if-else特判导致复杂度高，笔者在每一次特判时都加了注释()，结果还是出现了bug :innocent:。说明<strong>注释不能代替思考，代码也要正确！</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String <span class="title function_">buildTrigExpr</span><span class="params">(String trigName, Poly poly)</span> &#123;</span><br><span class="line">      <span class="comment">// 如果多项式只有一个单项式，则做细分判断</span></span><br><span class="line">      <span class="keyword">if</span> (poly.getMonos().size() == <span class="number">1</span>) &#123;</span><br><span class="line">          <span class="type">Mono</span> <span class="variable">onlyMono</span> <span class="operator">=</span> poly.getMonos().keySet().iterator().next();</span><br><span class="line">          <span class="type">BigInteger</span> <span class="variable">coe</span> <span class="operator">=</span> onlyMono.getCoefficient();  &lt;-- bug: 系数始终为<span class="number">1</span></span><br><span class="line">          <span class="comment">// onlyMono是归一化后系数为1的单项式，所以得到的coe始终为1</span></span><br><span class="line">          <span class="comment">// 这导致后续判断是否要加括号时，无法正确识别到单项式前的系数</span></span><br><span class="line">          <span class="comment">// 应该修改为 coe = poly.getMonos().get(onlyMono);</span></span><br><span class="line">          <span class="type">BigInteger</span> <span class="variable">exp</span> <span class="operator">=</span> onlyMono.getExponent();</span><br><span class="line">          <span class="comment">// 三角函数因子数量（如 &gt; 1 则视为较复杂表达式）</span></span><br><span class="line">          <span class="type">int</span> <span class="variable">trigCount</span> <span class="operator">=</span> onlyMono.getSinMap().size() </span><br><span class="line">                      + onlyMono.getCosMap().size();</span><br><span class="line">          ...</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">              <span class="comment">// 3a) 指数为 0</span></span><br><span class="line">              <span class="keyword">if</span> (exp.equals(BigInteger.ZERO)) &#123; &lt;-- bug: 没有判断三角因子个数</span><br><span class="line">              <span class="comment">// 应修改为 exp.equals(BigInteger.ZERO) &amp;&amp; trigCount == 0</span></span><br><span class="line">                  <span class="keyword">return</span> trigName + <span class="string">&quot;(&quot;</span> + poly.toString() + <span class="string">&quot;)&quot;</span>;</span><br><span class="line">              &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="第三次作业">第三次作业:</h4>
+<ul>
+<li>在本次作业强测与互测中，笔者没有发现bug。</li>
+</ul>
+<hr>
+<h3 id="四-测试与互测">四、测试与互测</h3>
+<h4 id="第一次作业">第一次作业:</h4>
+<ul>
+<li>笔者根据递归下降分析法的思想，使用python编写了数据生成器，利用<code>python.sympy</code>库的化简结果与程序输出结果比对，搭建了自动评测机，但并未找出房间内同学的bug</li>
+</ul>
+<h4 id="第二次作业：">第二次作业：</h4>
+<ul>
+<li>笔者在第一次作业搭建的评测机基础上修改了数据生成器，但hack成功率却不甚理想，于是手搓了大量极端数据在本地进行测试，比对房间内所有程序的输出，成功hack了11次。</li>
+<li>在本地测试平方和二倍角化简相关数据时，笔者注意到某些同学的输出时间较长，在阅读其<code>Poly</code>类代码时发现了大量嵌套的<code>for</code>循环和<code>if</code>判断，利用<strong>好室友</strong>给的TLE数据成功hack了几位同学。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">f&#123;n&#125;(x)=1*f&#123;n-1&#125;(sin(sin(sin(x))))+0*f&#123;n-2&#125;(x)</span><br><span class="line">f&#123;1&#125;(x)=sin(sin(sin(sin(x))))</span><br><span class="line">f&#123;0&#125;(x)=sin(sin(sin(sin(x))))</span><br><span class="line">f&#123;5&#125;(f&#123;0&#125;(f&#123;0&#125;(f&#123;0&#125;(f&#123;0&#125;(f&#123;0&#125;(f&#123;0&#125;(x)))))))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="第三次作业：">第三次作业：</h4>
+<ul>
+<li>笔者在第二次作业的基础上修改了数据生成器，利用全自动评测机进行代码的本地测试与互测对拍，成功hack其他同学8次。下次一定继续写评测机！第三次作业互测对于cost限制比较严格，所以没有从TLE数据入手(这种数据有点太邪恶了 bushi)</li>
+</ul>
+<p>综上所述，hack过程最好应当是<strong>自动评测机</strong>+<strong>手搓极端数据</strong>+<strong>结合代码构造数据</strong>，实现“多方位全天候hack攻击”(bushi)。<br>
+在笔者看来，在有时间的情况下，直接阅读其他同学的代码会比盲目构造数据具有更大收获，这不仅仅是找出别人的bug，更是学习其他优秀代码的宝贵机会，例如，笔者注意到，部分同学会在一个类中提供多种初始化方法，这样的好处是可以在初始化时选择不同的数据结构，从而优化代码性能，这种思想就非常值得借鉴。</p>
+<h3 id="五-优化分析">五、优化分析</h3>
+<p>笔者对于三角函数的优化并不多，甚至可以说是几乎没有，这让笔者在避免被TLE数据攻击的同时，也失去了很大一部分性能分，笔者第三次作业中的强测得到了92.7分，全部是由于性能分的丢失。对于平方和与二倍角化简的处理，如果盲目嵌套多层<code>for</code>循环，非常影响复杂度与运行速度，对此笔者想出的解决方法是，为所有数据类都增加<code>polyCache</code>和<code>polyDirty</code>属性，减少非必要的<code>toPoly</code>方法调用，不用担心TLE。</p>
+<h3 id="六-心得体会">六、心得体会</h3>
+<p>总结博客写了这么长，终于能跳出代码，谈谈我的学习体会了。编程与代码能力的提升最重要的是<strong>动手实践</strong>，OO课程通过先导课<em>冒险小游戏</em> 的开发和第一单元对于递归下降和层次化设计的学习，让我在实践中掌握理论，这对于CS课程的学习是非常有益的。试想去年以前，笔者的最长程序还是几百行代码的数据结构大作业，而到今天，通过三次迭代开发，已经能够完成一个功能较为完善的程序，这无疑是一大进步。诚然，第一单元的迭代作业具有一定的难度，笔者也在此过程中遇到了不少问题，也还有一些遗憾(比如三角函数的优化)，但正是思考钻研这些问题，我对于面向对象设计与构造的理解也不断进步，不断成长。当然，笔者也意识到，编程之路还很长，还有许多需要学习的地方，例如抽象层次和递归。常常说，<strong>人理解循环，神理解递归。</strong> 递归是神的语言，这可能是因为，人的生命只有一次，所以理解不了生命反复。（突然感慨）</p>
+<h3 id="七-一些建议">七、一些建议</h3>
+<ul>
+<li>建议cost的计算可以给得明确一些(能够提供计算器就更好了)，和室友的好几次hack互测结束被收回了:sob:。第三次迭代cost限制严格，根本不想构造TLE数据(担心又会成功提交非法数据)。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://theuho.site">theUHO</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://theuho.site/2025/03/19/OO-Unit1/">https://theuho.site/2025/03/19/OO-Unit1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://theuho.site" target="_blank">theUHO</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><a class="post-meta__tags" href="/tags/OO/">OO</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/TheUHO/blog/raw/master/images/202407212255295.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">lab0 实验报告 [BUAA-OS]</div></div></a></div><div class="next-post pull-right"><a href="/2025/04/02/OS-lab1/" title="lab1 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">lab1 实验报告 [BUAA-OS]</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/04/20/OO-Unit2/" title="2025第二单元总结博客 [BUAA-OO]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202504202243805.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="title">2025第二单元总结博客 [BUAA-OO]</div></div></a></div><div><a href="/2025/06/23/OO-Unit3/" title="2025第三单元总结博客 [BUAA-OO]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202506231541188.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-23</div><div class="title">2025第三单元总结博客 [BUAA-OO]</div></div></a></div><div><a href="/2025/06/23/OO-Unit4/" title="2025第四单元总结博客 [BUAA-OO]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202506231551469.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-23</div><div class="title">2025第四单元总结博客 [BUAA-OO]</div></div></a></div><div><a href="/2024/11/05/OOPreSummary/" title="OOPre2024课程总结[BUAA-OOPre]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202411052057448.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-05</div><div class="title">OOPre2024课程总结[BUAA-OOPre]</div></div></a></div><div><a href="/2024/10/10/Object-orientedProgrammingPreNote/" title="OOpre笔记(1)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007681.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-10</div><div class="title">OOpre笔记(1)</div></div></a></div><div><a href="/2024/10/10/Object-orientedProgrammingPreNote2/" title="OOpre笔记(2)"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-10</div><div class="title">OOpre笔记(2)</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="this.onerror=null;this.src='/img/bochii2.gif'" alt="avatar"/></div><div class="author-info__name">theUHO</div><div class="author-info__description">CS学习生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/TheUHO"><i class="fab fa-github"></i><span>Follow Me On Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="http://github.com/TheUHO" target="_blank" title="Github"><i class="fab fa-github" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:wuyubuchenhong@buaa.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">早上中午晚上好！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">一、架构分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E6%A6%82%E8%A7%88"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 项目架构概览</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-uml%E7%B1%BB%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 UML类图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 架构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%87%BD%E6%95%B0%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.3.1.</span> <span class="toc-text">(1) 函数处理与词法分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90"><span class="toc-number">1.3.2.</span> <span class="toc-text">(2) 表达式解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%90%88%E5%B9%B6%E5%8C%96%E7%AE%80"><span class="toc-number">1.3.3.</span> <span class="toc-text">(3) 表达式合并化简</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90"><span class="toc-number">1.3.4.</span> <span class="toc-text">(4) 统计分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C-%E8%BF%AD%E4%BB%A3%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">二、迭代设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 第一次作业</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">(1) 需求分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-number">2.1.2.</span> <span class="toc-text">(2) 设计思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.3.</span> <span class="toc-text">(3) 设计实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">2.1.4.</span> <span class="toc-text">(4) 复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%BD%9C%E4%B8%9A"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 第二次作业</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-number">2.2.1.</span> <span class="toc-text">(1) 需求分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-number">2.2.2.</span> <span class="toc-text">(2) 设计思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.3.</span> <span class="toc-text">(3) 设计实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">2.2.4.</span> <span class="toc-text">(4) 复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 第三次作业</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E6%80%9D%E8%B7%AF"><span class="toc-number">2.3.1.</span> <span class="toc-text">(1) 需求分析与思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.3.2.</span> <span class="toc-text">(2) 设计思路与实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">2.3.3.</span> <span class="toc-text">(3) 复杂度分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89-bug%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">三、Bug分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">第一次作业：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%BD%9C%E4%B8%9A%EF%BC%9A"><span class="toc-number">3.2.</span> <span class="toc-text">第二次作业：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A"><span class="toc-number">3.3.</span> <span class="toc-text">第三次作业:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B-%E6%B5%8B%E8%AF%95%E4%B8%8E%E4%BA%92%E6%B5%8B"><span class="toc-number">4.</span> <span class="toc-text">四、测试与互测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A"><span class="toc-number">4.1.</span> <span class="toc-text">第一次作业:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%BD%9C%E4%B8%9A%EF%BC%9A"><span class="toc-number">4.2.</span> <span class="toc-text">第二次作业：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%EF%BC%9A"><span class="toc-number">4.3.</span> <span class="toc-text">第三次作业：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94-%E4%BC%98%E5%8C%96%E5%88%86%E6%9E%90"><span class="toc-number">5.</span> <span class="toc-text">五、优化分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD-%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">六、心得体会</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83-%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE"><span class="toc-number">7.</span> <span class="toc-text">七、一些建议</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2026年算法设计与分析期末回忆版[BUAA-算法]"/></a><div class="content"><a class="title" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]">2026年算法设计与分析期末回忆版[BUAA-算法]</a><time datetime="2026-01-15T08:42:13.000Z" title="发表于 2026-01-15 16:42:13">2026-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VLA模型技术代码调研学习 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]">VLA模型技术代码调研学习 [VLA]</a><time datetime="2025-08-30T14:09:05.000Z" title="发表于 2025-08-30 22:09:05">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]">OpenVLA，pi_0，pi_0-fast论文精读 [VLA]</a><time datetime="2025-08-30T14:07:00.000Z" title="发表于 2025-08-30 22:07:00">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025年春本科生机器学习期末回忆版[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]">2025年春本科生机器学习期末回忆版[BUAA-ML]</a><time datetime="2025-08-11T10:54:18.000Z" title="发表于 2025-08-11 18:54:18">2025-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="北航2025机器学习期末复习[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]">北航2025机器学习期末复习[BUAA-ML]</a><time datetime="2025-08-11T08:48:24.000Z" title="发表于 2025-08-11 16:48:24">2025-08-11</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By theUHO</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, nice to see you here visiting my <a href = "https://theuho.site/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'TheUHO/TheUHO.github.io',
+      'data-repo-id': 'R_kgDOLfzltQ',
+      'data-category-id': 'DIC_kwDOLfzltc4ChDRb',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["link[rel=\"canonical\"]","meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

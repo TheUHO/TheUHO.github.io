@@ -1,0 +1,189 @@
+/* 页脚与头图透明 */
+#footer {
+  background: transparent !important;
+}
+#page-header {
+  background: transparent !important;
+}
+
+/* 白天模式遮罩透明 */
+#footer::before {
+  background: transparent !important;
+}
+#page-header::before {
+  background: transparent !important;
+}
+
+/* 夜间模式遮罩透明 */
+[data-theme="dark"] #footer::before {
+  background: transparent !important;
+}
+[data-theme="dark"] #page-header::before {
+  background: transparent !important;
+}
+
+/* 侧边栏分类 tree 竖线 */
+#aside-content .card-categories ul.card-category-list.child {
+  border-left: 2px solid rgba(73, 177, 245, 0.2);
+  margin-left: 10px !important;
+  padding-left: 10px !important;
+}
+
+[data-theme='dark'] #aside-content .card-categories ul.card-category-list.child {
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 侧边栏标签蓝底白字风格 */
+#aside-content .card-tag-cloud a {
+  background: #4169e1 !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center;
+  margin: 4px 6px 4px 0 !important;
+  padding: 0 0 0 10px !important; /* 去掉上下内边距，确保数字贴合 */
+  font-size: 12px !important;
+  border: none !important;
+  overflow: hidden;
+  height: 26px;
+  line-height: 26px;
+  transition: all 0.3s;
+}
+
+#aside-content .card-tag-cloud a:hover {
+  background: #1f91e3 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* 标签后的数字气泡 - 填满高度并靠右对齐 */
+#aside-content .card-tag-cloud a sup {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+  height: 100%;
+  margin-left: 8px;
+  padding: 0 8px !important;
+  display: flex !important;
+  align-items: center;
+  top: 0 !important;
+  position: relative !important;
+  font-size: 11px !important;
+  font-weight: 500;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 教育进度条样式 */
+.edu-progress-bar-wrap {
+  margin-top: 24px;
+  padding: 15px 35px !important; /* 增加左右间距给年份腾地方 */
+}
+.edu-progress-bg {
+  position: relative;
+  height: 8px;
+  background: #f0f2f5;
+  border-radius: 10px;
+}
+.edu-progress-fg {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+.edu-progress-node {
+  position: absolute;
+  top: 18px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #99a9bf;
+  white-space: nowrap; /* 确保年份不换行 */
+}
+.edu-progress-node-start { left: 0%; }
+.edu-progress-node-end { left: 100%; }
+.edu-progress-node-current {
+  top: -28px;
+  background: #4facfe;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.edu-progress-node-current::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #4facfe;
+}
+
+[data-theme='dark'] .edu-progress-bg { background: #333; }
+[data-theme='dark'] .edu-progress-node { color: #888; }
+
+/* 标签页与分类页一致性 */
+.tag-cloud-list a, .category-list-link {
+  padding: 2px 10px !important;
+  border-radius: 6px !important;
+  background: #f1f3f8 !important;
+  margin: 5px !important;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.tag-cloud-list a:hover, .category-list-link:hover {
+  background: #49b1f5 !important;
+  color: #fff !important;
+}
+
+[data-theme='dark'] .tag-cloud-list a, [data-theme='dark'] .category-list-link {
+  background: #2c2c2c !important;
+  color: #ccc !important;
+}
+
+.edu-progress-bar-wrap {
+  margin-top: 24px;
+  padding: 15px 30px !important; /* 给两侧年份留空间 */
+}
+.edu-progress-bg { position: relative; height: 8px; background: #f0f2f5; border-radius: 10px; }
+.edu-progress-fg { position: absolute; height: 100%; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); border-radius: 10px; transition: width 1s ease-in-out; }
+.edu-progress-node { position: absolute; top: 18px; font-size: 12px; color: #99a9bf; white-space: nowrap; }
+
+/* 起始与结束年份使用小圆点外框，始终可见 */
+.edu-progress-node-start::before,
+.edu-progress-node-end::before {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border: 3px solid #4facfe;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* 结束年份靠右对齐，避免被截断 */
+.edu-progress-node-start { left: 0%; transform: translateX(0); }
+.edu-progress-node-end { left: auto; right: 0%; transform: translateX(0); }
+
+.edu-progress-node-current {
+  top: -32px !important;
+  transform: translateX(-50%);
+  background: #4facfe !important;
+  color: #fff !important;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 2px 8px rgba(79, 172, 254, 0.28);
+  z-index: 4;
+}
+
+[data-theme='dark'] .edu-progress-bg { background: #333; }
+[data-theme='dark'] .edu-progress-node { color: #888; }

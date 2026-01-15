@@ -1,0 +1,566 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OS-Linux 学习备忘[BUAA-OS] | theUHO</title><meta name="author" content="theUHO"><meta name="copyright" content="theUHO"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /><meta name="description" content="Linux 假期预习备忘 Hello, Linux!  什么是 Linux？  Linux 是基于 Linux 内核的开源操作系统，由 Linus Torvalds 于 1991 年首次发布。 Linux 发行版包括 Ubuntu、Debian 等，本教程使用 Ubuntu 22.04.1 LTS。    初识 CLI Shell  CLI Shell 概念  CLI（Command Line I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS-Linux 学习备忘[BUAA-OS]">
+<meta property="og:url" content="https://theuho.site/2025/02/22/OS-LinuxLearning/index.html">
+<meta property="og:site_name" content="theUHO">
+<meta property="og:description" content="Linux 假期预习备忘 Hello, Linux!  什么是 Linux？  Linux 是基于 Linux 内核的开源操作系统，由 Linus Torvalds 于 1991 年首次发布。 Linux 发行版包括 Ubuntu、Debian 等，本教程使用 Ubuntu 22.04.1 LTS。    初识 CLI Shell  CLI Shell 概念  CLI（Command Line I">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg">
+<meta property="article:published_time" content="2025-02-22T09:45:00.000Z">
+<meta property="article:modified_time" content="2026-01-15T09:39:22.167Z">
+<meta property="article:author" content="theUHO">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="自存">
+<meta property="article:tag" content="OS">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://theuho.site/2025/02/22/OS-LinuxLearning/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?81ddc5fad2a887e9007f6fd620995ffc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OS-Linux 学习备忘[BUAA-OS]',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 17:39:22'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 19
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/loading-img.css"><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg" style="background:url('/img/index_img.jpg') no-repeat center / cover; background-attachment: fixed;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"/><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">OS-Linux 学习备忘[BUAA-OS]</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-22T09:45:00.000Z" title="发表于 2025-02-22 17:45:00">2025-02-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T09:39:22.167Z" title="更新于 2026-01-15 17:39:22">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/OS/">OS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="OS-Linux 学习备忘[BUAA-OS]"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="linux-假期预习备忘">Linux 假期预习备忘</h2>
+<h3 id="hello-linux">Hello, Linux!</h3>
+<ul>
+<li><strong>什么是 Linux？</strong>
+<ul>
+<li>Linux 是基于 Linux 内核的开源操作系统，由 Linus Torvalds 于 1991 年首次发布。</li>
+<li>Linux 发行版包括 Ubuntu、Debian 等，本教程使用 Ubuntu 22.04.1 LTS。</li>
+</ul>
+</li>
+</ul>
+<h3 id="初识-cli-shell">初识 CLI Shell</h3>
+<ul>
+<li><strong>CLI Shell 概念</strong>
+<ul>
+<li>CLI（Command Line Interface）：命令行界面，通过命令行与操作系统交互。</li>
+<li>Shell 是操作系统的外壳，用于访问操作系统服务，分为 CLI Shell 和 GUI Shell。</li>
+</ul>
+</li>
+<li><strong>为什么使用 CLI Shell？</strong>
+<ul>
+<li>节约资源：在资源有限的设备上，运行 GUI Shell 会增加系统负担。</li>
+<li>高效自动化操作：CLI Shell 可以通过脚本实现复杂操作。</li>
+<li>精准操作：命令行操作可以精确控制，便于复现和传播。</li>
+</ul>
+</li>
+</ul>
+<h3 id="linux-基础操作">Linux 基础操作</h3>
+<ul>
+<li><strong>命令格式</strong>
+<ul>
+<li>命令名 [选项] [参数] …</li>
+</ul>
+</li>
+<li><strong>目录操作</strong>
+<ul>
+<li><code>cd</code>：切换目录。</li>
+<li><code>ls</code>：列出目录内容。</li>
+<li><code>mkdir</code>：创建新目录。</li>
+<li><code>rmdir</code>：删除空目录。</li>
+<li><code>pwd</code>：显示当前目录的绝对路径。</li>
+</ul>
+</li>
+<li><strong>文件操作</strong>
+<ul>
+<li><code>touch</code>：创建新文件或更新文件时间戳。</li>
+<li><code>rm</code>：删除文件或目录。</li>
+<li><code>cp</code>：复制文件或目录。</li>
+<li><code>mv</code>：移动或重命名文件或目录。</li>
+<li><code>diff</code>：比较两个文件的差异。</li>
+</ul>
+</li>
+<li><strong>查找操作</strong>
+<ul>
+<li><code>find</code>：查找文件。</li>
+<li><code>grep</code>：搜索文件内容。</li>
+<li><code>tree</code>：显示目录树结构。</li>
+</ul>
+</li>
+</ul>
+<h3 id="开源文本编辑器-vim">开源文本编辑器——Vim</h3>
+<ul>
+<li><strong>Vim 基本操作</strong>
+<ul>
+<li>创建文件：<code>touch helloworld.c</code></li>
+<li>打开文件：<code>vim helloworld.c</code></li>
+<li>进入插入模式：按 <code>I</code> 键。</li>
+<li>保存并退出：<code>:wq</code></li>
+</ul>
+</li>
+<li><strong>Vim 配置</strong>
+<ul>
+<li>配置文件：<code>.vimrc</code>，位于用户主目录下。</li>
+</ul>
+</li>
+</ul>
+<h3 id="实用工具介绍">实用工具介绍</h3>
+<ul>
+<li><strong>GCC</strong>
+<ul>
+<li>编译器：<code>gcc hello.c</code></li>
+<li>执行：<code>./a.out</code></li>
+</ul>
+</li>
+<li><strong>make &amp; Makefile</strong>
+<ul>
+<li>编写 Makefile 文件，使用 <code>make</code> 命令构建项目。</li>
+</ul>
+</li>
+<li><strong>ctags</strong>
+<ul>
+<li>代码跳转工具，使用 <code>ctags -R *</code> 创建符号索引文件 <code>tags</code>。</li>
+</ul>
+</li>
+<li><strong>tmux</strong>
+<ul>
+<li>终端复用工具，支持分屏操作和会话管理。</li>
+</ul>
+</li>
+</ul>
+<h3 id="git-简易教程">Git 简易教程</h3>
+<ul>
+<li><strong>Git 基本概念</strong>
+<ul>
+<li>三种储存位置：工作区、暂存区、储存库。</li>
+<li>四种储存状态：未跟踪、未修改、已修改、已暂存。</li>
+</ul>
+</li>
+<li><strong>常用命令</strong>
+<ul>
+<li><code>git init</code>：初始化仓库。</li>
+<li><code>git clone</code>：克隆仓库。</li>
+<li><code>git status</code>：查看仓库状态。</li>
+<li><code>git add</code>：添加文件到暂存区。</li>
+<li><code>git restore</code>：恢复文件。</li>
+<li><code>git checkout</code>：切换分支。</li>
+<li><code>git commit</code>：提交更改。</li>
+<li><code>git push</code>：推送更改到远程仓库。</li>
+<li><code>git pull</code>：拉取远程仓库的更改。</li>
+</ul>
+</li>
+</ul>
+<h3 id="shell-脚本教程">Shell 脚本教程</h3>
+<ul>
+<li><strong>Shell 脚本基础</strong>
+<ul>
+<li>创建脚本文件：<code>touch hello.sh</code></li>
+<li>编写脚本：<code>#!/bin/bash</code>，<code>echo &quot;Hello, world!&quot;</code></li>
+<li>运行脚本：<code>chmod +x hello.sh</code>，<code>./hello.sh</code></li>
+</ul>
+</li>
+<li><strong>变量和参数</strong>
+<ul>
+<li>定义变量：<code>var_name=value</code></li>
+<li>脚本参数：<code>$1</code>, <code>$2</code>, <code>$#</code>, <code>$*</code></li>
+</ul>
+</li>
+<li><strong>条件与循环</strong>
+<ul>
+<li><code>if</code> 语句：条件判断。</li>
+<li><code>while</code> 语句：循环操作。</li>
+</ul>
+</li>
+<li><strong>函数</strong>
+<ul>
+<li>定义函数：<code>function fun_name() &#123; ... &#125;</code></li>
+<li>调用函数：<code>fun_name param1 param2 ...</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="用命令编辑和输出文本-sed-的使用">用命令编辑和输出文本——sed 的使用</h3>
+<ul>
+<li><strong>sed 基本用法</strong>
+<ul>
+<li><code>sed [选项] '命令' 输入文本</code></li>
+<li>常用选项：<code>-n</code>（安静模式），<code>-i</code>（直接修改文件）</li>
+<li>常用命令：<code>a</code>（新增），<code>c</code>（取代），<code>i</code>（插入），<code>d</code>（删除），<code>s</code>（替换）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">sed [选项] <span class="string">&#x27;命令&#x27;</span> 输入文本</span><br><span class="line">选项（常用）：</span><br><span class="line">-n：安静模式，只显示经过sed处理的内容。否则显示输入文本的所有内容。</span><br><span class="line">-i：直接修改读取的档案内容，而不是输出到屏幕。否则，只输出不编辑。</span><br><span class="line">命令（常用）：</span><br><span class="line">&lt;行号&gt;a&lt;内容&gt;： 新增，在行号后新增一行相应内容。行号可以是“数字”，在这一行之后新增，也可以是“起始行，终止行”，在其中的每一行后新增。当不写行号时，在每一行之后新增。使用$表示最后一行。后面的命令同理。</span><br><span class="line">&lt;行号&gt;c&lt;内容&gt;：取代。用内容取代相应行的文本。</span><br><span class="line">&lt;行号&gt;i&lt;内容&gt;：插入。在当前行的上面插入一行文本。</span><br><span class="line">&lt;行号&gt;d：删除当前行的内容。</span><br><span class="line">&lt;行号&gt;p：输出选择的内容。通常与选项-n一起使用。</span><br><span class="line">s/&lt;re&gt;/&lt;string&gt;：将&lt;re&gt;（正则表达式）匹配的内容替换为&lt;string&gt;。</span><br><span class="line"></span><br><span class="line">sed -n <span class="string">&#x27;3p&#x27;</span> my.txt</span><br><span class="line"><span class="comment"># 输出 my.txt 的第三行</span></span><br><span class="line">sed <span class="string">&#x27;2d&#x27;</span> my.txt</span><br><span class="line"><span class="comment"># 删除 my.txt 文件的第二行</span></span><br><span class="line">sed <span class="string">&#x27;2,$d&#x27;</span> my.txt</span><br><span class="line"><span class="comment"># 删除 my.txt 文件的第二行到最后一行</span></span><br><span class="line">sed <span class="string">&#x27;s/str1/str2/g&#x27;</span> my.txt</span><br><span class="line"><span class="comment"># 在整行范围内把 str1 替换为 str2。</span></span><br><span class="line"><span class="comment"># 如果没有 g 标记，则只有每行第一个匹配的 str1 被替换成 str2</span></span><br><span class="line">sed -e <span class="string">&#x27;4astr &#x27;</span> -e <span class="string">&#x27;s/str/aaa/&#x27;</span> my.txt</span><br><span class="line"><span class="comment">#-e 选项允许在同一行里执行多条命令。例子的第一条是第四行后添加一个 str，</span></span><br><span class="line"><span class="comment"># 第二个命令是将 str 替换为 aaa。命令的执行顺序对结果有影响。</span></span><br></pre></td></tr></table></figure>
+<h3 id="重定向和管道">重定向和管道</h3>
+<ul>
+<li><strong>重定向</strong>
+<ul>
+<li>输出重定向：<code>&gt;</code>，<code>&gt;&gt;</code></li>
+<li>输入重定向：<code>&lt;</code></li>
+</ul>
+</li>
+<li><strong>管道</strong>
+<ul>
+<li><code>command1 | command2 | command3 | ...</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="部分实践内容">部分实践内容</h2>
+<ul>
+<li>
+<p><strong>Git 操作</strong></p>
+<ul>
+<li>克隆分支：<code>git clone &lt;URL&gt;</code></li>
+<li>切换分支：<code>git checkout lab2</code></li>
+<li>撤销修改：<code>git restore &lt;filename&gt;</code></li>
+<li>添加文件到暂存区：<code>git add .</code></li>
+<li>移出暂存区：<code>git restore --staged &lt;filename&gt;</code></li>
+<li>恢复文件：<code>git restore &lt;filename&gt;</code></li>
+<li>提交更改：<code>git commit -m &quot;git is so easy&quot;</code></li>
+<li>推送更改：<code>git push</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Shell 脚本</strong></p>
+<ul>
+<li>创建脚本文件：<code>touch hello.sh</code></li>
+<li>编写脚本：<code>#!/bin/bash</code>，<code>echo &quot;Hello, world!&quot;</code></li>
+<li>运行脚本：<code>chmod +x hello.sh</code>，<code>./hello.sh</code></li>
+</ul>
+</li>
+<li>
+<p><strong>sed 操作</strong></p>
+<ul>
+<li>替换内容：<code>sed 's/str1/str2/g' my.txt</code></li>
+<li>删除行：<code>sed '2d' my.txt</code></li>
+</ul>
+</li>
+<li>
+<p><strong>重定向和管道</strong><br>
+标准输入（stdin）：文件描述符为0；标准输出（stdout）：文件描述符为1；标准错误（stderr）：文件描述符为2。</p>
+<ul>
+<li>输出重定向：<code>ls / &gt; lsoutput.txt</code></li>
+<li>输入重定向：<code>cat &lt; input.txt</code></li>
+<li>管道操作：<code>cat hello.txt | grep &quot;Hello&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caozy/p/9261224.html">Linux 常用命令大全</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1635220">Linux 入门教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2">Git 基础教程</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://theuho.site">theUHO</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://theuho.site/2025/02/22/OS-LinuxLearning/">https://theuho.site/2025/02/22/OS-LinuxLearning/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://theuho.site" target="_blank">theUHO</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%AD%98/">自存</a><a class="post-meta__tags" href="/tags/OS/">OS</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/vim/">vim</a><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/12/11/COexamP7/" title="P7课上题目回忆和思路分享[BUAA-CO]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255287.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">P7课上题目回忆和思路分享[BUAA-CO]</div></div></a></div><div class="next-post pull-right"><a href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">lab0 实验报告 [BUAA-OS]</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-10</div><div class="title">lab0 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab2/" title="lab2 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab2 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab3/" title="lab3 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab3 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab4/" title="lab4 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab4 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab5/" title="lab5 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab5 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab6/" title="lab6 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007685.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab6 实验报告 [BUAA-OS]</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="this.onerror=null;this.src='/img/bochii2.gif'" alt="avatar"/></div><div class="author-info__name">theUHO</div><div class="author-info__description">CS学习生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/TheUHO"><i class="fab fa-github"></i><span>Follow Me On Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="http://github.com/TheUHO" target="_blank" title="Github"><i class="fab fa-github" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:wuyubuchenhong@buaa.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">早上中午晚上好！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E5%81%87%E6%9C%9F%E9%A2%84%E4%B9%A0%E5%A4%87%E5%BF%98"><span class="toc-number">1.</span> <span class="toc-text">Linux 假期预习备忘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hello-linux"><span class="toc-number">1.1.</span> <span class="toc-text">Hello, Linux!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E8%AF%86-cli-shell"><span class="toc-number">1.2.</span> <span class="toc-text">初识 CLI Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">Linux 基础操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8-vim"><span class="toc-number">1.4.</span> <span class="toc-text">开源文本编辑器——Vim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.5.</span> <span class="toc-text">实用工具介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-%E7%AE%80%E6%98%93%E6%95%99%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">Git 简易教程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell-%E8%84%9A%E6%9C%AC%E6%95%99%E7%A8%8B"><span class="toc-number">1.7.</span> <span class="toc-text">Shell 脚本教程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%91%BD%E4%BB%A4%E7%BC%96%E8%BE%91%E5%92%8C%E8%BE%93%E5%87%BA%E6%96%87%E6%9C%AC-sed-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.8.</span> <span class="toc-text">用命令编辑和输出文本——sed 的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E7%AE%A1%E9%81%93"><span class="toc-number">1.9.</span> <span class="toc-text">重定向和管道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E5%88%86%E5%AE%9E%E8%B7%B5%E5%86%85%E5%AE%B9"><span class="toc-number">2.</span> <span class="toc-text">部分实践内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">3.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2026年算法设计与分析期末回忆版[BUAA-算法]"/></a><div class="content"><a class="title" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]">2026年算法设计与分析期末回忆版[BUAA-算法]</a><time datetime="2026-01-15T08:42:13.000Z" title="发表于 2026-01-15 16:42:13">2026-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VLA模型技术代码调研学习 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]">VLA模型技术代码调研学习 [VLA]</a><time datetime="2025-08-30T14:09:05.000Z" title="发表于 2025-08-30 22:09:05">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]">OpenVLA，pi_0，pi_0-fast论文精读 [VLA]</a><time datetime="2025-08-30T14:07:00.000Z" title="发表于 2025-08-30 22:07:00">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025年春本科生机器学习期末回忆版[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]">2025年春本科生机器学习期末回忆版[BUAA-ML]</a><time datetime="2025-08-11T10:54:18.000Z" title="发表于 2025-08-11 18:54:18">2025-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="北航2025机器学习期末复习[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]">北航2025机器学习期末复习[BUAA-ML]</a><time datetime="2025-08-11T08:48:24.000Z" title="发表于 2025-08-11 16:48:24">2025-08-11</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By theUHO</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, nice to see you here visiting my <a href = "https://theuho.site/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'TheUHO/TheUHO.github.io',
+      'data-repo-id': 'R_kgDOLfzltQ',
+      'data-category-id': 'DIC_kwDOLfzltc4ChDRb',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["link[rel=\"canonical\"]","meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

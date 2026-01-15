@@ -1,0 +1,439 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>lab6 实验报告 [BUAA-OS] | theUHO</title><meta name="author" content="theUHO"><meta name="copyright" content="theUHO"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /><meta name="description" content="Lab6 实验报告 Part1. 思考题 Thinking 6.1 父进程为读者  示例代码中，父进程操作管道的写端，子进程操作管道的读端。如果现在想让父进程作为“读者”，代码应当如何修改？  1234567891011121314151617181920212223242526#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int fildes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lab6 实验报告 [BUAA-OS]">
+<meta property="og:url" content="https://theuho.site/2025/06/27/OS-lab6/index.html">
+<meta property="og:site_name" content="theUHO">
+<meta property="og:description" content="Lab6 实验报告 Part1. 思考题 Thinking 6.1 父进程为读者  示例代码中，父进程操作管道的写端，子进程操作管道的读端。如果现在想让父进程作为“读者”，代码应当如何修改？  1234567891011121314151617181920212223242526#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int fildes">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202409111007685.jpg">
+<meta property="article:published_time" content="2025-06-27T12:57:04.000Z">
+<meta property="article:modified_time" content="2026-01-15T09:39:22.168Z">
+<meta property="article:author" content="theUHO">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="OS">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/TheUHO/blog/raw/master/images/202409111007685.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://theuho.site/2025/06/27/OS-lab6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?81ddc5fad2a887e9007f6fd620995ffc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'lab6 实验报告 [BUAA-OS]',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 17:39:22'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 19
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/loading-img.css"><meta name="generator" content="Hexo 7.1.1"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg" style="background:url('/img/index_img.jpg') no-repeat center / cover; background-attachment: fixed;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="onerror=null;src='/img/bochii2.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/TheUHO/blog/raw/master/images/202409111007685.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="theUHO"><img class="site-icon" src="http://gitee.com/TheUHO/blog/raw/master/images/202407220801335.ico"/><span class="site-name">theUHO</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">lab6 实验报告 [BUAA-OS]</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-27T12:57:04.000Z" title="发表于 2025-06-27 20:57:04">2025-06-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T09:39:22.168Z" title="更新于 2026-01-15 17:39:22">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/OS/">OS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="lab6 实验报告 [BUAA-OS]"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="lab6-实验报告">Lab6 实验报告</h2>
+<h3 id="part1-思考题">Part1. 思考题</h3>
+<h4 id="thinking-6-1-父进程为读者">Thinking 6.1 父进程为读者</h4>
+<blockquote>
+<p>示例代码中，父进程操作管道的写端，子进程操作管道的读端。如果现在想让父进程作为“读者”，代码应当如何修改？</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> fildes[<span class="number">2</span>];</span><br><span class="line"><span class="type">char</span> buf[<span class="number">100</span>];</span><br><span class="line"><span class="type">int</span> status;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    status = pipe(fildes);</span><br><span class="line">    <span class="keyword">if</span>(status ==<span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;error\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span>(fork()) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>: <span class="comment">/*子进程-作为管道的写者*/</span></span><br><span class="line">            close(fildes[<span class="number">0</span>]); <span class="comment">/*关闭不用的读端*/</span></span><br><span class="line">            write(fildes[<span class="number">1</span>],<span class="string">&quot;Hello world\n&quot;</span>,<span class="number">12</span>); <span class="comment">/*向管道中写数据*/</span></span><br><span class="line">            close(fildes[<span class="number">1</span>]); <span class="comment">/*写入结束，关闭写端*/</span></span><br><span class="line">            <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">        <span class="keyword">default</span>: <span class="comment">/*父进程-作为管道的读者*/</span></span><br><span class="line">            close(fildes[<span class="number">1</span>]); <span class="comment">/*关闭不用的写端*/</span></span><br><span class="line">            read(fildes[<span class="number">0</span>],buf, <span class="number">100</span>); <span class="comment">/*从管道中读数据*/</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;parent-processread: %s&quot;</span>,buf); <span class="comment">/*打印读到的数据*/</span></span><br><span class="line">            close(fildes[<span class="number">0</span>]); <span class="comment">/*读取结束，关闭读端*/</span></span><br><span class="line">            <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="thinking-6-2-dup-中的进程竞争">Thinking 6.2 dup 中的进程竞争</h4>
+<blockquote>
+<p>上面这种不同步修改 pp_ref 而导致的进程竞争问题在  user/lib/fd.c 中的 dup 函数中也存在。请结合代码模仿上述情景，分析一下我们的 dup 函数中为什么会出现预想之外的情况？</p>
+</blockquote>
+<p>dup 实现里，复制一个文件描述符 oldfd 到 newfd ，总共分两步调用 <code>syscall_mem_map</code> 来完成：</p>
+<ol>
+<li>映射文件描述符（struct Fd）</li>
+<li>映射文件内容对应的内存页（page mapping）</li>
+</ol>
+<p>这两步会分别对引用计数 pp_ref 做一次“+1”操作。如果在这两次映射之间发生了进程切换，就可能出现下面这种情况：<br>
+假设有一个 pipe，引用次数：pp_ref=2，fd[0]=1，fd[1]=1。进程 A 在执行 <code>dup(oldfd, newfd)</code>：</p>
+<ol>
+<li>第一条 <code>syscall_mem_map(… oldfd → newfd …)</code> 已经执行完毕，fd[0]引用计数被+1，此时 fd[0]=2,</li>
+<li>紧接着要执行第二条映射（内容页映射），此时pp_ref 还未+1，但刚好被打断，调度到进程 B。</li>
+</ol>
+<p>此时进程 B 中如果执行 <code>_pipe_is_closed(fd, p)</code> 则会根据 pp_ref == fd[0] == 2 错误地判断写端关闭，导致错误行为。</p>
+<h4 id="thinking-6-3-原子操作">Thinking 6.3 原子操作</h4>
+<blockquote>
+<p>阅读上述材料并思考：为什么系统调用一定是原子操作呢？如果你觉得不是所有的系统调用都是原子操作，请给出反例。希望能结合相关代码进行分析说明。</p>
+</blockquote>
+<p>系统调用会陷入内核态，在内核态下，CPU 会屏蔽中断，这样就可以保证系统调用的原子性。也就是说，在执行系统调用期间，CPU 不会被时钟中断打断，因此不会发生上下文切换。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// in entry.S</span><br><span class="line">exc_gen_entry:</span><br><span class="line">	SAVE_ALL</span><br><span class="line">	/*</span><br><span class="line">	* Note: When EXL is set or UM is unset, the processor is in kernel mode.</span><br><span class="line">	* When EXL is set, the value of EPC is not updated when a new exception occurs.</span><br><span class="line">	* To keep the processor in kernel mode and enable exception reentrancy,</span><br><span class="line">	* we unset UM and EXL, and unset IE to globally disable interrupts.</span><br><span class="line">	*/</span><br><span class="line">	mfc0    t0, CP0_STATUS</span><br><span class="line">	and     t0, t0, ~(STATUS_UM | STATUS_EXL | STATUS_IE) </span><br><span class="line">	mtc0    t0, CP0_STATUS</span><br><span class="line">/* Exercise 3.9: Your code here. */</span><br><span class="line">	mfc0 t0, CP0_CAUSE</span><br><span class="line">	andi t0, 0x7c</span><br><span class="line">	lw t0, exception_handlers(t0)</span><br><span class="line">	jr t0</span><br></pre></td></tr></table></figure>
+<h4 id="thinking-6-4-解决进程竞争">Thinking 6.4 解决进程竞争</h4>
+<blockquote>
+<p>仔细阅读上面这段话，并思考下列问题<br>
+• 按照上述说法控制 pipe_close 中 fd 和 pipe unmap 的顺序，是否可以解决上述场景的进程竞争问题？给出你的分析过程。<br>
+• 我们只分析了 close 时的情形，在 fd.c 中有一个 dup 函数，用于复制文件描述符。试想，如果要复制的文件描述符指向一个管道，那么是否会出现与 close 类似的问题？请模仿上述材料写写你的理解。</p>
+</blockquote>
+<ul>
+<li>在 <code>pipe_close</code> 函数中，按照上述说法控制 <code>fd</code> 和 <code>pipeunmap</code> 的顺序，可以解决进程竞争问题。具体来说，我们可以先关闭文件描述符<code>fd</code>，然后再解除管道的映射<code>pipe</code>。这样做的好处是，始终保证了<code>pageref(pipe) &gt; pageref(fd)</code> ，从而避免了发生中断时出现二者相等的情况。</li>
+<li>在 <code>dup</code> 函数中会出现与 <code>close</code> 类似的问题。因为在 <code>dup</code> 函数中，复制文件描述符时也会涉及到对管道的引用计数和映射操作。如果在复制过程中发生了进程切换，就可能导致类似的竞争条件。因此，在实现 <code>dup</code> 函数时，也需要首先让 <code>pipe-&gt;pp_ref++</code>，从而确保<code>pageref(pipe) &gt; pageref(fd)</code>，避免在进程切换时出现二者相等的情况。</li>
+</ul>
+<h4 id="thinking-6-5-如何加载-bss-段">Thinking 6.5 如何加载 bss 段</h4>
+<blockquote>
+<p>思考以下三个问题。<br>
+• 认真回看Lab5文件系统相关代码，弄清打开文件的过程。<br>
+• 回顾Lab1与Lab3，思考如何读取并加载ELF文件。<br>
+• 在Lab1 中我们介绍了 data text bss 段及它们的含义，data 段存放初始化过的全局变量，bss段存放未初始化的全局变量。关于memsize和filesize，我们在Note 1.3.4中也解释了它们的含义与特点。关于Note 1.3.4，注意其中关于“bss段并不在文件中占数据”表述的含义。回顾Lab3并思考：elf_load_seg()和load_icode_mapper()函数是如何确保加载ELF文件时，bss段数据被正确加载进虚拟内存空间。bss段在ELF中并不占空间，但ELF加载进内存后，bss段的数据占据了空间，并且初始值都是0。请回顾elf_load_seg() 和 load_icode_mapper() 的实现，思考这一点是如何实现的？</p>
+</blockquote>
+<ul>
+<li>打开文件的过程主要涉及到文件系统的用户接口和内核实现。用户进程通过调用 user/lib/file.c 中的 <code>open()</code> 请求打开一个文件，函数接着调用 <code>fsipc</code> 模块的 <code>fsipc_open()</code> 函数，向文件系统发送 IPC 请求。文件服务进程接收到请求后，通过 <code>serve</code> 函数调用 <code>file_open()</code> 来处理打开文件的逻辑。</li>
+<li>加载 ELF 文件的过程主要由 kern/env.c 中的 <code>load_icode()</code> 函数实现。该函数首先通过 <code>elf_from</code> 读取 ELF 文件头，然后根据 ELF 文件头中的段信息，调用 <code>elf_load_seg()</code> 函数来加载各个段到虚拟内存中：映射文件中真实数据到 [p_vaddr, p_vaddr + p_filesz) 的虚拟地址空间，并将未初始化的 bss 段映射到 [p_vaddr + p_filesz, p_vaddr + p_memsz) 的虚拟地址空间，将 bss 段的初始值设置为 0。</li>
+<li>elf_load_seg() 处理每个段时，会通过调用 <code>load_icode_mapper()</code> 函数来映射文件到对应的虚拟内存地址空间。对于 bss 段，虽然在 ELF 文件中并不占用实际数据，但在加载时会根据 <code>p_memsz</code> 的值为 bss 段分配足够的虚拟内存空间，并将其初始化为 0。这是通过为 bss 段不断分配页面并 在 <code>load_icode_mapper()</code> 中将 bss 段的内存区域置零来实现的。</li>
+</ul>
+<h4 id="thinking-6-6-内置命令和外部命令">Thinking 6.6 内置命令和外部命令</h4>
+<blockquote>
+<p>通过阅读代码空白段的注释我们知道，将标准输入或输出定向到文件，需要<br>
+我们将其dup到0或1号文件描述符（fd）。那么问题来了：在哪步，0和1被“安排”为标准输入和标准输出？请分析代码执行流程，给出答案。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in user/init.c</span></span><br><span class="line"><span class="comment">// stdin should be 0, because no file descriptors are open yet</span></span><br><span class="line"><span class="keyword">if</span> ((r = opencons()) != <span class="number">0</span>) &#123;</span><br><span class="line">    user_panic(<span class="string">&quot;opencons: %d&quot;</span>, r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// stdout</span></span><br><span class="line"><span class="keyword">if</span> ((r = dup(<span class="number">0</span>, <span class="number">1</span>)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    user_panic(<span class="string">&quot;dup: %d&quot;</span>, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="thinking-6-7-标准输入和标准输出">Thinking 6.7 标准输入和标准输出</h4>
+<blockquote>
+<p>在 shell 中执行的命令分为内置命令和外部命令。在执行内置命令时shell不<br>
+需要fork 一个子 shell，如 Linux 系统中的 cd 命令。在执行外部命令时 shell 需要 fork 一个子 shell，然后子 shell 去执行这条命令。<br>
+据此判断，在MOS 中我们用到的 shell 命令是内置命令还是外部命令？请思考为什么 Linux 的 cd 命令是内部命令而不是外部命令？</p>
+</blockquote>
+<p>查看 user/sh.c 可知，MOS 中所有的 shell 命令都是外部命令。因为每个命令都需要通过 <code>fork()</code> 创建一个子进程来执行，子进程会调用 <code>runcmd()</code> 函数来处理命令。<br>
+Linux 的 <code>cd</code> 命令是内部命令而不是外部命令，因为它直接修改了当前 shell 进程的工作目录。执行 <code>cd</code> 命令时，shell 需要更新其内部状态，而不是创建一个新的子进程来执行该操作。这样可以避免不必要的资源开销和上下文切换，提高效率。</p>
+<h4 id="thinking-6-8-解释命令执行的现象">Thinking 6.8 解释命令执行的现象</h4>
+<blockquote>
+<p>在你的 shell 中输入命令 ls.b | cat.b &gt; motd。<br>
+• 请问你可以在你的shell 中观察到几次spawn？分别对应哪个进程？<br>
+• 请问你可以在你的shell 中观察到几次进程销毁？分别对应哪个进程？</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ls.b | cat.b &gt; motd</span></span><br><span class="line">[00002803] pipecreate </span><br><span class="line">[00003805] destroying 00003805</span><br><span class="line">[00003805] free env 00003805</span><br><span class="line">i am killed ... </span><br><span class="line">[00004006] destroying 00004006</span><br><span class="line">[00004006] free env 00004006</span><br><span class="line">i am killed ... </span><br><span class="line">[00003004] destroying 00003004</span><br><span class="line">[00003004] free env 00003004</span><br><span class="line">i am killed ... </span><br><span class="line">[00002803] destroying 00002803</span><br><span class="line">[00002803] free env 00002803</span><br><span class="line">i am killed ... </span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>spawn 2次，分别是 00002803 进程spawn 00003805 进程和 00003004 进程 spawn 00004006 进程。</p>
+</li>
+<li>
+<p>进程销毁 4 次，分别对应：</p>
+<ul>
+<li>00003805 进程（00002803 fork 出的子进程）解析并执行<code>ls.b</code>完毕后销毁。</li>
+<li>00004006 进程（00003004 fork 出的子进程）执行管道右侧命令<code>cat.b</code>完毕后销毁。</li>
+<li>00003004 进程（00002803 fork 出的子进程）解析并执行<code>cat.b &gt; motd</code>完毕后销毁。</li>
+<li>00002803 进程（主shell 的子进程）解析并执行<code>ls.b | cat &gt; motd</code>完毕后销毁。</li>
+</ul>
+</li>
+</ul>
+<h3 id="part-2-难点分析">Part 2. 难点分析</h3>
+<p>Lab6 的实验设计主要围绕Shell的实现以及管道通信展开，实验的难点主要体现在以下几个方面：</p>
+<ul>
+<li>Shell 的启动与执行：需要理解进程的创建、执行和销毁过程，以及如何解析用户输入的命令，清楚Shell的函数调用流程。</li>
+<li>管道通信的实现：需要掌握如何在进程间建立管道，如何通过管道传递数据，以及如何处理管道的读写端。</li>
+<li>文件描述符的管理：需要加深Lab5中文件描述符的概念，如何通过 <code>dup</code> 函数复制文件描述符，以及如何在进程间共享文件描述符。</li>
+</ul>
+<h3 id="part-3-实验体会">Part 3. 实验体会</h3>
+<p>Lab6 是一个综合性较强的实验，通过实现Shell和管道通信深入理解操作系统中进程管理、文件描述符和进程间通信的机制，也完成了整个MOS系统的内容，我们也<s>从头体验自己动手完成一个小操作系统的乐趣</s>，收获颇丰。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://theuho.site">theUHO</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://theuho.site/2025/06/27/OS-lab6/">https://theuho.site/2025/06/27/OS-lab6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://theuho.site" target="_blank">theUHO</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a><a class="post-meta__tags" href="/tags/OS/">OS</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/vim/">vim</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/TheUHO/blog/raw/master/images/202409111007685.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/27/OS-lab5/" title="lab5 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">lab5 实验报告 [BUAA-OS]</div></div></a></div><div class="next-post pull-right"><a href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">北航2025机器学习期末复习[BUAA-ML]</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/02/22/OS-LinuxLearning/" title="OS-Linux 学习备忘[BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-22</div><div class="title">OS-Linux 学习备忘[BUAA-OS]</div></div></a></div><div><a href="/2025/03/10/OS-lab0/" title="lab0 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007684.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-10</div><div class="title">lab0 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab2/" title="lab2 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab2 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab3/" title="lab3 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab3 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab4/" title="lab4 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212237911.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab4 实验报告 [BUAA-OS]</div></div></a></div><div><a href="/2025/06/27/OS-lab5/" title="lab5 实验报告 [BUAA-OS]"><img class="cover" src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-27</div><div class="title">lab5 实验报告 [BUAA-OS]</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://gitee.com/TheUHO/blog/raw/master/images/202407212255283.jpg" onerror="this.onerror=null;this.src='/img/bochii2.gif'" alt="avatar"/></div><div class="author-info__name">theUHO</div><div class="author-info__description">CS学习生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/TheUHO"><i class="fab fa-github"></i><span>Follow Me On Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="http://github.com/TheUHO" target="_blank" title="Github"><i class="fab fa-github" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:wuyubuchenhong@buaa.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">早上中午晚上好！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lab6-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="toc-number">1.</span> <span class="toc-text">Lab6 实验报告</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#part1-%E6%80%9D%E8%80%83%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">Part1. 思考题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-1-%E7%88%B6%E8%BF%9B%E7%A8%8B%E4%B8%BA%E8%AF%BB%E8%80%85"><span class="toc-number">1.1.1.</span> <span class="toc-text">Thinking 6.1 父进程为读者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-2-dup-%E4%B8%AD%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%AB%9E%E4%BA%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">Thinking 6.2 dup 中的进程竞争</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-3-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.3.</span> <span class="toc-text">Thinking 6.3 原子操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-4-%E8%A7%A3%E5%86%B3%E8%BF%9B%E7%A8%8B%E7%AB%9E%E4%BA%89"><span class="toc-number">1.1.4.</span> <span class="toc-text">Thinking 6.4 解决进程竞争</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-5-%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BD-bss-%E6%AE%B5"><span class="toc-number">1.1.5.</span> <span class="toc-text">Thinking 6.5 如何加载 bss 段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-6-%E5%86%85%E7%BD%AE%E5%91%BD%E4%BB%A4%E5%92%8C%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.6.</span> <span class="toc-text">Thinking 6.6 内置命令和外部命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-7-%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E5%92%8C%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA"><span class="toc-number">1.1.7.</span> <span class="toc-text">Thinking 6.7 标准输入和标准输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#thinking-6-8-%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E7%8E%B0%E8%B1%A1"><span class="toc-number">1.1.8.</span> <span class="toc-text">Thinking 6.8 解释命令执行的现象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#part-2-%E9%9A%BE%E7%82%B9%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">Part 2. 难点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#part-3-%E5%AE%9E%E9%AA%8C%E4%BD%93%E4%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">Part 3. 实验体会</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2026年算法设计与分析期末回忆版[BUAA-算法]"/></a><div class="content"><a class="title" href="/2026/01/15/algorithm-final/" title="2026年算法设计与分析期末回忆版[BUAA-算法]">2026年算法设计与分析期末回忆版[BUAA-算法]</a><time datetime="2026-01-15T08:42:13.000Z" title="发表于 2026-01-15 16:42:13">2026-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202409111007683.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VLA模型技术代码调研学习 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-code/" title="VLA模型技术代码调研学习 [VLA]">VLA模型技术代码调研学习 [VLA]</a><time datetime="2025-08-30T14:09:05.000Z" title="发表于 2025-08-30 22:09:05">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255294.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]"/></a><div class="content"><a class="title" href="/2025/08/30/VLA-Paper/" title="OpenVLA，pi_0，pi_0-fast论文精读 [VLA]">OpenVLA，pi_0，pi_0-fast论文精读 [VLA]</a><time datetime="2025-08-30T14:07:00.000Z" title="发表于 2025-08-30 22:07:00">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255291.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025年春本科生机器学习期末回忆版[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-final/" title="2025年春本科生机器学习期末回忆版[BUAA-ML]">2025年春本科生机器学习期末回忆版[BUAA-ML]</a><time datetime="2025-08-11T10:54:18.000Z" title="发表于 2025-08-11 18:54:18">2025-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]"><img src="https://gitee.com/TheUHO/blog/raw/master/images/202407212255288.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="北航2025机器学习期末复习[BUAA-ML]"/></a><div class="content"><a class="title" href="/2025/08/11/ML-review/" title="北航2025机器学习期末复习[BUAA-ML]">北航2025机器学习期末复习[BUAA-ML]</a><time datetime="2025-08-11T08:48:24.000Z" title="发表于 2025-08-11 16:48:24">2025-08-11</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By theUHO</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, nice to see you here visiting my <a href = "https://theuho.site/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'TheUHO/TheUHO.github.io',
+      'data-repo-id': 'R_kgDOLfzltQ',
+      'data-category-id': 'DIC_kwDOLfzltc4ChDRb',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["link[rel=\"canonical\"]","meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
